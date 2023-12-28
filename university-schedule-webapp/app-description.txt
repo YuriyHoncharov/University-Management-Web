@@ -14,19 +14,19 @@ Lessons are conducted in specific auditoriums.
 	* Subjects form the foundation of the academic curriculum.
 ---------------------------------------------------------------------------------------
 
-2)) User Functions
+2)) User Functions with different roles
 	
-Admin User
+Admin Role
 	Functionality:
 	* Modify details of any lesson.
 	* Access hidden information not visible to the public.
 	
-Teacher User
+Teacher Role
 	Functionality:
 	* View personal schedule by date and/or subject.
 	* Make annotations related to lessons.
 	
-Student User
+Student Role
 	Functionality:
 	* View personal schedule by date and/or subject.
 ---------------------------------------------------------------------------------------
@@ -61,4 +61,113 @@ Student User
 7. Auditorium Class
 	* Represents specific auditoriums.
 	
-	---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+4)) Main Page of Website
+
+On the main page, users can explore details about the university and access various sections through buttons:
+
+| Login | Our Subjects | Our Teachers | About Us |
+
+* Login:
+	Users are directed to a page where they can access their accounts by entering their login, password, and a user code (S for students, T for teachers, "admin" for administrators).
+* Our Subjects:
+	Users can view a comprehensive list of subjects based on their graduation level. Clicking on each subject reveals a list of associated teachers.
+* Our Teachers:
+	Users are redirected to a page displaying an extensive list of teachers along with brief descriptions, awards, and achievements for each.
+* About Us:
+	Users can access information about the university, including contact details such as phone number, address, email, and a brief history.
+
+---------------------------------------------------------------------------------------
+
+5)) Admin User Menu
+When logged in as an admin, a functional menu is available:
+
+| Manage Student | Manage Teacher | Manage Schedule | Log-Out |
+
+* Manage Student:
+	Admin can search for students by ID or name, make edits (e.g., change personal information, restore login/password), or delete entries.
+* Manage Teacher:
+	Admin can search for teachers by ID or name, make edits (e.g., change personal information, restore login/password), or delete entries.
+* Manage Schedule:
+	Admin selects the graduation level (1-2-3-4-5) and views the schedule for the next 7 days. Extended views for the next 21 days and 2 months are also available. Each lesson displays subject/auditorium and teacher information. Admin can add or delete lessons for upcoming days.
+
+@@@@@
+
+Teacher User Menu
+When logged in as a teacher, the menu includes:
+
+| My Info | My Schedule | Notifications | Log-Out |
+
+* My Info:
+	Teachers can view their personal information, including name and last name.
+* My Schedule:
+	Teachers can access their schedule for the next 7 days, with the option to extend it for the next 21 days and 2 months. Teachers can add annotations to each lesson.
+* Notifications:
+	Teachers receive notifications about any changes to their lessons.
+
+@@@@
+
+
+Student User Menu
+When logged in as a student, the menu includes:
+
+| My Info | My Schedule | Notifications | Log-Out |
+
+* My Info:
+	Students can view their personal information, including name and last name.
+* My Schedule:
+	Students can access their schedule for the next 7 days, with the option to extend it for the next 21 days and 2 months. Students can make edits, filtering by subjects.
+* Notifications:
+	Students receive notifications about any changes to their lessons.
+
+@@@@
+
+| TIME |AUDITORIUM | SUBJECT | TEACHER | ANNOTATIONS | - this is the table form for schedule ( not the final form )
+
+|7AM| 356B | MATH | OSVALDO FERRARI | Any Annotatitions |
+|8AM| 356B | MATH | OSVALDO FERRARI | Any Annotatitions |
+|9AM| 176B | HISTORY | VOX VERITATIS | X-XI Century |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
