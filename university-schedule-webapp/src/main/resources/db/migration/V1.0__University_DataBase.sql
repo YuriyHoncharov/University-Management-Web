@@ -51,7 +51,8 @@ id PRIMARY KEY,
 name VARCHAR(5) NOT NULL
 };
 
-CREATE TABLE IF NOT EXISTS Enrollment {
+CREATE TABLE IF NOT EXISTS Enrollments {
+id SERIAL PRIMARY KEY,
 userId INT,
 FOREIGN KEY (userId) REFERENCES Users (id),
 subjectId INT,
@@ -59,13 +60,14 @@ FOREIGN KEY(subjectId) REFERENCES Subjects (id)
 };
 
 CREATE TABLE IF NOT EXISTS Lessons {
-subjectId INT,
+id SERIAL PRIMARY KEY,
+subjectId INT NOT NULL,
 FOREIGN KEY (subjectId) REFERENCES Subjects (id),
-teacherId INT,
+teacherId INT NOT NULL,
 FOREIGN KEY (teacherId) REFERENCES Teachers (id),
 time TIMESTAMP NOT NULL,
-auditoriumId INT,
+auditoriumId INT NOT NULL,
 FOREIGN KEY (auditoriumId) REFERENCES Auditoriums (id),
-gradeId INT,
+gradeId INT NOT NULL,
 FOREIGN KEY (gradeId) REFERENCES Grades (id)
 };
