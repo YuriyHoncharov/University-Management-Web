@@ -5,6 +5,8 @@ password TEXT NOT NULL,
 name TEXT NOT NULL,
 lastName TEXT NOT NULL,
 roleId INT,
+gradeId INT,
+FOREIGN KEY (gradeId) REFERENCES Grades (id),
 FOREIGN KEY (roleId) REFERENCES Roles(id)
 };
 
@@ -22,24 +24,6 @@ INSERT INTO Roles (id, roleName) VALUES (1, 'Admin');
 INSERT INTO Roles (id, roleName) VALUES (2, 'Student');
 INSERT INTO Roles (id, roleName) VALUES (3, 'Teacher');
 
-CREATE TABLE IF NOT EXISTS Admins {
-id INT,
-FOREIGN KEY (id) REFERENCES Users (id)
-};
-
-CREATE TABLE IF NOT EXISTS Students {
-gradeId INT,
-FOREIGN KEY (gradeId) REFERENCES Grades (id)
-id INT,
-
-FOREIGN KEY (id) REFERENCES Users (id)
-};
-
-CREATE TABLE IF NOT EXISTS Teachers {
-id INT,
-FOREIGN KEY (id) REFERENCES Users (id)
-};
-
 CREATE TABLE IF NOT EXISTS Subjects {
 id PRIMARY KEY,
 name TEXT NOT NULL,
@@ -52,7 +36,6 @@ name VARCHAR(5) NOT NULL
 };
 
 CREATE TABLE IF NOT EXISTS Enrollments {
-id SERIAL PRIMARY KEY,
 userId INT,
 FOREIGN KEY (userId) REFERENCES Users (id),
 subjectId INT,
