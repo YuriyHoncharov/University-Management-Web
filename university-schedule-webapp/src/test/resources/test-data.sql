@@ -1,7 +1,7 @@
 -- Test data for Grades
-INSERT INTO Grades (value) VALUES ('A');
-INSERT INTO Grades (value) VALUES ('B');
-INSERT INTO Grades (value) VALUES ('C');
+INSERT INTO Grades (grade) VALUES ('A');
+INSERT INTO Grades (grade) VALUES ('B');
+INSERT INTO Grades (grade) VALUES ('C');
 
 -- Test data for Users
 
@@ -14,17 +14,17 @@ INSERT INTO Users (login, password, name, lastName, roleId, gradeId) VALUES
 
 -- Test data for Subjects
 
-INSERT INTO Subjects (name, description) VALUES
-('Math', 'Mathematics course'),
-('Physics', 'Physics course'),
-('History', 'History course');
+INSERT INTO Subjects (id, name, description) VALUES
+(1, 'Math', 'Mathematics course'),
+(2, 'Physics', 'Physics course'),
+(3, 'History', 'History course');
 
 -- Test data for Auditoriums
 
-INSERT INTO Auditoriums (name) VALUES
-('A101'),
-('B202'),
-('C303');
+INSERT INTO Auditoriums (id, name) VALUES
+(1, 'A101'),
+(2, 'B202'),
+(3, 'C303');
 
 -- Test data for Enrollments
 
