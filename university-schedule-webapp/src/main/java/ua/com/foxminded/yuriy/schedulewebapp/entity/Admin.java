@@ -5,7 +5,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name = "Admins")
-
 public class Admin extends User{
 
 }
