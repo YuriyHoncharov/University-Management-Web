@@ -7,11 +7,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 
 public interface StudentService {
 
-	List<Student> getAllStudents();
+	List<Student> getAll();
 
-	Optional<Student> getStudentById(Long id);
+	Optional<Student> getById(Long id);
 
-	Student saveStudent(Student student);
+	Student save(Student student);
 
-	void deleteStudent(Long id);
+	void delete(Long id);
 }

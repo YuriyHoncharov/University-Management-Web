@@ -6,11 +6,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 
 public interface LessonService {
 	
-	List<Lesson> getAllLessons();
+	List<Lesson> getAll();
 
-	Optional<Lesson> getLessonById(Long id);
+	Optional<Lesson> getById(Long id);
 
-	Lesson saveLesson(Lesson lesson);
+	Lesson save(Lesson lesson);
 
-	void deleteLesson(Long id);
+	void delete(Long id);
 }

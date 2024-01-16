@@ -7,11 +7,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Grade;
 
 public interface GradeService {
 	
-	List<Grade> getAllGrades();
+	List<Grade> getAll();
 
-	Optional<Grade> getGradeById(Long id);
+	Optional<Grade> getById(Long id);
 
-	Grade saveGrade(Grade grade);
+	Grade save(Grade grade);
 
-	void deleteGrade(Long id);
+	void delete(Long id);
 }

@@ -6,12 +6,12 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Admin;
 
 public interface AdminService {
 
-	List<Admin> getAllAdmins();
+	List<Admin> getAll();
 
-	Optional<Admin> getAdminById(Long id);
+	Optional<Admin> getById(Long id);
 
-	Admin saveAdmin(Admin admin);
+	Admin save(Admin admin);
 
-	void deleteAdmin(Long id);
+	void delete(Long id);
 
 }

@@ -21,22 +21,22 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<Student> getAllStudents() {
+	public List<Student> getAll() {
 		return studentRepository.findAll();
 	}
 
 	@Override
-	public Optional<Student> getStudentById(Long id) {
+	public Optional<Student> getById(Long id) {
 		return studentRepository.findById(id);
 	}
 
 	@Override
-	public Student saveStudent(Student student) {
+	public Student save(Student student) {
 		return studentRepository.save(student);
 	}
 
 	@Override
-	public void deleteStudent(Long id) {
+	public void delete(Long id) {
 		studentRepository.deleteById(id);
 	}
 }

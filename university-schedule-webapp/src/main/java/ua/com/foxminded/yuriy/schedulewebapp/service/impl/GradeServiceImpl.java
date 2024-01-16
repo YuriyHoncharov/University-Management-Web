@@ -21,22 +21,22 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public List<Grade> getAllGrades() {
+	public List<Grade> getAll() {
 		return gradeRepository.findAll();
 	}
 
 	@Override
-	public Optional<Grade> getGradeById(Long id) {
+	public Optional<Grade> getById(Long id) {
 		return gradeRepository.findById(id);
 	}
 
 	@Override
-	public Grade saveGrade(Grade grade) {
+	public Grade save(Grade grade) {
 		return gradeRepository.save(grade);
 	}
 
 	@Override
-	public void deleteGrade(Long id) {
+	public void delete(Long id) {
 		gradeRepository.deleteById(id);
 	}
 }

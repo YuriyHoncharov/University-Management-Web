@@ -6,11 +6,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 
 public interface SubjectService {
 	
-	List<Subject> getAllSubjects();
+	List<Subject> getAll();
 
-	Optional<Subject> getSubjectById(Long id);
+	Optional<Subject> getById(Long id);
 
-	Subject saveSubject(Subject subject);
+	Subject save(Subject subject);
 
-	void deleteSubject(Long id);
+	void delete(Long id);
 }

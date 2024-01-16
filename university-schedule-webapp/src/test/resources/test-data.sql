@@ -1,3 +1,7 @@
+INSERT INTO Roles (roleName) VALUES ('Admin');
+INSERT INTO Roles (roleName) VALUES ('Student');
+INSERT INTO Roles (roleName) VALUES ('Teacher');
+
 -- Test data for Grades
 INSERT INTO Grades (grade) VALUES ('A');
 INSERT INTO Grades (grade) VALUES ('B');
@@ -14,10 +18,10 @@ INSERT INTO Users (login, password, name, lastName, roleId, gradeId) VALUES
 
 -- Test data for Subjects
 
-INSERT INTO Subjects (id, name, description) VALUES
-(1, 'Math', 'Mathematics course'),
-(2, 'Physics', 'Physics course'),
-(3, 'History', 'History course');
+INSERT INTO Subjects (name, description) VALUES
+('Math', 'Mathematics course'),
+('Physics', 'Physics course'),
+('History', 'History course');
 
 -- Test data for Auditoriums
 

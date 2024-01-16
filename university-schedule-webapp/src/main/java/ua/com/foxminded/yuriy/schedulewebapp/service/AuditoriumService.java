@@ -7,11 +7,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 
 public interface AuditoriumService {
 
-	List<Auditorium> getAllAuditoriums();
+	List<Auditorium> getAll();
 
-	Optional<Auditorium> getAuditoriumById(Long id);
+	Optional<Auditorium> getById(Long id);
 
-	Auditorium saveAuditorium(Auditorium auditorium);
+	Auditorium save(Auditorium auditorium);
 
-	void deleteAuditorium(Long id);
+	void delete(Long id);
 }

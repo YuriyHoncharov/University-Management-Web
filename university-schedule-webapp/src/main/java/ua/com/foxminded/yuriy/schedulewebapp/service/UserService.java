@@ -6,8 +6,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.User;
 
 public interface UserService {
 	
-	List<User> getAllUsers();
-	Optional<User> getUserById(Long id);
-	User saveUser(User user);
-	void deleteUser(Long id);
+	List<User> getAll();
+	
+	Optional<User> getById(Long id);
+	
+	User save(User user);
+	
+	void delete(Long id);
 }

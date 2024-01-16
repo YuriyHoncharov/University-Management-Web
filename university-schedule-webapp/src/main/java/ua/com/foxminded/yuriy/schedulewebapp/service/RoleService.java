@@ -6,11 +6,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 
 public interface RoleService {
 
-	List<Role> getAllRoles();
+	List<Role> getAll();
 
-	Optional<Role> getRoleById(Long id);
+	Optional<Role> getById(Long id);
 
-	Role saveRole(Role role);
+	Role save(Role role);
 
-	void deleteRole(Long id);
+	void delete(Long id);
 }

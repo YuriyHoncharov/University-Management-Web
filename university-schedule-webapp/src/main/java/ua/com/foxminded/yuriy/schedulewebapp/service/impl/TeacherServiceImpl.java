@@ -21,22 +21,22 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public List<Teacher> getAllTeachers() {
+	public List<Teacher> getAll() {
 		return teacherRepository.findAll();
 	}
 
 	@Override
-	public Optional<Teacher> getTeacherById(Long id) {
+	public Optional<Teacher> getById(Long id) {
 		return teacherRepository.findById(id);
 	}
 
 	@Override
-	public Teacher saveTeacher(Teacher teacher) {
+	public Teacher save(Teacher teacher) {
 		return teacherRepository.save(teacher);
 	}
 
 	@Override
-	public void deleteTeacher(Long id) {
+	public void delete(Long id) {
 		teacherRepository.deleteById(id);
 	}
 }

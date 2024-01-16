@@ -6,11 +6,11 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Teacher;
 
 public interface TeacherService {
 	
-	List<Teacher> getAllTeachers();
+	List<Teacher> getAll();
 
-	Optional<Teacher> getTeacherById(Long id);
+	Optional<Teacher> getById(Long id);
 
-	Teacher saveTeacher(Teacher teacher);
+	Teacher save(Teacher teacher);
 
-	void deleteTeacher(Long id);
+	void delete(Long id);
 }

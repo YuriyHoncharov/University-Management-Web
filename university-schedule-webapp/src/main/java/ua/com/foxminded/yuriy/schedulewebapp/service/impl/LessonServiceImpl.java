@@ -19,22 +19,22 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> getAllLessons() {
+	public List<Lesson> getAll() {
 		return lessonRepository.findAll();
 	}
 
 	@Override
-	public Optional<Lesson> getLessonById(Long id) {
+	public Optional<Lesson> getById(Long id) {
 		return lessonRepository.findById(id);
 	}
 
 	@Override
-	public Lesson saveLesson(Lesson lesson) {
+	public Lesson save(Lesson lesson) {
 		return lessonRepository.save(lesson);
 	}
 
 	@Override
-	public void deleteLesson(Long id) {
+	public void delete(Long id) {
 		lessonRepository.deleteById(id);
 	}
 }

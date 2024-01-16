@@ -21,22 +21,22 @@ public class AuditoriumServiceImpl implements AuditoriumService {
 	}
 
 	@Override
-	public List<Auditorium> getAllAuditoriums() {
+	public List<Auditorium> getAll() {
 		return auditoriumRepository.findAll();
 	}
 
 	@Override
-	public Optional<Auditorium> getAuditoriumById(Long id) {
+	public Optional<Auditorium> getById(Long id) {
 		return auditoriumRepository.findById(id);
 	}
 
 	@Override
-	public Auditorium saveAuditorium(Auditorium auditorium) {
+	public Auditorium save(Auditorium auditorium) {
 		return auditoriumRepository.save(auditorium);
 	}
 
 	@Override
-	public void deleteAuditorium(Long id) {
+	public void delete(Long id) {
 		auditoriumRepository.deleteById(id);
 	}
 }
