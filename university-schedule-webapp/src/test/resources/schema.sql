@@ -16,8 +16,8 @@ name TEXT NOT NULL,
 lastName TEXT NOT NULL,
 roleId INT,
 gradeId INT,
-FOREIGN KEY (gradeId) REFERENCES Grades (id),
-FOREIGN KEY (roleId) REFERENCES Roles(id)
+FOREIGN KEY (gradeId) REFERENCES Grades (id) ON DELETE CASCADE,
+FOREIGN KEY (roleId) REFERENCES Roles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Subjects (
@@ -48,5 +48,5 @@ time TIMESTAMP NOT NULL,
 auditoriumId INT NOT NULL,
 FOREIGN KEY (auditoriumId) REFERENCES Auditoriums (id),
 gradeId INT NOT NULL,
-FOREIGN KEY (gradeId) REFERENCES Grades (id)
+FOREIGN KEY (gradeId) REFERENCES Grades (id) ON DELETE CASCADE
 );

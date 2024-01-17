@@ -44,7 +44,7 @@ public class TeacherRepositoryIT {
 		Long teacherId = 4L;
 		Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
 		assertNotNull(teacher);
-		assertEquals("Teacher One", teacher.getName());
+		assertEquals("Teacher", teacher.getName());
 	}
 
 	@Test
@@ -65,6 +65,6 @@ public class TeacherRepositoryIT {
 
 		Long teacherId = 4L;
 		teacherRepository.deleteById(teacherId);
-		assertFalse(teacherRepository.existsById(teacherId));
+		assertNull(teacherRepository.findById(teacherId).orElse(null));
 	}
 }

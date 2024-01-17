@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("2")
+@DiscriminatorValue("3")
 
 public class Teacher extends User {
 	

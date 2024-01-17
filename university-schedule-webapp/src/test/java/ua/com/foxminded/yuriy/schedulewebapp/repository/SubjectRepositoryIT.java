@@ -1,5 +1,6 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -59,13 +60,12 @@ public class SubjectRepositoryIT {
 
 		Long subjectId = 1L;
 		subjectRepository.deleteById(subjectId);
-		assertFalse(subjectRepository.existsById(subjectId));
+		assertNull(subjectRepository.findById(subjectId).orElse(null));
 	}
 
 	@Test
 	public void testSubjectNotExistsAfterDeletion() {
 		Long nonExistingSubjectId = 999L;
-		boolean exists = subjectRepository.existsById(nonExistingSubjectId);
-		assertFalse(exists);
+		assertNull(subjectRepository.findById(nonExistingSubjectId).orElse(null));
 	}
 }

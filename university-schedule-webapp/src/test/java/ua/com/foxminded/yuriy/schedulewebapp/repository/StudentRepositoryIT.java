@@ -50,8 +50,7 @@ public class StudentRepositoryIT {
 	public void testUpdateStudent() {
 
 		Long studentId = 2L;
-		Student student = studentRepository.findById(studentId)
-				.orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentId));
+		Student student = studentRepository.findById(studentId).orElse(null);
 		System.out.println("Retrieved Student: " + student);
 		student.setName("UpdatedName");
 		Student updatedStudent = studentRepository.save(student);

@@ -3,6 +3,7 @@ package ua.com.foxminded.yuriy.schedulewebapp.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -72,6 +73,6 @@ public class RoleRepositoryIT {
 
 		Long roleId = 1L;
 		roleRepository.deleteById(roleId);
-		assertFalse(roleRepository.existsById(roleId));
+		assertNull(roleRepository.findById(roleId).orElse(null));
 	}
 }
