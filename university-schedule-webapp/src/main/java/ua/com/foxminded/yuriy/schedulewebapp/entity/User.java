@@ -39,7 +39,7 @@ public abstract class User {
 	private Role role;
 
 	@ManyToOne
-	@JoinColumn(name = "gradeId", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn(name = "gradeId")
 	private Grade grade;
 
 	public Long getId() {
