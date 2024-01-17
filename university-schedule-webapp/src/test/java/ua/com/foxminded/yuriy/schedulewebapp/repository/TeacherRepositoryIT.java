@@ -1,7 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Teacher;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
@@ -26,7 +23,7 @@ public class TeacherRepositoryIT {
 	private RoleRepository roleRepository;
 
 	@Test
-	public void testSaveTeacher() {
+	public void should_Save_Teacher() {
 
 		Teacher teacher = new Teacher();
 		teacher.setLogin("newTeacher");
@@ -39,7 +36,7 @@ public class TeacherRepositoryIT {
 	}
 
 	@Test
-	public void testFindTeacherById() {
+	public void should_Find_Teacher_By_Id() {
 
 		Long teacherId = 4L;
 		Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
@@ -48,7 +45,7 @@ public class TeacherRepositoryIT {
 	}
 
 	@Test
-	public void testUpdateTeacher() {
+	public void should_Update_Teacher() {
 
 		Long teacherId = 4L;
 		Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
@@ -61,7 +58,7 @@ public class TeacherRepositoryIT {
 	}
 
 	@Test
-	public void testDeleteTeacher() {
+	public void should_Delete_Teacher() {
 
 		Long teacherId = 4L;
 		teacherRepository.deleteById(teacherId);

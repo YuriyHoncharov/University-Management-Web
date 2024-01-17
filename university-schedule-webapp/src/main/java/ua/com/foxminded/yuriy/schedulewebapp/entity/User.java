@@ -1,5 +1,4 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -15,9 +14,7 @@ import javax.persistence.ManyToOne;
 @Entity(name = "Users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "roleId", discriminatorType = DiscriminatorType.INTEGER)
-
 public abstract class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -97,5 +94,4 @@ public abstract class User {
 	public void setGrade(Grade grade) {
 		this.grade = grade;
 	}
-
 }
