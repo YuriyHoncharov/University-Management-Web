@@ -15,34 +15,34 @@ INSERT INTO Grades (grade) VALUES
 -- Insert sample Teachers
 
 INSERT INTO Users (login, password, name, lastName, roleId) VALUES
-('teacher1', 'teacher1', 'John', 'Doe', (SELECT id FROM Roles WHERE roleName = 'Teacher')),
-('teacher2', 'teacher2', 'Jane', 'Smith', (SELECT id FROM Roles WHERE roleName = 'Teacher')),
-('teacher3', 'teacher3', 'Bob', 'Johnson', (SELECT id FROM Roles WHERE roleName = 'Teacher')),
-('teacher4', 'teacher4', 'Alice', 'Williams', (SELECT id FROM Roles WHERE roleName = 'Teacher'));
+('teacher1', 'teacher1', 'John', 'Doe', 3),
+('teacher2', 'teacher2', 'Jane', 'Smith', 3),
+('teacher3', 'teacher3', 'Bob', 'Johnson', 3),
+('teacher4', 'teacher4', 'Alice', 'Williams', 3);
 
 -- Insert sample Students
 
 INSERT INTO Users (login, password, name, lastName, roleId, gradeId) VALUES
-('student1', 'student1', 'Alice', 'Johnson', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student2', 'student2', 'Bob', 'Smith', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student3', 'student3', 'Charlie', 'Brown', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student4', 'student4', 'David', 'Wilson', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student5', 'student5', 'Eva', 'Martin', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student6', 'student6', 'Frank', 'Jones', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student7', 'student7', 'Grace', 'White', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student8', 'student8', 'Henry', 'Miller', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student9', 'student9', 'Ivy', 'Taylor', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student10', 'student10', 'Jack', 'Brown', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student11', 'student11', 'Katie', 'Harris', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student12', 'student12', 'Leo', 'Wilson', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student13', 'student13', 'Mia', 'Johnson', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student14', 'student14', 'Nick', 'Smith', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student15', 'student15', 'Olivia', 'Brown', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student16', 'student16', 'Peter', 'Martin', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student17', 'student17', 'Quinn', 'Taylor', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B')),
-('student18', 'student18', 'Rachel', 'Jones', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'C')),
-('student19', 'student19', 'Sam', 'White', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'A')),
-('student20', 'student20', 'Tom', 'Miller', (SELECT id FROM Roles WHERE roleName = 'Student'), (SELECT id FROM Grades WHERE grade = 'B'));
+('student1', 'student1', 'Alice', 'Johnson', 2, 1),
+('student2', 'student2', 'Bob', 'Smith', 2, 2),
+('student3', 'student3', 'Charlie', 'Brown', 2, 3),
+('student4', 'student4', 'David', 'Wilson', 2, 1),
+('student5', 'student5', 'Eva', 'Martin', 2, 2),
+('student6', 'student6', 'Frank', 'Jones', 2, 3),
+('student7', 'student7', 'Grace', 'White', 2, 1),
+('student8', 'student8', 'Henry', 'Miller', 2, 2),
+('student9', 'student9', 'Ivy', 'Taylor', 2, 3),
+('student10', 'student10', 'Jack', 'Brown', 2, 1),
+('student11', 'student11', 'Katie', 'Harris', 2, 2),
+('student12', 'student12', 'Leo', 'Wilson', 2, 3),
+('student13', 'student13', 'Mia', 'Johnson', 2, 1),
+('student14', 'student14', 'Nick', 'Smith', 2, 2),
+('student15', 'student15', 'Olivia', 'Brown', 2, 3),
+('student16', 'student16', 'Peter', 'Martin', 2, 1),
+('student17', 'student17', 'Quinn', 'Taylor', 2, 2),
+('student18', 'student18', 'Rachel', 'Jones', 2, 3),
+('student19', 'student19', 'Sam', 'White', 2, 1),
+('student20', 'student20', 'Tom', 'Miller', 2, 2);
 
 -- Insert sample Subjects
 
@@ -63,104 +63,104 @@ INSERT INTO Auditoriums (id, name) VALUES
 -- Insert sample Admin
 
 INSERT INTO Users (login, password, name, lastName, roleId) VALUES
-('admin', 'admin', 'Admin', 'User', (SELECT id FROM Roles WHERE roleName = 'Admin'));
+('admin', 'admin', 'Admin', 'User', 1);
 
 -- Insert sample Enrollments for Students
 
 INSERT INTO Enrollments (userId, subjectId) VALUES
 -- Student 1
-((SELECT id FROM Users WHERE login = 'student1'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student1'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(1, 1),
+(1, 2),
 -- Student 2
-((SELECT id FROM Users WHERE login = 'student2'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student2'), (SELECT id FROM Subjects WHERE name = 'English')),
+(2, 3),
+(2, 4),
 -- Student 3
-((SELECT id FROM Users WHERE login = 'student3'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student3'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(3, 1),
+(3, 2),
 -- Student 4
-((SELECT id FROM Users WHERE login = 'student4'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student4'), (SELECT id FROM Subjects WHERE name = 'English')),
+(4, 3),
+(4, 4),
 -- Student 5
-((SELECT id FROM Users WHERE login = 'student5'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student5'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(5, 1),
+(5, 2),
 -- Student 6
-((SELECT id FROM Users WHERE login = 'student6'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student6'), (SELECT id FROM Subjects WHERE name = 'English')),
+(6, 3),
+(6, 4),
 -- Student 7
-((SELECT id FROM Users WHERE login = 'student7'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student7'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(7, 1),
+(7, 2),
 -- Student 8
-((SELECT id FROM Users WHERE login = 'student8'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student8'), (SELECT id FROM Subjects WHERE name = 'English')),
+(8, 3),
+(8, 4),
 -- Student 9
-((SELECT id FROM Users WHERE login = 'student9'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student9'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(9, 1),
+(9, 2),
 -- Student 10
-((SELECT id FROM Users WHERE login = 'student10'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student10'), (SELECT id FROM Subjects WHERE name = 'English')),
+(10, 3),
+(10, 4),
 -- Student 11
-((SELECT id FROM Users WHERE login = 'student11'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student11'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(11, 1),
+(11, 2),
 -- Student 12
-((SELECT id FROM Users WHERE login = 'student12'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student12'), (SELECT id FROM Subjects WHERE name = 'English')),
+(12, 3),
+(12, 4),
 -- Student 13
-((SELECT id FROM Users WHERE login = 'student13'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student13'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(13, 1),
+(13, 2),
 -- Student 14
-((SELECT id FROM Users WHERE login = 'student14'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student14'), (SELECT id FROM Subjects WHERE name = 'English')),
+(14, 3),
+(14, 4),
 -- Student 15
-((SELECT id FROM Users WHERE login = 'student15'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student15'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(15, 1),
+(15, 2),
 -- Student 16
-((SELECT id FROM Users WHERE login = 'student16'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student16'), (SELECT id FROM Subjects WHERE name = 'English')),
+(16, 3),
+(16, 4),
 -- Student 17
-((SELECT id FROM Users WHERE login = 'student17'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student17'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(17, 1),
+(17, 2),
 -- Student 18
-((SELECT id FROM Users WHERE login = 'student18'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student18'), (SELECT id FROM Subjects WHERE name = 'English')),
+(18, 3),
+(18, 4),
 -- Student 19
-((SELECT id FROM Users WHERE login = 'student19'), (SELECT id FROM Subjects WHERE name = 'Math')),
-((SELECT id FROM Users WHERE login = 'student19'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(19, 1),
+(19, 2),
 -- Student 20
-((SELECT id FROM Users WHERE login = 'student20'), (SELECT id FROM Subjects WHERE name = 'History')),
-((SELECT id FROM Users WHERE login = 'student20'), (SELECT id FROM Subjects WHERE name = 'English'));
+(20, 3),
+(20, 4);
 
 -- Insert sample Enrollments for Teachers
 
 INSERT INTO Enrollments (userId, subjectId) VALUES
 -- Teacher 1
-((SELECT id FROM Users WHERE login = 'teacher1'), (SELECT id FROM Subjects WHERE name = 'Math')),
+(1, 1),
 -- Teacher 2
-((SELECT id FROM Users WHERE login = 'teacher2'), (SELECT id FROM Subjects WHERE name = 'Physics')),
+(2, 2),
 -- Teacher 3
-((SELECT id FROM Users WHERE login = 'teacher3'), (SELECT id FROM Subjects WHERE name = 'History')),
+(3, 3),
 -- Teacher 4
-((SELECT id FROM Users WHERE login = 'teacher4'), (SELECT id FROM Subjects WHERE name = 'English'));
+(4, 4);
 
 -- Insert sample Lessons
 
 INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, gradeId) VALUES
 -- Lesson 1
-((SELECT id FROM Subjects WHERE name = 'Math'), (SELECT id FROM Users WHERE login = 'teacher1'), '2024-01-20 10:00:00', 1, (SELECT id FROM Grades WHERE grade = 'A')),
+(1, 1, '2024-01-20 10:00:00', 1, 1),
 -- Lesson 2
-((SELECT id FROM Subjects WHERE name = 'Physics'), (SELECT id FROM Users WHERE login = 'teacher2'), '2024-01-21 11:00:00', 2, (SELECT id FROM Grades WHERE grade = 'B')),
+(2, 2, '2024-01-21 11:00:00', 2, 2),
 -- Lesson 3
-((SELECT id FROM Subjects WHERE name = 'History'), (SELECT id FROM Users WHERE login = 'teacher3'), '2024-01-22 12:00:00', 3, (SELECT id FROM Grades WHERE grade = 'C')),
+(3, 3, '2024-01-22 12:00:00', 3, 3),
 -- Lesson 4
-((SELECT id FROM Subjects WHERE name = 'English'), (SELECT id FROM Users WHERE login = 'teacher4'), '2024-01-23 13:00:00', 4, (SELECT id FROM Grades WHERE grade = 'A')),
+(4, 4, '2024-01-23 13:00:00', 4, 1),
 -- Lesson 5
-((SELECT id FROM Subjects WHERE name = 'Math'), (SELECT id FROM Users WHERE login = 'teacher1'), '2024-01-24 14:00:00', 1, (SELECT id FROM Grades WHERE grade = 'B')),
+(1, 1, '2024-01-24 14:00:00', 1, 2),
 -- Lesson 6
-((SELECT id FROM Subjects WHERE name = 'Physics'), (SELECT id FROM Users WHERE login = 'teacher2'), '2024-01-25 15:00:00', 2, (SELECT id FROM Grades WHERE grade = 'C')),
+(2, 2, '2024-01-25 15:00:00', 2, 3),
 -- Lesson 7
-((SELECT id FROM Subjects WHERE name = 'History'), (SELECT id FROM Users WHERE login = 'teacher3'), '2024-01-26 16:00:00', 3, (SELECT id FROM Grades WHERE grade = 'A')),
+(3, 3, '2024-01-26 16:00:00', 3, 1),
 -- Lesson 8
-((SELECT id FROM Subjects WHERE name = 'English'), (SELECT id FROM Users WHERE login = 'teacher4'), '2024-01-27 17:00:00', 4, (SELECT id FROM Grades WHERE grade = 'B')),
+(4, 4, '2024-01-27 17:00:00', 4, 2),
 -- Lesson 9
-((SELECT id FROM Subjects WHERE name = 'Math'), (SELECT id FROM Users WHERE login = 'teacher1'), '2024-01-28 18:00:00', 1, (SELECT id FROM Grades WHERE grade = 'C')),
+(1, 1, '2024-01-28 18:00:00', 1, 3),
 -- Lesson 10
-((SELECT id FROM Subjects WHERE name = 'Physics'), (SELECT id FROM Users WHERE login = 'teacher2'), '2024-01-29 19:00:00', 2, (SELECT id FROM Grades WHERE grade = 'A'));
+(2, 2, '2024-01-29 19:00:00', 2, 1);
