@@ -1,1 +1,0 @@
-TRUNCATE TABLE Grades, Roles, Users, Subjects, Auditoriums, Enrollments, Lessons;

@@ -132,13 +132,13 @@ INSERT INTO Enrollments (userId, subjectId) VALUES
 -- Insert sample Enrollments for Teachers
 
 INSERT INTO Enrollments (userId, subjectId) VALUES
--- Teacher 1
+-- Teacher 1 (Math)
 (1, 1),
--- Teacher 2
+-- Teacher 2 (Physics)
 (2, 2),
--- Teacher 3
+-- Teacher 3 (History)
 (3, 3),
--- Teacher 4
+-- Teacher 4 (English)
 (4, 4);
 
 -- Insert sample Lessons

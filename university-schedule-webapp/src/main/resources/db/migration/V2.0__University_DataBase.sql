@@ -50,3 +50,4 @@ FOREIGN KEY (auditoriumId) REFERENCES Auditoriums (id),
 gradeId INT NOT NULL,
 FOREIGN KEY (gradeId) REFERENCES Grades (id) ON DELETE CASCADE
 );
+
