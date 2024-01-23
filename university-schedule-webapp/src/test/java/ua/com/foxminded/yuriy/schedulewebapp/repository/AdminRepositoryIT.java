@@ -1,5 +1,6 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository;
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Admin;
 @Sql(scripts = { "/clear-data.sql" }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 
 public class AdminRepositoryIT {
-	
+
 	@Autowired
 	private AdminRepository adminRepository;
 
