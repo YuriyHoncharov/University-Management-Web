@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lessons</title>
+</head>
+<body>
+	<h1>All Lessons</h1>
+	<ul>
+		<li th:each="lesson : ${lessons}"><span
+			th:text="${lesson.subject.name}">Subject: </span> <span
+			th:text="${lesson.teacher.name}">Teacher Name: </span> <span
+			th:text="${lesson.teacher.lastName}">Teacher LastName: </span> <span
+			th:text="${lesson.time}">Time: </span> <span
+			th:text="${lesson.auditorium.name}">Auditorium: </span> <span
+			th:text="${lesson.grade.grade}">Grade: </span></li>
+	</ul>
+</body>
+</html>

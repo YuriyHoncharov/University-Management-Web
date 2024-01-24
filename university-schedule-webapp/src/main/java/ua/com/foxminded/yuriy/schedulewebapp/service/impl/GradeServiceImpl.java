@@ -12,7 +12,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.GradeService;
 
 @Service
 public class GradeServiceImpl implements GradeService {
-	
+
 	private final GradeRepository gradeRepository;
 
 	@Autowired
