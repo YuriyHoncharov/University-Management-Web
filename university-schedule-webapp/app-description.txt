@@ -5,7 +5,7 @@
 Students and Teachers:
 
 	* Each user is uniquely identified by an ID number.
-	* Students are associated with their graduation level (Grade) and following subjects.
+	* Students are associated with their graduation level (House) and following subjects.
 	* Teachers are linked to their respective subjects.
 	* Lesson Details:
 
@@ -38,7 +38,7 @@ Student Role
 	
 1. Student Class
 	* Represents individual students.
-	* Properties include ID number, graduation level (Grade) and following subjects.
+	* Properties include ID number, graduation level (House) and following subjects.
 	
 2. Teacher Class
 	* Represents individual teachers.
@@ -51,7 +51,7 @@ Student Role
 4. Subject Class
 	* Represents academic subjects.
 
-5. Grade Class
+5. House Class
 	* Represents graduation levels of students.
 
 6. Lesson Class

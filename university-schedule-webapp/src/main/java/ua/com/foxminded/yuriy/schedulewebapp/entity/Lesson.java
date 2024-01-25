@@ -22,7 +22,7 @@ public class Lesson {
 
 	@ManyToOne
 	@JoinColumn(name = "teacherId", nullable = false)
-	private Teacher teacher;
+	private Professor professor;
 
 	@Column(name = "time", nullable = false)
 	private Timestamp time;
@@ -32,8 +32,8 @@ public class Lesson {
 	private Auditorium auditorium;
 
 	@ManyToOne
-	@JoinColumn(name = "gradeId", nullable = false)
-	private Grade grade;
+	@JoinColumn(name = "houseId", nullable = false)
+	private House house;
 
 	public Long getId() {
 		return id;
@@ -51,12 +51,12 @@ public class Lesson {
 		this.subject = subject;
 	}
 
-	public Teacher getTeacher() {
-		return teacher;
+	public Professor getProfessor() {
+		return professor;
 	}
 
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
 
 	public Timestamp getTime() {
@@ -75,12 +75,12 @@ public class Lesson {
 		this.auditorium = auditorium;
 	}
 
-	public Grade getGrade() {
-		return grade;
+	public House getHouse() {
+		return house;
 	}
 
-	public void setGrade(Grade grade) {
-		this.grade = grade;
+	public void setHouse(House house) {
+		this.house = house;
 	}
 
 }

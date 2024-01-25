@@ -10,11 +10,11 @@ import javax.persistence.ManyToMany;
 @Entity
 @DiscriminatorValue("3")
 
-public class Teacher extends User {
+public class Professor extends User {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
 	private List<Subject> subjects;
 
-	public Teacher() {
+	public Professor() {
 	}
 }

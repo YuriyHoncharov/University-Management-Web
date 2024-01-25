@@ -11,11 +11,11 @@
 	<ul>
 		<li th:each="lesson : ${lessons}"><span
 			th:text="${lesson.subject.name}">Subject: </span> <span
-			th:text="${lesson.teacher.name}">Teacher Name: </span> <span
-			th:text="${lesson.teacher.lastName}">Teacher LastName: </span> <span
+			th:text="${lesson.professor.name}">Professor Name: </span> <span
+			th:text="${lesson.professor.lastName}">Professor LastName: </span> <span
 			th:text="${lesson.time}">Time: </span> <span
 			th:text="${lesson.auditorium.name}">Auditorium: </span> <span
-			th:text="${lesson.grade.grade}">Grade: </span></li>
+			th:text="${lesson.house.house}">House: </span></li>
 	</ul>
 </body>
 </html>

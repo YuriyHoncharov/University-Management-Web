@@ -7,26 +7,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Grade;
-import ua.com.foxminded.yuriy.schedulewebapp.service.GradeService;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
+import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
-import ua.com.foxminded.yuriy.schedulewebapp.service.TeacherService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 
 @Controller
 public class HomeController {
 
-	private TeacherService teacherService;
+	private ProfessorService teacherService;
 	private SubjectService subjectService;
-	private GradeService gradeService;
+	private HouseService houseService;
 	private LessonService lessonService;
 
 	@Autowired
-	public HomeController(TeacherService teacherService, SubjectService subjectService, GradeService gradeService,
+	public HomeController(ProfessorService teacherService, SubjectService subjectService, HouseService houseService,
 			LessonService lessonService) {
 		this.teacherService = teacherService;
 		this.subjectService = subjectService;
-		this.gradeService = gradeService;
+		this.houseService = houseService;
 		this.lessonService = lessonService;
 	}
 
@@ -36,7 +36,7 @@ public class HomeController {
 	}
 
 	@GetMapping(value = "/teachers")
-	public String showTeachersPage(Model model) {
+	public String showProfessorsPage(Model model) {
 		model.addAttribute("teachers", teacherService.getAll());
 		return "teachers";
 
@@ -48,11 +48,11 @@ public class HomeController {
 		return "subjects";
 	}
 
-	@GetMapping(value = "/grades")
-	public String showGradesPage(Model model) {
-		List<Grade>grades = gradeService.getAll();
-		model.addAttribute("grades", grades);
-		return "grades";
+	@GetMapping(value = "/houses")
+	public String showHousesPage(Model model) {
+		List<House>houses = houseService.getAll();
+		model.addAttribute("houses", houses);
+		return "houses";
 	}
 
 	@GetMapping(value = "/lessons")

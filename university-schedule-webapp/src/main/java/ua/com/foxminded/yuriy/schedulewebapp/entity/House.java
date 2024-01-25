@@ -6,22 +6,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name = "Grades")
-public class Grade {
+@Table(name = "Houses")
+public class House {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "grade", nullable = false, length = 5)
-	private String grade;
+	@Column(name = "house", nullable = false, length = 5)
+	private String house;
 
-	public Grade() {
+	public House() {
 	}
 
-	public Grade(Long id, String grade) {
+	public House(Long id, String house) {
 		this.id = id;
-		this.grade = grade;
+		this.house = house;
 	}
 
 	public Long getId() {
@@ -32,12 +32,12 @@ public class Grade {
 		this.id = id;
 	}
 
-	public String getValue() {
-		return grade;
+	public String getHouse() {
+		return house;
 	}
 
-	public void setValue(String grade) {
-		this.grade = grade;
+	public void setHouse(String house) {
+		this.house = house;
 	}
 
 }

@@ -6,32 +6,32 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Teacher;
-import ua.com.foxminded.yuriy.schedulewebapp.repository.TeacherRepository;
-import ua.com.foxminded.yuriy.schedulewebapp.service.TeacherService;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 
 @Service
-public class TeacherServiceImpl implements TeacherService {
+public class ProfessorServiceImpl implements ProfessorService {
 
-	private final TeacherRepository teacherRepository;
+	private final ProfessorRepository teacherRepository;
 
 	@Autowired
-	public TeacherServiceImpl(TeacherRepository teacherRepository) {
+	public ProfessorServiceImpl(ProfessorRepository teacherRepository) {
 		this.teacherRepository = teacherRepository;
 	}
 
 	@Override
-	public List<Teacher> getAll() {
+	public List<Professor> getAll() {
 		return teacherRepository.findAll();
 	}
 
 	@Override
-	public Optional<Teacher> getById(Long id) {
+	public Optional<Professor> getById(Long id) {
 		return teacherRepository.findById(id);
 	}
 
 	@Override
-	public Teacher save(Teacher teacher) {
+	public Professor save(Professor teacher) {
 		return teacherRepository.save(teacher);
 	}
 
