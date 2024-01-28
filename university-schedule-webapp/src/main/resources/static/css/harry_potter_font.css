@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'HarryPotterFont';
+  src: url('/font/harry_potter_font.ttf') format('truetype');
+}
+
+body {
+  font-family: 'HarryPotterFont', Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+h1 {
+  color: #0066cc;
+}
