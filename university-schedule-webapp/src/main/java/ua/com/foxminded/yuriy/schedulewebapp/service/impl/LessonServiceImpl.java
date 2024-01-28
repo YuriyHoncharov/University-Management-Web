@@ -37,4 +37,9 @@ public class LessonServiceImpl implements LessonService {
 	public void delete(Long id) {
 		lessonRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Lesson> getByWizardId(Long wizardId) {
+	return lessonRepository.getByWizardId(wizardId);
+	}
 }

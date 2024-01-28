@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 @Entity(name = "Wizards")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "roleId", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class User {
+public abstract class Wizard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

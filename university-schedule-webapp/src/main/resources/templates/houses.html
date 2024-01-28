@@ -5,11 +5,40 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Houses</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	color: #333;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	margin-bottom: 20px;
+}
+
+.house-name {
+	font-weight: bold;
+	color: #0066cc;
+}
+
+.house-image {
+	max-width: 100px;
+	max-height: 100px;
+}
+</style>
 </head>
 <body>
 	<h1>All Houses</h1>
 	<ul>
-		<li th:each="house : ${houses}"><span th:text="${house.house}"></span></li>
+		<li th:each="house : ${houses}"><span class="house-name"
+			th:text="${house.house}"></span></li>
 	</ul>
 </body>
 </html>

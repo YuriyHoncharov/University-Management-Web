@@ -32,9 +32,9 @@ INSERT INTO Auditoriums (id, name) VALUES
 
 -- Test data for Enrollments
 
-INSERT INTO Enrollments (userId, subjectId) VALUES (2, 1);
-INSERT INTO Enrollments (userId, subjectId) VALUES (3, 2);
-INSERT INTO Enrollments (userId, subjectId) VALUES (4, 3);
+INSERT INTO Enrollments (wizardId, subjectId) VALUES (2, 1);
+INSERT INTO Enrollments (wizardId, subjectId) VALUES (3, 2);
+INSERT INTO Enrollments (wizardId, subjectId) VALUES (4, 3);
 
 -- Test data for Lessons
 

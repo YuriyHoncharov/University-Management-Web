@@ -5,17 +5,91 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lessons</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/harry_potter_font.css}">
+
+<style>
+body {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+h1 {
+	color: #007bff;
+}
+
+form {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+label {
+	font-weight: bold;
+	margin-bottom: 10px;
+	color: #495057;
+}
+
+input {
+	padding: 8px;
+	margin-bottom: 20px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+button {
+	background-color: #007bff;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin-top: 20px;
+}
+
+li {
+	background-color: #fff;
+	padding: 15px;
+	margin-bottom: 15px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+span {
+	display: block;
+	margin-bottom: 10px;
+}
+</style>
 </head>
 <body>
 	<h1>All Lessons</h1>
+
+	<form action="/lessons" method="get">
+		<label for="studentId">Enter Student ID:</label> <input type="text"
+			id="studentId" name="studentId" />
+		<button type="submit">Search</button>
+	</form>
+
 	<ul>
 		<li th:each="lesson : ${lessons}"><span
-			th:text="${lesson.subject.name}">Subject: </span> <span
-			th:text="${lesson.professor.name}">Professor Name: </span> <span
-			th:text="${lesson.professor.lastName}">Professor LastName: </span> <span
-			th:text="${lesson.time}">Time: </span> <span
-			th:text="${lesson.auditorium.name}">Auditorium: </span> <span
-			th:text="${lesson.house.house}">House: </span></li>
+			th:text="${lesson.subject.name}">Subject:</span> <span
+			th:text="${lesson.professor.name}">Professor Name:</span> <span
+			th:text="${lesson.professor.lastName}">Professor LastName:</span> <span
+			th:text="${lesson.time}">Time:</span> <span
+			th:text="${lesson.auditorium.name}">Auditorium:</span> <span
+			th:text="${lesson.house.house}">House:</span></li>
 	</ul>
 </body>
 </html>

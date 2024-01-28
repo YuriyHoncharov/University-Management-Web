@@ -13,4 +13,6 @@ public interface LessonService {
 	Lesson save(Lesson lesson);
 
 	void delete(Long id);
+	
+	List<Lesson> getByWizardId(Long wizardId);
 }

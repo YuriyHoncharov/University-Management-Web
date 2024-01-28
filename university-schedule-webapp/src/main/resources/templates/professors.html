@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professors</title>
+</head>
+<style>
+body {
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	color: #333;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	margin-bottom: 20px;
+}
+
+.professor-name {
+	font-weight: bold;
+	color: #0066cc;
+}
+
+.professor-lastname {
+	font-weight: bold;
+	color: #009900;
+}
+
+.subject-name {
+	font-weight: bold;
+	color: #0066cc;
+}
+
+.description {
+	color: #666;
+}
+</style>
+<body>
+	<h1>All Professors</h1>
+	<ul>
+		<li th:each="professor : ${professors}"><span
+			class="professor-name" th:text="${professor.name}"></span> <span
+			class="professor-lastname" th:text="${professor.lastName}"></span>
+			<ul>
+				<li th:each="subject : ${professor.subjects}"><span
+					class="subject-name" th:text="${subject.name}"></span> - <span
+					class="description" th:text="${subject.description}"></span></li>
+			</ul></li>
+	</ul>
+</body>
+</html>

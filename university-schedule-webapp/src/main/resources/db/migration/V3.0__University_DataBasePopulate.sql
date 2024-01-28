@@ -103,12 +103,8 @@ INSERT INTO Wizards (login, password, name, lastName, roleId) VALUES
 -- Insert sample Enrollments for Students
 -- Gryffindor
 
-INSERT INTO Enrollments (userId, subjectId) VALUES
+INSERT INTO Enrollments (wizardId, subjectId) VALUES
 
-(1, 1), (1, 2),
-(2, 1), (2, 4),
-(3, 1), (3, 3),
-(4, 2), (4, 4),
 (5, 2), (5, 3),
 (6, 3), (6, 4),
 (7, 2), (7, 4),
@@ -156,8 +152,8 @@ INSERT INTO Enrollments (userId, subjectId) VALUES
 (40, 1), (40, 4);
 
 
--- Insert sample Enrollments for Teachers (Harry Potter-themed)
-INSERT INTO Enrollments (userId, subjectId) VALUES
+-- Insert sample Enrollments for Teachers
+INSERT INTO Enrollments (wizardId, subjectId) VALUES
 -- Professor McGonagall (Transfiguration)
 (1, 1),
 -- Professor Snape (Potions)
@@ -209,5 +205,3 @@ INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId) VALUES
 (3, 3, '2024-02-08 04:00:00', 3, 2),
 -- Lesson 20
 (4, 4, '2024-02-09 05:00:00', 4, 3);
-
-

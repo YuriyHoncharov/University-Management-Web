@@ -32,8 +32,8 @@ name VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Enrollments (
-userId INT,
-FOREIGN KEY (userId) REFERENCES Wizards (id) ON DELETE CASCADE,
+wizardId INT,
+FOREIGN KEY (wizardId) REFERENCES Wizards (id) ON DELETE CASCADE,
 subjectId INT,
 FOREIGN KEY(subjectId) REFERENCES Subjects (id) ON DELETE CASCADE
 );
