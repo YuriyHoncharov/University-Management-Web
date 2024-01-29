@@ -1,59 +1,82 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professors</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professors</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyEW+4UZfOqLz5o5/F/6Z5uR74M93Oj5I6" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding-top: 56px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+        }
+        .professor-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .professor-lastname {
+            font-weight: bold;
+            color: #009900;
+        }
+        .subject-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .description {
+            color: #666;
+        }
+    </style>
 </head>
-<style>
-body {
-	font-family: Arial, sans-serif;
-}
-
-h1 {
-	color: #333;
-}
-
-ul {
-	list-style: none;
-	padding: 0;
-}
-
-li {
-	margin-bottom: 20px;
-}
-
-.professor-name {
-	font-weight: bold;
-	color: #0066cc;
-}
-
-.professor-lastname {
-	font-weight: bold;
-	color: #009900;
-}
-
-.subject-name {
-	font-weight: bold;
-	color: #0066cc;
-}
-
-.description {
-	color: #666;
-}
-</style>
 <body>
-	<h1>All Professors</h1>
-	<ul>
-		<li th:each="professor : ${professors}"><span
-			class="professor-name" th:text="${professor.name}"></span> <span
-			class="professor-lastname" th:text="${professor.lastName}"></span>
-			<ul>
-				<li th:each="subject : ${professor.subjects}"><span
-					class="subject-name" th:text="${subject.name}"></span> - <span
-					class="description" th:text="${subject.description}"></span></li>
-			</ul></li>
-	</ul>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="#">Hogwarts</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
+                <li class="nav-item active"><a class="nav-link" href="/professors">Professors<span class="sr-only">(current)</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
+                <li class="nav-item"><a class="nav-link" href="/lessons">Lessons</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>All Professors</h1>
+        <ul>
+            <li th:each="professor : ${professors}">
+                <div>
+                    <span class="professor-name" th:text="${professor.name}"></span> 
+                    <span class="professor-lastname" th:text="${professor.lastName}"></span>
+                    <ul>
+                        <li th:each="subject : ${professor.subjects}">
+                            <span class="subject-name" th:text="${subject.name}"></span> - 
+                            <span class="description" th:text="${subject.description}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-8FEXmYUh6QHJcJlsB6o4z+Cp6US95UrmzHtAgxuQ3DIpZT60yP0af6ISh6Q2s61D" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyEW+4UZfOqLz5o5/F/6Z5uR74M93Oj5I6" crossorigin="anonymous"></script>
+
 </body>
 </html>
