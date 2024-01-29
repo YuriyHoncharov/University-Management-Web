@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Controller
+@RequestMapping("/subjects")
 public class SubjectsController {
 
 	private SubjectService subjectService;
@@ -16,8 +19,8 @@ public class SubjectsController {
 		this.subjectService = subjectService;
 	}
 
-	@GetMapping(value = "/subjects")
-	public String showSubjectsPage(Model model) {
+	@GetMapping
+	public String getAllSubjects(Model model) {
 		model.addAttribute("subjects", subjectService.getAll());
 		return "subjects";
 	}
