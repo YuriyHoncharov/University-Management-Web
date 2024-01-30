@@ -9,14 +9,30 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyEW+4UZfOqLz5o5/F/6Z5uR74M93Oj5I6"
 	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <style>
+.page-title {
+	text-align: center;
+	color: #007bff;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
 body {
-	font-family: Arial, sans-serif;
-	padding-top: 56px;
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	background-image: url('/images/hogwarts2.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-top: 70px;
 }
 
 nav {
+	background-image: url('/images/navback.jpg');
+	background-size: cover;
+	background-position: center bottom;
+	background-repeat: no-repeat;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-bottom: 2px solid #ddd;
 }
 
 .navbar-brand {
@@ -25,6 +41,7 @@ nav {
 
 .nav-item {
 	margin-right: 10px;
+	font-weight: bold;
 }
 
 .navbar-nav {
@@ -58,7 +75,8 @@ li {
 <body>
 
 	<nav class="navbar navbar-light bg-light fixed-top">
-		<a class="navbar-brand" href="#">Hogwarts</a>
+		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
+			Wizardry</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNav" aria-controls="navbarNav"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +84,6 @@ li {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
 				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
 				<li class="nav-item active"><a class="nav-link" href="/houses">Houses<span
@@ -77,7 +94,7 @@ li {
 	</nav>
 
 	<div class="container mt-5">
-		<h1>All Houses</h1>
+		<h1 class="page-title">All Houses</h1>
 		<ul>
 			<li th:each="house : ${houses}"><span class="house-name"
 				th:text="${house.house}"></span></li>
