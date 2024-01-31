@@ -138,6 +138,26 @@ span {
 			<button type="submit">Search</button>
 		</form>
 
+		<form action="/lessons/byDay" method="get" class="my-3">
+			<div class="form-row align-items-center">
+				<div class="col-auto">
+					<label class="sr-only" for="daySelect">Select a Day</label> <select
+						class="custom-select" id="daySelect" name="selectedDay">
+						<option value="Monday">Monday</option>
+						<option value="Tuesday">Tuesday</option>
+						<option value="Wednesday">Wednesday</option>
+						<option value="Thursday">Thursday</option>
+						<option value="Friday">Friday</option>
+						<option value="Saturday">Saturday</option>
+						<option value="Sunday">Sunday</option>
+					</select>
+				</div>
+				<div class="col-auto">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</form>
+
 		<ul class="table">
 
 			<table>

@@ -15,4 +15,6 @@ public interface LessonService {
 	void delete(Long id);
 	
 	List<Lesson> getByWizardId(Long wizardId);
+	
+	List<Lesson>getByWizardIdAndDayOfWeek(Long wizardId, int selectedDay);
 }

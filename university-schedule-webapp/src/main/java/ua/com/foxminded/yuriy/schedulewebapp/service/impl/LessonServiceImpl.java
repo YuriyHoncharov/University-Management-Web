@@ -42,4 +42,9 @@ public class LessonServiceImpl implements LessonService {
 	public List<Lesson> getByWizardId(Long wizardId) {
 	return lessonRepository.getByWizardId(wizardId);
 	}
+
+	@Override
+	public List<Lesson> getByWizardIdAndDayOfWeek(Long wizardId, int selectedDay) {
+		return lessonRepository.getByWizardIdAndDayOfWeek(wizardId, selectedDay);
+	}
 }
