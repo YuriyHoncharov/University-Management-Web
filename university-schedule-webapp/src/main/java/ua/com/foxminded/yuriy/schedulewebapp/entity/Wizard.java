@@ -1,4 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -30,6 +31,10 @@ public abstract class Wizard {
 
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
+
+	@ManyToOne
+	@JoinColumn(name = "yearId")
+	private Year year;
 
 	@ManyToOne
 	@JoinColumn(name = "roleId", referencedColumnName = "id", insertable = false, updatable = false)
@@ -94,4 +99,13 @@ public abstract class Wizard {
 	public void setHouse(House house) {
 		this.house = house;
 	}
+
+	public Year getYear() {
+		return year;
+	}
+
+	public void setYear(Year year) {
+		this.year = year;
+	}
+
 }

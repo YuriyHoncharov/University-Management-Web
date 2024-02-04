@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.Dto;
+package ua.com.foxminded.yuriy.schedulewebapp.entity.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

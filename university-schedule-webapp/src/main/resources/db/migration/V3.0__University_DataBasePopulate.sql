@@ -13,6 +13,14 @@ INSERT INTO Houses (house) VALUES
 ('Ravenclaw'),
 ('Slytherin');
 
+-- Insert sample Years
+
+INSERT INTO Years (yearValue) VALUES
+(1),
+(2),
+(3),
+(4);
+
 -- Insert sample Professors
 INSERT INTO Wizards (login, password, name, lastName, roleId) VALUES
 ('mcgonagall', 'mcgonagall', 'Minerva', 'McGonagall', 3),  -- Transfiguration
@@ -22,61 +30,61 @@ INSERT INTO Wizards (login, password, name, lastName, roleId) VALUES
 
 -- Insert sample Students (Harry Potter-themed)
 
-INSERT INTO Wizards (login, password, name, lastName, roleId, houseId) VALUES
+INSERT INTO Wizards (login, password, name, lastName, roleId, houseId, year) VALUES
 
 -- Gryffindor
 
-('harry', 'harry', 'Harry', 'Potter', 2, 1),
-('hermione', 'hermione', 'Hermione', 'Granger', 2, 1),
-('ron', 'ron', 'Ron', 'Weasley', 2, 1),
-('ginny', 'ginny', 'Ginny', 'Weasley', 2, 1),
-('lily', 'lily', 'Lily', 'Evans', 2, 1),
-('sirius', 'sirius', 'Sirius', 'Black', 2, 1),
-('fred', 'fred', 'Fred', 'Weasley', 2, 1),
-('george', 'george', 'George', 'Weasley', 2, 1),
-('neville', 'neville', 'Neville', 'Longbottom', 2, 1),
-('seamus', 'seamus', 'Seamus', 'Finnigan', 2, 1),
+('harry', 'harry', 'Harry', 'Potter', 2, 1, 1),
+('hermione', 'hermione', 'Hermione', 'Granger', 2, 1, 1),
+('ron', 'ron', 'Ron', 'Weasley', 2, 1, 1),
+('ginny', 'ginny', 'Ginny', 'Weasley', 2, 1, 1),
+('lily', 'lily', 'Lily', 'Evans', 2, 1, 2),
+('sirius', 'sirius', 'Sirius', 'Black', 2, 1, 2),
+('fred', 'fred', 'Fred', 'Weasley', 2, 1, 3),
+('george', 'george', 'George', 'Weasley', 2, 1, 3),
+('neville', 'neville', 'Neville', 'Longbottom', 2, 1, 4),
+('seamus', 'seamus', 'Seamus', 'Finnigan', 2, 1, 4),
 
 -- Hufflepuff
 
-('cedric3', 'cedric3', 'Cedric', 'Diggory', 2, 2),
-('nymphadora2', 'nymphadora2', 'Nymphadora', 'Tonks', 2, 2),
-('newton', 'newton', 'Newton', 'Scamander', 2, 2),
-('hannah2', 'hannah2', 'Hannah', 'Abbott', 2, 2),
-('helga', 'helga', 'Helga', 'Hufflepuff', 2, 2),
-('pomona', 'pomona', 'Pomona', 'Sprout', 2, 2),
-('ernie2', 'ernie2', 'Ernie', 'Macmillan', 2, 2),
-('justin2', 'justin2', 'Justin', 'Finch-Fletchley', 2, 2),
-('zacharias2', 'zacharias2', 'Zacharias', 'Smith', 2, 2),
-('nymphadora3', 'nymphadora3', 'Nymphadora', 'Tonks', 2, 2),
+('cedric3', 'cedric3', 'Cedric', 'Diggory', 2, 2, 1),
+('nymphadora2', 'nymphadora2', 'Nymphadora', 'Tonks', 2, 2, 1),
+('newton', 'newton', 'Newton', 'Scamander', 2, 2, 1),
+('hannah2', 'hannah2', 'Hannah', 'Abbott', 2, 2, 2),
+('helga', 'helga', 'Helga', 'Hufflepuff', 2, 2, 2),
+('pomona', 'pomona', 'Pomona', 'Sprout', 2, 2, 2),
+('ernie2', 'ernie2', 'Ernie', 'Macmillan', 2, 2, 2),
+('justin2', 'justin2', 'Justin', 'Finch-Fletchley', 2, 2, 3),
+('zacharias2', 'zacharias2', 'Zacharias', 'Smith', 2, 2, 3),
+('nymphadora3', 'nymphadora3', 'Nymphadora', 'Tonks', 2, 2, 4),
 
 -- Ravenclaw
 
-('luna3', 'luna3', 'Luna', 'Lovegood', 2, 3),
-('cho3', 'cho3', 'Cho', 'Chang', 2, 3),
-('padma2', 'padma2', 'Padma', 'Patil', 2, 3),
-('parvati3', 'parvati3', 'Parvati', 'Patil', 2, 3),
-('terry2', 'terry2', 'Terry', 'Boot', 2, 3),
-('michael3', 'michael3', 'Michael', 'Corner', 2, 3),
-('megan2', 'megan2', 'Megan', 'Jones', 2, 3),
-('lisa2', 'lisa2', 'Lisa', 'Turpin', 2, 3),
-('anthony2', 'anthony2', 'Anthony', 'Goldstein', 2, 3),
-('terence2', 'terence2', 'Terence', 'Higgs', 2, 3),
+('luna3', 'luna3', 'Luna', 'Lovegood', 2, 3, 1),
+('cho3', 'cho3', 'Cho', 'Chang', 2, 3, 1),
+('padma2', 'padma2', 'Padma', 'Patil', 2, 3, 1),
+('parvati3', 'parvati3', 'Parvati', 'Patil', 2, 3, 2),
+('terry2', 'terry2', 'Terry', 'Boot', 2, 3, 2),
+('michael3', 'michael3', 'Michael', 'Corner', 2, 3, 2),
+('megan2', 'megan2', 'Megan', 'Jones', 2, 3, 3),
+('lisa2', 'lisa2', 'Lisa', 'Turpin', 2, 3, 3),
+('anthony2', 'anthony2', 'Anthony', 'Goldstein', 2, 3, 4),
+('terence2', 'terence2', 'Terence', 'Higgs', 2, 3, 4),
 
 -- Slytherin
 
-('draco3', 'draco3', 'Draco', 'Malfoy', 2, 4),
-('pansy', 'pansy', 'Pansy', 'Parkinson', 2, 4),
-('blaise', 'blaise', 'Blaise', 'Zabini', 2, 4),
-('millicent', 'millicent', 'Millicent', 'Bulstrode', 2, 4),
-('theodore', 'theodore', 'Theodore', 'Nott', 2, 4),
-('daphne', 'daphne', 'Daphne', 'Greengrass', 2, 4),
-('vincent', 'vincent', 'Vincent', 'Crabbe', 2, 4),
-('gregory', 'gregory', 'Gregory', 'Goyle', 2, 4),
-('lucius3', 'lucius3', 'Lucius', 'Malfoy', 2, 4),
-('bellatrix3', 'bellatrix3', 'Bellatrix', 'Lestrange', 2, 4),
-('narcissa', 'narcissa', 'Narcissa', 'Malfoy', 2, 4),
-('rudolphus', 'rudolphus', 'Rudolphus', 'Lestrange', 2, 4);
+('draco3', 'draco3', 'Draco', 'Malfoy', 2, 4, 1),
+('pansy', 'pansy', 'Pansy', 'Parkinson', 2, 4, 1),
+('blaise', 'blaise', 'Blaise', 'Zabini', 2, 4, 1),
+('millicent', 'millicent', 'Millicent', 'Bulstrode', 2, 4, 2),
+('theodore', 'theodore', 'Theodore', 'Nott', 2, 4, 2),
+('daphne', 'daphne', 'Daphne', 'Greengrass', 2, 4, 2),
+('vincent', 'vincent', 'Vincent', 'Crabbe', 2, 4, 2),
+('gregory', 'gregory', 'Gregory', 'Goyle', 2, 4, 3),
+('lucius3', 'lucius3', 'Lucius', 'Malfoy', 2, 4, 3),
+('bellatrix3', 'bellatrix3', 'Bellatrix', 'Lestrange', 2, 4, 4),
+('narcissa', 'narcissa', 'Narcissa', 'Malfoy', 2, 4, 4),
+('rudolphus', 'rudolphus', 'Rudolphus', 'Lestrange', 2, 4, 4);
 
 
 -- Insert sample Subjects
@@ -164,44 +172,44 @@ INSERT INTO Enrollments (wizardId, subjectId) VALUES
 (4, 4);
 
 -- Insert sample Lessons
-INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId) VALUES
+INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId, year) VALUES
 -- Lesson 1
-(1, 1, '2024-01-20 10:00:00', 1, 1),
+(1, 1, '2024-01-20 10:00:00', 1, 1, 1),
 -- Lesson 2
-(2, 2, '2024-01-21 11:00:00', 2, 2),
+(2, 2, '2024-01-21 11:00:00', 2, 2, 2),
 -- Lesson 3
-(3, 3, '2024-01-22 12:00:00', 3, 3),
+(3, 3, '2024-01-22 12:00:00', 3, 3, 3),
 -- Lesson 4
-(4, 4, '2024-01-23 13:00:00', 4, 1),
+(4, 4, '2024-01-23 13:00:00', 4, 1, 4),
 -- Lesson 5
-(1, 1, '2024-01-24 14:00:00', 1, 2),
+(1, 1, '2024-01-24 14:00:00', 1, 2, 1),
 -- Lesson 6
-(2, 2, '2024-01-25 15:00:00', 2, 3),
+(2, 2, '2024-01-25 15:00:00', 2, 3, 2),
 -- Lesson 7
-(3, 3, '2024-01-26 16:00:00', 3, 1),
+(3, 3, '2024-01-26 16:00:00', 3, 1, 3),
 -- Lesson 8
-(4, 4, '2024-01-27 17:00:00', 4, 2),
+(4, 4, '2024-01-27 17:00:00', 4, 2, 4),
 -- Lesson 9
-(1, 1, '2024-01-28 18:00:00', 1, 3),
+(1, 1, '2024-01-28 18:00:00', 1, 3, 1),
 -- Lesson 10
-(2, 2, '2024-01-29 19:00:00', 2, 1),
+(2, 2, '2024-01-29 19:00:00', 2, 1, 2),
 -- Lesson 11
-(3, 3, '2024-01-30 20:00:00', 3, 2),
+(3, 3, '2024-01-30 20:00:00', 3, 2, 3),
 -- Lesson 12
-(4, 4, '2024-02-01 21:00:00', 4, 3),
+(4, 4, '2024-02-01 21:00:00', 4, 3, 4),
 -- Lesson 13
-(1, 1, '2024-02-02 22:00:00', 1, 4),
+(1, 1, '2024-02-02 22:00:00', 1, 4, 1),
 -- Lesson 14
-(2, 2, '2024-02-03 23:00:00', 2, 1),
+(2, 2, '2024-02-03 23:00:00', 2, 1, 2),
 -- Lesson 15
-(3, 3, '2024-02-04 00:00:00', 3, 2),
+(3, 3, '2024-02-04 00:00:00', 3, 2, 3),
 -- Lesson 16
-(4, 4, '2024-02-05 01:00:00', 4, 3),
+(4, 4, '2024-02-05 01:00:00', 4, 3, 4),
 -- Lesson 17
-(1, 1, '2024-02-06 02:00:00', 1, 4),
+(1, 1, '2024-02-06 02:00:00', 1, 4, 1),
 -- Lesson 18
-(2, 2, '2024-02-07 03:00:00', 2, 1),
+(2, 2, '2024-02-07 03:00:00', 2, 1, 2),
 -- Lesson 19
-(3, 3, '2024-02-08 04:00:00', 3, 2),
+(3, 3, '2024-02-08 04:00:00', 3, 2, 3),
 -- Lesson 20
-(4, 4, '2024-02-09 05:00:00', 4, 3);
+(4, 4, '2024-02-09 05:00:00', 4, 3, 4);

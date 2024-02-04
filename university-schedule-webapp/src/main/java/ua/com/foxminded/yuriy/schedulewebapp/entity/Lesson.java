@@ -1,4 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
+
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 @Entity
 @Table(name = "Lessons")
 public class Lesson {
@@ -34,6 +36,10 @@ public class Lesson {
 	@ManyToOne
 	@JoinColumn(name = "houseId", nullable = false)
 	private House house;
+
+	@ManyToOne
+	@JoinColumn(name = "yearId")
+	private Year year;
 
 	public Long getId() {
 		return id;
@@ -81,6 +87,14 @@ public class Lesson {
 
 	public void setHouse(House house) {
 		this.house = house;
+	}
+
+	public Year getYear() {
+		return year;
+	}
+
+	public void setYear(Year year) {
+		this.year = year;
 	}
 
 }

@@ -9,7 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.foxminded.yuriy.schedulewebapp.Dto.LessonDto;
+
+import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
 @Controller
@@ -39,6 +40,7 @@ public class LessonsController {
 				.getByWizardIdAndDayOfWeek(studentId != null ? studentId : 5L, dayOfWeek).stream().map(LessonDto::new)
 				.collect(Collectors.toList());
 		model.addAttribute("lessons", lessonsDtos);
+		model.addAttribute("selectedDay", selectedDay);
 		return "lessons";
 	}
 }

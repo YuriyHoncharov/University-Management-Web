@@ -50,10 +50,12 @@ nav {
 	background-repeat: no-repeat;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	border-bottom: 2px solid #ddd;
+	font-size: 26px;
 }
 
 .navbar-brand {
 	font-weight: bold;
+	font-size: 26px;
 }
 
 .nav-item {
@@ -143,13 +145,13 @@ span {
 				<div class="col-auto">
 					<label class="sr-only" for="daySelect">Select a Day</label> <select
 						class="custom-select" id="daySelect" name="selectedDay">
-						<option value="Monday">Monday</option>
-						<option value="Tuesday">Tuesday</option>
-						<option value="Wednesday">Wednesday</option>
-						<option value="Thursday">Thursday</option>
-						<option value="Friday">Friday</option>
-						<option value="Saturday">Saturday</option>
-						<option value="Sunday">Sunday</option>
+						<option value="Monday" th:selected="${selectedDay == 'Monday'}">Monday</option>
+                <option value="Tuesday" th:selected="${selectedDay == 'Tuesday'}">Tuesday</option>
+                <option value="Wednesday" th:selected="${selectedDay == 'Wednesday'}">Wednesday</option>
+                <option value="Thursday" th:selected="${selectedDay == 'Thursday'}">Thursday</option>
+                <option value="Friday" th:selected="${selectedDay == 'Friday'}">Friday</option>
+                <option value="Saturday" th:selected="${selectedDay == 'Saturday'}">Saturday</option>
+                <option value="Sunday" th:selected="${selectedDay == 'Sunday'}">Sunday</option>
 					</select>
 				</div>
 				<div class="col-auto">
