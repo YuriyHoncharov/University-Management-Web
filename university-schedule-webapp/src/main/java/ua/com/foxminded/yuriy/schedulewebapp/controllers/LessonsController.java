@@ -51,7 +51,7 @@ public class LessonsController {
 
 	@GetMapping("/byDate")
 	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDay", required = false)String selectedDay, Long studentId, Model model) {
-		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date parsedData = dateFormat.parse(selectedDay);
 			Timestamp seleTimestamp = new Timestamp(parsedData.getTime());

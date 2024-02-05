@@ -172,7 +172,7 @@ INSERT INTO Enrollments (wizardId, subjectId) VALUES
 (4, 4);
 
 -- Insert sample Lessons
-INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId, year) VALUES
+INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId, yearId) VALUES
 -- Lesson 1
 (1, 1, '2024-01-20 10:00:00', 1, 1, 1),
 -- Lesson 2

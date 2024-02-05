@@ -56,6 +56,6 @@ auditoriumId INT NOT NULL,
 FOREIGN KEY (auditoriumId) REFERENCES Auditoriums (id),
 houseId INT NOT NULL,
 FOREIGN KEY (houseId) REFERENCES Houses (id) ON DELETE CASCADE,
-year INT,
-FOREIGN KEY (year) REFERENCES Years(id) ON DELETE CASCADE
+yearId INT,
+FOREIGN KEY (yearId) REFERENCES Years(id) ON DELETE CASCADE
 );

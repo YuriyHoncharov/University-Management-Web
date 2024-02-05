@@ -13,8 +13,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 	
 	@Query("SELECT DISTINCT l From Lesson l JOIN Student s ON :wizardId = s.id"
 			+ " WHERE l.subject = ANY elements(s.subjects)"
-			+ " AND l.house = s.house"
-			+ " AND l.year = s.year")
+			+ " AND l.house = s.house")
 	
 	List<Lesson> getByWizardId(@Param("wizardId")Long wizardId);
 	
