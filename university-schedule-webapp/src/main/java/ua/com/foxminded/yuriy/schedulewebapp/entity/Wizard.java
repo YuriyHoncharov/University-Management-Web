@@ -1,4 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -11,10 +12,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name = "Users")
+@Entity(name = "Wizards")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "roleId", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class User {
+public abstract class Wizard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,12 +33,16 @@ public abstract class User {
 	private String lastName;
 
 	@ManyToOne
+	@JoinColumn(name = "yearId")
+	private Year year;
+
+	@ManyToOne
 	@JoinColumn(name = "roleId", referencedColumnName = "id", insertable = false, updatable = false)
 	private Role role;
 
 	@ManyToOne
-	@JoinColumn(name = "gradeId")
-	private Grade grade;
+	@JoinColumn(name = "houseId")
+	private House house;
 
 	public Long getId() {
 		return id;
@@ -87,11 +92,20 @@ public abstract class User {
 		this.role = role;
 	}
 
-	public Grade getGrade() {
-		return grade;
+	public House getHouse() {
+		return house;
 	}
 
-	public void setGrade(Grade grade) {
-		this.grade = grade;
+	public void setHouse(House house) {
+		this.house = house;
 	}
+
+	public Year getYear() {
+		return year;
+	}
+
+	public void setYear(Year year) {
+		this.year = year;
+	}
+
 }

@@ -11,12 +11,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue("2")
-public class Student extends User {
+public class Student extends Wizard {
 	@ManyToOne
-	@JoinColumn(name = "gradeId")
-	private Grade grade;
-
+	@JoinColumn(name = "houseId")
+	private House house;
+	
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
+	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizardId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
 	private List<Subject> subjects;
 }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Houses</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
+<style>
+.page-title {
+	text-align: center;
+	color: #007bff;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+body {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	background-image: url('/images/hogwarts2.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-top: 70px;
+}
+
+nav {
+	background-image: url('/images/navback.jpg');
+	background-size: cover;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-bottom: 2px solid #ddd;
+	font-size: 26px;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 26px;
+}
+
+.nav-item {
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.navbar-nav {
+	margin-left: auto;
+}
+
+h1 {
+	color: #333;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	margin-bottom: 20px;
+}
+
+.house-name {
+	font-weight: bold;
+	color: #0066cc;
+}
+
+.house-image {
+	max-width: 100px;
+	max-height: 100px;
+}
+</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-light bg-light fixed-top">
+		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
+			Wizardry</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
+				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
+				<li class="nav-item active"><a class="nav-link" href="/houses">Houses<span
+						class="sr-only">(current)</span></a></li>
+				<li class="nav-item"><a class="nav-link" href="/lessons">Lessons</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container mt-5">
+		<h1 class="page-title">All Houses</h1>
+		<ul>
+			<li th:each="house : ${houses}"><span class="house-name"
+				th:text="${house.house}"></span></li>
+		</ul>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

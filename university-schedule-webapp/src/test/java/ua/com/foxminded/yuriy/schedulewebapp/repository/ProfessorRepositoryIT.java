@@ -7,58 +7,58 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Teacher;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-		TeacherRepository.class, RoleRepository.class }))
+		ProfessorRepository.class, RoleRepository.class }))
 @TestPropertySource(locations = "classpath:application-test.properties")
 @Sql(scripts = { "/schema.sql", "/test-data.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = { "/clear-data.sql" }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 
-public class TeacherRepositoryIT {
+public class ProfessorRepositoryIT {
 
 	@Autowired
-	private TeacherRepository teacherRepository;
+	private ProfessorRepository teacherRepository;
 	@Autowired
 	private RoleRepository roleRepository;
 
 	@Test
-	public void should_Save_Teacher() {
+	public void should_Save_Professor() {
 
-		Teacher teacher = new Teacher();
-		teacher.setLogin("newTeacher");
+		Professor teacher = new Professor();
+		teacher.setLogin("newProfessor");
 		teacher.setPassword("password");
 		teacher.setName("New");
-		teacher.setLastName("Teacher");
+		teacher.setLastName("Professor");
 		teacher.setRole(roleRepository.findById(3L).orElse(null));
 		teacherRepository.save(teacher);
 		assertNotNull(teacher.getId());
 	}
 
 	@Test
-	public void should_Find_Teacher_By_Id() {
+	public void should_Find_Professor_By_Id() {
 
 		Long teacherId = 4L;
-		Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+		Professor teacher = teacherRepository.findById(teacherId).orElse(null);
 		assertNotNull(teacher);
-		assertEquals("Teacher", teacher.getName());
+		assertEquals("Professor", teacher.getName());
 	}
 
 	@Test
-	public void should_Update_Teacher() {
+	public void should_Update_Professor() {
 
 		Long teacherId = 4L;
-		Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+		Professor teacher = teacherRepository.findById(teacherId).orElse(null);
 		assertNotNull(teacher);
 		teacher.setName("UpdatedName");
 		teacherRepository.save(teacher);
-		Teacher updatedTeacher = teacherRepository.findById(teacherId).orElse(null);
-		assertNotNull(updatedTeacher);
-		assertEquals("UpdatedName", updatedTeacher.getName());
+		Professor updatedProfessor = teacherRepository.findById(teacherId).orElse(null);
+		assertNotNull(updatedProfessor);
+		assertEquals("UpdatedName", updatedProfessor.getName());
 	}
 
 	@Test
-	public void should_Delete_Teacher() {
+	public void should_Delete_Professor() {
 
 		Long teacherId = 4L;
 		teacherRepository.deleteById(teacherId);

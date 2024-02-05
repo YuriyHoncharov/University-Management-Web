@@ -1,4 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -10,11 +11,19 @@ import javax.persistence.ManyToMany;
 @Entity
 @DiscriminatorValue("3")
 
-public class Teacher extends User {
+public class Professor extends Wizard {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
+	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizardId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
 	private List<Subject> subjects;
 
-	public Teacher() {
+	public Professor() {
+	}
+
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
 	}
 }
