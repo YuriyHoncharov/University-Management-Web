@@ -146,12 +146,15 @@ span {
 					<label class="sr-only" for="daySelect">Select a Day</label> <select
 						class="custom-select" id="daySelect" name="selectedDay">
 						<option value="Monday" th:selected="${selectedDay == 'Monday'}">Monday</option>
-                <option value="Tuesday" th:selected="${selectedDay == 'Tuesday'}">Tuesday</option>
-                <option value="Wednesday" th:selected="${selectedDay == 'Wednesday'}">Wednesday</option>
-                <option value="Thursday" th:selected="${selectedDay == 'Thursday'}">Thursday</option>
-                <option value="Friday" th:selected="${selectedDay == 'Friday'}">Friday</option>
-                <option value="Saturday" th:selected="${selectedDay == 'Saturday'}">Saturday</option>
-                <option value="Sunday" th:selected="${selectedDay == 'Sunday'}">Sunday</option>
+						<option value="Tuesday" th:selected="${selectedDay == 'Tuesday'}">Tuesday</option>
+						<option value="Wednesday"
+							th:selected="${selectedDay == 'Wednesday'}">Wednesday</option>
+						<option value="Thursday"
+							th:selected="${selectedDay == 'Thursday'}">Thursday</option>
+						<option value="Friday" th:selected="${selectedDay == 'Friday'}">Friday</option>
+						<option value="Saturday"
+							th:selected="${selectedDay == 'Saturday'}">Saturday</option>
+						<option value="Sunday" th:selected="${selectedDay == 'Sunday'}">Sunday</option>
 					</select>
 				</div>
 				<div class="col-auto">
@@ -159,6 +162,17 @@ span {
 				</div>
 			</div>
 		</form>
+
+		<form action="/lessons/byDate" method="get">
+    <label for="selectedDay">Select a Day:</label>
+    <input type="date" id="selectedDay" name="selectedDay" required>
+
+    <!-- Add an input field for studentId -->
+    <label for="studentId">Student ID:</label>
+    <input type="text" id="studentId" name="studentId">
+
+    <input type="submit" value="Submit">
+</form>
 
 		<ul class="table">
 

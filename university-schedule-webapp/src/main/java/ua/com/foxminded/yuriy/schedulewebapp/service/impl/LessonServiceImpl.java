@@ -1,5 +1,6 @@
 package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,16 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public List<Lesson> getByWizardId(Long wizardId) {
-	return lessonRepository.getByWizardId(wizardId);
+		return lessonRepository.getByWizardId(wizardId);
 	}
 
 	@Override
 	public List<Lesson> getByWizardIdAndDayOfWeek(Long wizardId, int selectedDay) {
 		return lessonRepository.getByWizardIdAndDayOfWeek(wizardId, selectedDay);
+	}
+
+	@Override
+	public List<Lesson> getByWizardIdAndDate(Long wizardId, Timestamp selectedDate) {
+		return lessonRepository.getByWizardIdAndDate(wizardId, selectedDate);
 	}
 }
