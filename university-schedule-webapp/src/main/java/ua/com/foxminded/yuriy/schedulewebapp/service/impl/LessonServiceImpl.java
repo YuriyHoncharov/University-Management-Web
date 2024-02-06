@@ -40,17 +40,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> getByWizardId(Long wizardId) {
-		return lessonRepository.getByWizardId(wizardId);
-	}
-
-	@Override
-	public List<Lesson> getByWizardIdAndDayOfWeek(Long wizardId, int selectedDay) {
-		return lessonRepository.getByWizardIdAndDayOfWeek(wizardId, selectedDay);
-	}
-
-	@Override
-	public List<Lesson> getByWizardIdAndDate(Long wizardId, Timestamp selectedDate) {
-		return lessonRepository.getByWizardIdAndDate(wizardId, selectedDate);
+	public List<Lesson> getByWizardIdAndFilters(Long wizardId, Integer selectedDay, Timestamp selectedDate) {
+		return lessonRepository.getByStudentIdAndFilters(wizardId, selectedDay, selectedDate);
 	}
 }

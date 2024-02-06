@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "Wizards")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "roleId", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "role_id", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Wizard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,15 +33,15 @@ public abstract class Wizard {
 	private String lastName;
 
 	@ManyToOne
-	@JoinColumn(name = "yearId")
+	@JoinColumn(name = "year_id")
 	private Year year;
 
 	@ManyToOne
-	@JoinColumn(name = "roleId", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Role role;
 
 	@ManyToOne
-	@JoinColumn(name = "houseId")
+	@JoinColumn(name = "house_id")
 	private House house;
 
 	public Long getId() {

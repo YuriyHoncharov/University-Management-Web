@@ -19,26 +19,26 @@ public class Lesson {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "subjectId", nullable = false)
+	@JoinColumn(name = "subject_id", nullable = false)
 	private Subject subject;
 
 	@ManyToOne
-	@JoinColumn(name = "teacherId", nullable = false)
+	@JoinColumn(name = "teacher_id", nullable = false)
 	private Professor professor;
 
 	@Column(name = "time", nullable = false)
 	private Timestamp time;
 
 	@ManyToOne
-	@JoinColumn(name = "auditoriumId", nullable = false)
+	@JoinColumn(name = "auditorium_id", nullable = false)
 	private Auditorium auditorium;
 
 	@ManyToOne
-	@JoinColumn(name = "houseId", nullable = false)
+	@JoinColumn(name = "house_id", nullable = false)
 	private House house;
 
 	@ManyToOne
-	@JoinColumn(name = "yearId")
+	@JoinColumn(name = "year_id")
 	private Year year;
 
 	public Long getId() {

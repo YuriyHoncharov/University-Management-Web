@@ -32,6 +32,6 @@ public class HeadmasterRepositoryIT {
 	void should_Get_Admin_By_Id() {
 		Long headmasterId = 1L;
 		Headmaster headmaster = headmasterRepository.findById(headmasterId).orElse(null);
-		assertEquals("Admin", headmaster.getName());
+		assertEquals("Headmaster", headmaster.getName());
 	}
 }

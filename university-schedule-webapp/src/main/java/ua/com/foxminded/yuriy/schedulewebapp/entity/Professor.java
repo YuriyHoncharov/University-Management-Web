@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 
 public class Professor extends Wizard {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizardId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
+	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;
 
 	public Professor() {

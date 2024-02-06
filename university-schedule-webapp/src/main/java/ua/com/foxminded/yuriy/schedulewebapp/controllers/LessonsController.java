@@ -31,7 +31,7 @@ public class LessonsController {
 
 	@GetMapping
 	public String getAllWizardLessons(@RequestParam(name = "studentId", required = false) Long studentId, Model model) {
-		List<LessonDto> lessonDtos = lessonService.getByWizardId(studentId != null ? studentId : 5L).stream()
+		List<LessonDto> lessonDtos = lessonService.getByWizardIdAndFilters(studentId != null ? studentId : 5L, null, null).stream()
 				.map(LessonDto::new).collect(Collectors.toList());
 		model.addAttribute("lessons", lessonDtos);
 		return "lessons";
@@ -42,7 +42,7 @@ public class LessonsController {
 			Long studentId, Model model) {
 		int dayOfWeek = DayOfWeek.valueOf(selectedDay.toUpperCase()).getValue();
 		List<LessonDto> lessonsDtos = lessonService
-				.getByWizardIdAndDayOfWeek(studentId != null ? studentId : 5L, dayOfWeek).stream().map(LessonDto::new)
+				.getByWizardIdAndFilters(studentId != null ? studentId : 5L, dayOfWeek, null).stream().map(LessonDto::new)
 				.collect(Collectors.toList());
 		model.addAttribute("lessons", lessonsDtos);
 		model.addAttribute("selectedDay", selectedDay);
@@ -55,7 +55,7 @@ public class LessonsController {
 		try {
 			Date parsedData = dateFormat.parse(selectedDay);
 			Timestamp seleTimestamp = new Timestamp(parsedData.getTime());
-			List<LessonDto>lessonsDtos = lessonService.getByWizardIdAndDate(studentId != null ? studentId : 5L, seleTimestamp).stream().map(LessonDto::new).collect(Collectors.toList());
+			List<LessonDto>lessonsDtos = lessonService.getByWizardIdAndFilters(studentId != null ? studentId : 5L, null, seleTimestamp).stream().map(LessonDto::new).collect(Collectors.toList());
 			model.addAttribute("lessons", lessonsDtos);
 			return "lessons";
 		} catch (ParseException e) {
