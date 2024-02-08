@@ -11,7 +11,7 @@ public class House {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 
 	@Column(name = "house", nullable = false, length = 5)
 	private String house;
@@ -19,16 +19,16 @@ public class House {
 	public House() {
 	}
 
-	public House(Long id, String house) {
+	public House(int id, String house) {
 		this.id = id;
 		this.house = house;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

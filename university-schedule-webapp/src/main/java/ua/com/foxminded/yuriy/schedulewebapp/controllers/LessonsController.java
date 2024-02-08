@@ -1,11 +1,8 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
@@ -30,37 +26,30 @@ public class LessonsController {
 	}
 
 	@GetMapping
-	public String getAllWizardLessons(@RequestParam(name = "studentId", required = false) Long studentId, Model model) {
-		List<LessonDto> lessonDtos = lessonService.getByWizardIdAndFilters(studentId != null ? studentId : 5L, null, null).stream()
-				.map(LessonDto::new).collect(Collectors.toList());
-		model.addAttribute("lessons", lessonDtos);
-		return "lessons";
-	}
+	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDay", required = false) String selectedDay,
+			@RequestParam(name = "studentId", required = false) Long studentId, Model model) {
 
-	@GetMapping("/byDay")
-	public String getAllWizardLessonsByDay(@RequestParam(name = "selectedDay", required = false) String selectedDay,
-			Long studentId, Model model) {
-		int dayOfWeek = DayOfWeek.valueOf(selectedDay.toUpperCase()).getValue();
-		List<LessonDto> lessonsDtos = lessonService
-				.getByWizardIdAndFilters(studentId != null ? studentId : 5L, dayOfWeek, null).stream().map(LessonDto::new)
-				.collect(Collectors.toList());
-		model.addAttribute("lessons", lessonsDtos);
-		model.addAttribute("selectedDay", selectedDay);
-		return "lessons";
-	}
+		LocalDateTime selectedDateStamp = null;
 
-	@GetMapping("/byDate")
-	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDay", required = false)String selectedDay, Long studentId, Model model) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date parsedData = dateFormat.parse(selectedDay);
-			Timestamp seleTimestamp = new Timestamp(parsedData.getTime());
-			List<LessonDto>lessonsDtos = lessonService.getByWizardIdAndFilters(studentId != null ? studentId : 5L, null, seleTimestamp).stream().map(LessonDto::new).collect(Collectors.toList());
-			model.addAttribute("lessons", lessonsDtos);
-			return "lessons";
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return "error";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		if (selectedDay == null || selectedDay.isEmpty()) {
+			selectedDateStamp = LocalDateTime.now();
+		} else {
+			System.out.println("Received selectedDay: " + selectedDay);
+			selectedDateStamp = LocalDate.parse(selectedDay, formatter).atStartOfDay();
 		}
+		if (studentId >= 5) {
+			List<LessonDto> lessonsDtos = lessonService
+					.getByWizardIdAndFilters(studentId != null ? studentId : 5L, selectedDateStamp).stream()
+					.map(LessonDto::new).collect(Collectors.toList());
+			model.addAttribute("lessons", lessonsDtos);
+
+		} else {
+			List<LessonDto> lessonsDtos = lessonService
+					.getByProfessorIdAndDate(studentId != null ? studentId : 5L, selectedDateStamp).stream()
+					.map(LessonDto::new).collect(Collectors.toList());
+			model.addAttribute("lessons", lessonsDtos);
+		}
+		return "lessons";
 	}
 }

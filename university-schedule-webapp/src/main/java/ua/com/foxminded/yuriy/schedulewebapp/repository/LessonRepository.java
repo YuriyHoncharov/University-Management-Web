@@ -1,27 +1,21 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
+import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
+
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
-	@Query("SELECT DISTINCT l FROM Lesson l JOIN Student s ON :wizardId = s.id"
-			+ " WHERE l.subject = ANY elements(s.subjects)" + " AND l.house = s.house"
-			+ " AND (:selectedDay IS NULL OR extract(dow from l.time) = :selectedDay)"
-			+ " AND (:selectedDate IS NULL OR DATE(l.time) = DATE(:selectedDate))" + " AND l.year = s.year")
-	List<Lesson> getByStudentIdAndFilters(@Param("wizardId") Long wizardId, @Param("selectedDay") Integer selectedDay,
-			@Param("selectedDate") Timestamp selectedDate);
+	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.house =:houseId AND l.year =:yearId AND l.subject IN :subjects AND DATE(l.time) = DATE(:selectedDate)")
+	List<Lesson> getByStudentIdAndDate(House houseId, Year yearId, List<Subject>subjects, LocalDateTime selectedDate);
 
-	@Query("SELECT DISTINCT l FROM Lesson l JOIN Professor p ON :wizardId = p.id"
-			+ " WHERE l.subject = ANY elements(p.subjects)"
-			+ " AND (:selectedDay IS NULL OR extract(dow from l.time) =:selectedDay)"
-			+ " AND (:selectedDate IS NULL OR DATE(l.time) = DATE(:selectedDate))")
-	List<Lesson> getByProfessorIdAndDateOrDayWeek(@Param("wizardId") Long wizardId,
-			@Param("selectedDay") Integer selectedDay, @Param("selectedDate") Timestamp selectedDate);
+	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.professor.id =:professorId AND DATE(l.time) = DATE(:selectedDate)")
+	List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate);
 
 }

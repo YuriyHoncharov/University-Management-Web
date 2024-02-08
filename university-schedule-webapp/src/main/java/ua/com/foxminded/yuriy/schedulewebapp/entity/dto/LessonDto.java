@@ -15,6 +15,7 @@ public class LessonDto {
 	private String formattedTime;
 	private String auditorium;
 	private String house;
+	private int year;
 
 	public LessonDto(Lesson lesson) {
 		this.id = lesson.getId();
@@ -24,6 +25,7 @@ public class LessonDto {
 		this.formattedTime = formatTime(lesson.getTime());
 		this.auditorium = lesson.getAuditorium().getName();
 		this.house = lesson.getHouse().getHouse();
+		this.year = lesson.getYear().getYearValue();
 	}
 
 	private String formatTime(Timestamp timestamp) {
@@ -92,11 +94,19 @@ public class LessonDto {
 		this.house = house;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
 	@Override
 	public String toString() {
 		return "LessonDto [id=" + id + ", subject=" + subject + ", professorName=" + professorName
 				+ ", professorLastName=" + professorLastName + ", formattedTime=" + formattedTime + ", auditorium="
-				+ auditorium + ", house=" + house + "]";
+				+ auditorium + ", house=" + house + ", year=" + year + "]";
 	}
 
 }
