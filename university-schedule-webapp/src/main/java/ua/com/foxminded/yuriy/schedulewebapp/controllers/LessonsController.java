@@ -1,8 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,45 +8,56 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.StudentService;
 
 @Controller
 @RequestMapping("/lessons")
 public class LessonsController {
 
 	private LessonService lessonService;
+	private ProfessorService professorService;
+	private StudentService studentService;
 
 	@Autowired
-	public LessonsController(LessonService lessonService) {
+	public LessonsController(LessonService lessonService, ProfessorService professorService,
+			StudentService studentService) {
 		this.lessonService = lessonService;
+		this.professorService = professorService;
+		this.studentService = studentService;
 	}
 
 	@GetMapping
-	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDay", required = false) String selectedDay,
+	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDate", required = false) String selectedDate,
 			@RequestParam(name = "studentId", required = false) Long studentId, Model model) {
 
-		LocalDateTime selectedDateStamp = null;
+		try {
+			Student student = studentService.getById(studentId)
+					.orElseThrow(() -> new RuntimeException("Student not found"));
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		if (selectedDay == null || selectedDay.isEmpty()) {
-			selectedDateStamp = LocalDateTime.now();
-		} else {
-			System.out.println("Received selectedDay: " + selectedDay);
-			selectedDateStamp = LocalDate.parse(selectedDay, formatter).atStartOfDay();
-		}
-		if (studentId >= 5) {
-			List<LessonDto> lessonsDtos = lessonService
-					.getByWizardIdAndFilters(studentId != null ? studentId : 5L, selectedDateStamp).stream()
-					.map(LessonDto::new).collect(Collectors.toList());
-			model.addAttribute("lessons", lessonsDtos);
+			List<LessonDto> lessonDtos = lessonService
+					.getByWizardIdAndDate(studentId , selectedDate).stream().map(LessonDto::new)
+					.collect(Collectors.toList());
+			model.addAttribute("lessons", lessonDtos);
+		} catch (RuntimeException studentException) {
+			try {
+				Professor professor = professorService.getById(studentId)
+						.orElseThrow(() -> new RuntimeException("Professor not found"));
 
-		} else {
-			List<LessonDto> lessonsDtos = lessonService
-					.getByProfessorIdAndDate(studentId != null ? studentId : 5L, selectedDateStamp).stream()
-					.map(LessonDto::new).collect(Collectors.toList());
-			model.addAttribute("lessons", lessonsDtos);
+				List<LessonDto> lessonDtos = lessonService
+						.getByWizardIdAndDate(studentId , selectedDate).stream().map(LessonDto::new)
+						.collect(Collectors.toList());
+				model.addAttribute("lessons", lessonDtos);
+			} catch (RuntimeException professorException) {
+
+				model.addAttribute("error", "User not found. Please enter a valid ID");
+			}
 		}
+
 		return "lessons";
 	}
 }

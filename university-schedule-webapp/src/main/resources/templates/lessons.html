@@ -5,7 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lessons</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 
 <style>
@@ -106,6 +109,16 @@ span {
 	display: block;
 	margin-bottom: 10px;
 }
+
+.error-message {
+	color: #721c24;
+	background-color: #f8d7da;
+	padding: 10px;
+	border: 1px solid #f5c6cb;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	text-align: center;
+}
 </style>
 </head>
 
@@ -131,11 +144,13 @@ span {
 	<div>
 		<h1 class="page-title">All Lessons</h1>
 
-	
+		<div th:if="${error}" class="error-message">
+			<p th:text="${error}"></p>
+		</div>
 
 		<form action="/lessons" method="get">
-			<label for="selectedDay">Select a Day:</label> <input type="date"
-				id="selectedDay" name="selectedDay" required>
+			<label for="selectedDate">Select a Day:</label> <input type="date"
+				id="selectedDate" name="selectedDate" required>
 
 			<!-- Add an input field for studentId -->
 			<label for="studentId">Student ID:</label> <input type="text"
@@ -159,7 +174,9 @@ span {
 						<td th:text="${lesson.subject}">Subject:</td>
 						<td th:text="${lesson.professorName}">Professor Name:</td>
 						<td th:text="${lesson.professorLastName}">Professor LastName:</td>
-						<td th:text="${lesson.formattedTime}">Time:</td>
+						<td><span th:text="${lesson.date}"></span> <span
+							th:text="${lesson.startTime}"></span> <span
+							th:text="${lesson.endTime}"></span></td>
 						<td th:text="${lesson.auditorium}">Auditorium:</td>
 						<td th:text="${lesson.house}">House:</td>
 					</tr>
