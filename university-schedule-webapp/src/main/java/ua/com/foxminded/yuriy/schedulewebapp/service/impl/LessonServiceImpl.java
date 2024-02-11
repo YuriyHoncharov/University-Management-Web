@@ -77,11 +77,17 @@ public class LessonServiceImpl implements LessonService {
 			selectedDateStamp = LocalDate.parse(selectedDate, formatter).atStartOfDay();
 		}
 
-		if (studentRepository.findById(wizardId).get().getRole().getName() == "Student") {
+		try {
+			studentRepository.findById(wizardId).get().getRole().getName().equals("Student");
 			return getByStudentIdAndFilters(wizardId, selectedDateStamp);
-		} else {
-			return getByProfessorIdAndDate(wizardId, selectedDateStamp);
+		} catch (RuntimeException studentNotFound) {
+			try {
+				return getByProfessorIdAndDate(wizardId, selectedDateStamp);
+			} catch (RuntimeException userNotFound) {
+				throw new RuntimeException("User not found");
+			}
 		}
 
 	}
+
 }

@@ -153,8 +153,8 @@ span {
 				id="selectedDate" name="selectedDate" required>
 
 			<!-- Add an input field for studentId -->
-			<label for="studentId">Student ID:</label> <input type="text"
-				id="studentId" name="studentId"> <input type="submit"
+			<label for="userId">User ID:</label> <input type="text"
+				id="userId" name="userId"> <input type="submit"
 				value="Submit">
 		</form>
 
@@ -165,7 +165,9 @@ span {
 					<th>Subject:</th>
 					<th>Professor Name:</th>
 					<th>Professor LastName:</th>
-					<th>Time:</th>
+					<th>Date:</th>
+					<th>Start Time:</th>
+					<th>End Time:</th>
 					<th>Auditorium:</th>
 					<th>House:</th>
 				</tr>
@@ -174,9 +176,9 @@ span {
 						<td th:text="${lesson.subject}">Subject:</td>
 						<td th:text="${lesson.professorName}">Professor Name:</td>
 						<td th:text="${lesson.professorLastName}">Professor LastName:</td>
-						<td><span th:text="${lesson.date}"></span> <span
-							th:text="${lesson.startTime}"></span> <span
-							th:text="${lesson.endTime}"></span></td>
+						<td th:text="${lesson.date}">Date</td>
+						<td th:text="${lesson.startTime}">Start Time</td>
+						<td th:text="${lesson.endTime}">End Time</td>
 						<td th:text="${lesson.auditorium}">Auditorium:</td>
 						<td th:text="${lesson.house}">House:</td>
 					</tr>

@@ -33,23 +33,23 @@ public class LessonsController {
 
 	@GetMapping
 	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDate", required = false) String selectedDate,
-			@RequestParam(name = "studentId", required = false) Long studentId, Model model) {
+			@RequestParam(name = "userId", required = false) Long userId, Model model) {
 
 		try {
-			Student student = studentService.getById(studentId)
+			Student student = studentService.getById(userId)
 					.orElseThrow(() -> new RuntimeException("Student not found"));
 
 			List<LessonDto> lessonDtos = lessonService
-					.getByWizardIdAndDate(studentId , selectedDate).stream().map(LessonDto::new)
+					.getByWizardIdAndDate(userId , selectedDate).stream().map(LessonDto::new)
 					.collect(Collectors.toList());
 			model.addAttribute("lessons", lessonDtos);
 		} catch (RuntimeException studentException) {
 			try {
-				Professor professor = professorService.getById(studentId)
+				Professor professor = professorService.getById(userId)
 						.orElseThrow(() -> new RuntimeException("Professor not found"));
 
 				List<LessonDto> lessonDtos = lessonService
-						.getByWizardIdAndDate(studentId , selectedDate).stream().map(LessonDto::new)
+						.getByWizardIdAndDate(userId , selectedDate).stream().map(LessonDto::new)
 						.collect(Collectors.toList());
 				model.addAttribute("lessons", lessonDtos);
 			} catch (RuntimeException professorException) {
