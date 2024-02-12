@@ -12,7 +12,9 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
@@ -21,11 +23,14 @@ public class LessonServiceImpl implements LessonService {
 
 	private final LessonRepository lessonRepository;
 	private final StudentRepository studentRepository;
+	private final ProfessorRepository professorRepository;
 
 	@Autowired
-	public LessonServiceImpl(LessonRepository lessonRepository, StudentRepository studentRepository) {
+	public LessonServiceImpl(LessonRepository lessonRepository, StudentRepository studentRepository,
+			ProfessorRepository professorRepository) {
 		this.lessonRepository = lessonRepository;
 		this.studentRepository = studentRepository;
+		this.professorRepository = professorRepository;
 	}
 
 	@Override
@@ -50,6 +55,7 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public List<Lesson> getByStudentIdAndFilters(Long wizardId, LocalDateTime selectedDate) {
+
 		Optional<Student> student = studentRepository.findById(wizardId);
 		if (student.isPresent()) {
 			House house = student.get().getHouse();
@@ -57,37 +63,40 @@ public class LessonServiceImpl implements LessonService {
 			List<Subject> subjects = student.get().getSubjects();
 			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate);
 		} else {
-			throw new RuntimeException("Student with id :" + wizardId + " was not found.");
+			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
 		}
 	}
 
 	@Override
 	public List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate) {
-		return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate);
+
+		if (professorRepository.findById(professorId).isPresent()) {
+			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate);
+		} else {
+			throw new UserNotFoundException("Any user was found with the followind ID : " + professorId);
+		}
+
 	}
 
 	@Override
 	public List<Lesson> getByWizardIdAndDate(Long wizardId, String selectedDate) {
 
-		LocalDateTime selectedDateStamp = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		if (selectedDate == null || selectedDate.isEmpty()) {
-			selectedDateStamp = LocalDateTime.now();
-		} else {
-			selectedDateStamp = LocalDate.parse(selectedDate, formatter).atStartOfDay();
-		}
-
-		try {
-			studentRepository.findById(wizardId).get().getRole().getName().equals("Student");
+		LocalDateTime selectedDateStamp = parseSelectedDate(selectedDate);
+		if (studentRepository.findById(wizardId).isPresent()) {
 			return getByStudentIdAndFilters(wizardId, selectedDateStamp);
-		} catch (RuntimeException studentNotFound) {
-			try {
-				return getByProfessorIdAndDate(wizardId, selectedDateStamp);
-			} catch (RuntimeException userNotFound) {
-				throw new RuntimeException("User not found");
-			}
+		} else {
+			return getByProfessorIdAndDate(wizardId, selectedDateStamp);
 		}
 
 	}
 
+	private LocalDateTime parseSelectedDate(String selectedDate) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		if (selectedDate == null || selectedDate.isEmpty()) {
+			return LocalDateTime.now();
+		} else {
+			return LocalDate.parse(selectedDate, formatter).atStartOfDay();
+		}
+	}
 }
