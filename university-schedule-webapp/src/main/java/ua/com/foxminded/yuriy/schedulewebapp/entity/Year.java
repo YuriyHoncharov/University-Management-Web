@@ -5,8 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "Years")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Year {
 
 	@Id
@@ -15,21 +21,5 @@ public class Year {
 
 	@Column(name = "yearValue", nullable = false)
 	private int yearValue;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getYearValue() {
-		return yearValue;
-	}
-
-	public void setYearValue(int yearValue) {
-		this.yearValue = yearValue;
-	}
 
 }

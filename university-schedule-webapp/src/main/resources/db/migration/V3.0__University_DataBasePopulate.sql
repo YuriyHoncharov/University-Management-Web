@@ -24,7 +24,7 @@ INSERT INTO Years (yearValue) VALUES
 -- Insert sample Professors
 INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
 ('mcgonagall', 'mcgonagall', 'Minerva', 'McGonagall', 3),  -- Transfiguration
-('snape', 'snape', 'Severus', 'Snape', 3),  -- Potions
+('snape', '$2a$12$PK5.Fq62gjipWGW5fPjb4OhlLC22uyoJGxPeWl1mVT5SZShNoXlEm', 'Severus', 'Snape', 3),  -- Potions
 ('flitwick', 'flitwick', 'Filius', 'Flitwick', 3),  -- Charms
 ('sprout', 'sprout', 'Pomona', 'Sprout', 3);  -- Herbology
 

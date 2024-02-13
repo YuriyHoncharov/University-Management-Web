@@ -6,19 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.StudentService;
 
 @Service
+@RequiredArgsConstructor
+
 public class StudentServiceImpl implements StudentService {
 
 	private final StudentRepository studentRepository;
-
-	@Autowired
-	public StudentServiceImpl(StudentRepository studentRepository) {
-		this.studentRepository = studentRepository;
-	}
 
 	@Override
 	public List<Student> getAll() {

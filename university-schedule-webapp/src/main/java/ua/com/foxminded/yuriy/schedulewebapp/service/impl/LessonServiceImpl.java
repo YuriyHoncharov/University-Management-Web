@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
@@ -17,25 +19,20 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
 @Service
+@RequiredArgsConstructor
+
 public class LessonServiceImpl implements LessonService {
 
 	private final LessonRepository lessonRepository;
 	private final StudentRepository studentRepository;
 	private final ProfessorRepository professorRepository;
-
-	@Autowired
-	public LessonServiceImpl(LessonRepository lessonRepository, StudentRepository studentRepository,
-			ProfessorRepository professorRepository) {
-		this.lessonRepository = lessonRepository;
-		this.studentRepository = studentRepository;
-		this.professorRepository = professorRepository;
-	}
 
 	@Override
 	public List<Lesson> getAll() {

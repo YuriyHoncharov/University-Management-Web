@@ -10,8 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "Lessons")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lesson {
 
 	@Id
@@ -40,61 +47,5 @@ public class Lesson {
 	@ManyToOne
 	@JoinColumn(name = "year_id")
 	private Year year;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Subject getSubject() {
-		return subject;
-	}
-
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-	}
-
-	public Professor getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
-	}
-
-	public Timestamp getTime() {
-		return time;
-	}
-
-	public void setTime(Timestamp time) {
-		this.time = time;
-	}
-
-	public Auditorium getAuditorium() {
-		return auditorium;
-	}
-
-	public void setAuditorium(Auditorium auditorium) {
-		this.auditorium = auditorium;
-	}
-
-	public House getHouse() {
-		return house;
-	}
-
-	public void setHouse(House house) {
-		this.house = house;
-	}
-
-	public Year getYear() {
-		return year;
-	}
-
-	public void setYear(Year year) {
-		this.year = year;
-	}
 
 }

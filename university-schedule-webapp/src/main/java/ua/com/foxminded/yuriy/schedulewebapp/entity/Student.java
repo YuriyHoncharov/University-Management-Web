@@ -9,8 +9,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @DiscriminatorValue("2")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Student extends Wizard {
 	@ManyToOne
 	@JoinColumn(name = "house_id")
@@ -19,21 +27,5 @@ public class Student extends Wizard {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;
-
-	public House getHouse() {
-		return house;
-	}
-
-	public void setHouse(House house) {
-		this.house = house;
-	}
-
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
 
 }

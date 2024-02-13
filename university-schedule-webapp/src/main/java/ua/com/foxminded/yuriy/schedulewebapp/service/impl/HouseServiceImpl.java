@@ -6,19 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.HouseRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 
 @Service
+@RequiredArgsConstructor
+
 public class HouseServiceImpl implements HouseService {
 
 	private final HouseRepository houseRepository;
-
-	@Autowired
-	public HouseServiceImpl(HouseRepository houseRepository) {
-		this.houseRepository = houseRepository;
-	}
 
 	@Override
 	public List<House> getAll() {

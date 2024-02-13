@@ -1,5 +1,7 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
 
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -11,10 +13,16 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "Wizards")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role_id", discriminatorType = DiscriminatorType.INTEGER)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Wizard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,69 +51,5 @@ public abstract class Wizard {
 	@ManyToOne
 	@JoinColumn(name = "house_id")
 	private House house;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public House getHouse() {
-		return house;
-	}
-
-	public void setHouse(House house) {
-		this.house = house;
-	}
-
-	public Year getYear() {
-		return year;
-	}
-
-	public void setYear(Year year) {
-		this.year = year;
-	}
 
 }
