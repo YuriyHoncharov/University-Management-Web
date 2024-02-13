@@ -12,12 +12,8 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 @RequestMapping("/houses")
 public class HousesController {
 
-	private HouseService houseService;
-
 	@Autowired
-	public HousesController(HouseService houseService) {
-		this.houseService = houseService;
-	}
+	private HouseService houseService;
 
 	@GetMapping
 	public String getAllHouses(Model model) {

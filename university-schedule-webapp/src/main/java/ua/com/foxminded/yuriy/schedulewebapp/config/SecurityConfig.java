@@ -17,19 +17,5 @@ public class SecurityConfig {
 	protected PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(registry ->
-		registry
-		.requestMatchers(permitAllMatchers())
-		.permitAll()
-		.requestMatchers(adminMathcers())
-		.hasRole(Role.ADMIN.name())
-		.anyRequest()
-		.authenticated())
-				.formLogin(httpSecutiryFormLoginConfigurer -> httpSecutiryFormLoginConfigurer.loginPage("/login").defaultSuccessUrl("/lessons"), true).build();
-		
-			
-	}
+
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 
 public interface LessonService {
 
@@ -15,11 +16,11 @@ public interface LessonService {
 
 	void delete(Long id);
 
-	List<Lesson> getByStudentIdAndFilters(Long studentId, LocalDateTime selectedDate);
+	List<LessonDto> getByStudentIdAndFilters(Long studentId, LocalDateTime selectedDate);
 	
-	List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate);
+	List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate);
 	
-	List<Lesson> getByWizardIdAndDate(Long wizardId, String selectedDate);
+	List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate);
 	
 	
 }

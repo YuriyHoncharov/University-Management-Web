@@ -12,12 +12,8 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 @RequestMapping("/subjects")
 public class SubjectsController {
 
-	private SubjectService subjectService;
-
 	@Autowired
-	public SubjectsController(SubjectService subjectService) {
-		this.subjectService = subjectService;
-	}
+	private SubjectService subjectService;
 
 	@GetMapping
 	public String getAllSubjects(Model model) {

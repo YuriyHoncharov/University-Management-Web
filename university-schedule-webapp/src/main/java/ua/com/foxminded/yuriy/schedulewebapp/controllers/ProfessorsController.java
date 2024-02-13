@@ -12,12 +12,8 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 @RequestMapping("/professors")
 public class ProfessorsController {
 
-	private ProfessorService professorService;
-
 	@Autowired
-	public ProfessorsController(ProfessorService professorService) {
-		this.professorService = professorService;
-	}
+	private ProfessorService professorService;
 
 	@GetMapping
 	public String getAllProfessors(Model model) {

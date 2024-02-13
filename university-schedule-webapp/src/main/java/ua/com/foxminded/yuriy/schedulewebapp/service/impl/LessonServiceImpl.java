@@ -3,8 +3,11 @@ package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
@@ -12,6 +15,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
@@ -54,24 +58,26 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> getByStudentIdAndFilters(Long wizardId, LocalDateTime selectedDate) {
+	public List<LessonDto> getByStudentIdAndFilters(Long wizardId, LocalDateTime selectedDate) {
 
 		Optional<Student> student = studentRepository.findById(wizardId);
 		if (student.isPresent()) {
 			House house = student.get().getHouse();
 			Year year = student.get().getYear();
 			List<Subject> subjects = student.get().getSubjects();
-			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate);
+			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate).stream().map(LessonDto::new)
+					.collect(Collectors.toList());
 		} else {
 			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
 		}
 	}
 
 	@Override
-	public List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate) {
+	public List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate) {
 
 		if (professorRepository.findById(professorId).isPresent()) {
-			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate);
+			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate).stream().map(LessonDto::new)
+					.collect(Collectors.toList());
 		} else {
 			throw new UserNotFoundException("Any user was found with the followind ID : " + professorId);
 		}
@@ -79,7 +85,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> getByWizardIdAndDate(Long wizardId, String selectedDate) {
+	public List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate) {
 
 		LocalDateTime selectedDateStamp = parseSelectedDate(selectedDate);
 		if (studentRepository.findById(wizardId).isPresent()) {
