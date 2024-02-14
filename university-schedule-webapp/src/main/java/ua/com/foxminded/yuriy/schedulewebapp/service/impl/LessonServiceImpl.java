@@ -102,4 +102,9 @@ public class LessonServiceImpl implements LessonService {
 			return LocalDate.parse(selectedDate, formatter).atStartOfDay();
 		}
 	}
+
+	@Override
+	public Lesson update(Lesson lesson) {
+		return lessonRepository.update(lesson);
+	}
 }

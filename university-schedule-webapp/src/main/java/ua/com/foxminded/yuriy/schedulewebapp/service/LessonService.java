@@ -22,5 +22,6 @@ public interface LessonService {
 	
 	List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate);
 	
+	Lesson update(Lesson lesson);
 	
 }
