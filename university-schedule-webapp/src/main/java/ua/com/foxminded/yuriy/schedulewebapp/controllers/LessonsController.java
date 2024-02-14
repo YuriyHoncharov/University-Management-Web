@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
@@ -29,5 +32,18 @@ public class LessonsController {
 			model.addAttribute("error", "User not found. Please enter a valid ID");
 		}
 		return "lessons";
+	}
+
+	@GetMapping
+	public ModelAndView getUpdateForm(@PathVariable Long id) {
+		ModelAndView mav = new ModelAndView();
+		return lessonService.getById(id).map(lesson -> {
+			mav.addObject("lesson", lesson);
+			mav.setViewName("headmaster_dashboard/lesson/edit");
+			return mav;
+		}).orElseGet(() -> {
+			mav.setViewName("redirect:/headmaster_dashboard/lesson");
+			return mav;
+		});
 	}
 }
