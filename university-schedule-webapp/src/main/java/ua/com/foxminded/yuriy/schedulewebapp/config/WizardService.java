@@ -1,5 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.service;
-
+package ua.com.foxminded.yuriy.schedulewebapp.config;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -19,8 +18,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.repository.WizardRepository;
 public class WizardService implements UserDetailsService {
 
 	private final WizardRepository wizardRepository;
-	private final RoleService roleService;
-
+	
 	public Optional<Wizard> findByLogin(String login) {
 		return wizardRepository.findByLogin(login);
 	}
@@ -30,7 +28,7 @@ public class WizardService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Wizard wizard = findByLogin(username)
 				.orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + wizard.getRole());
+		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + wizard.getRole().getName().toUpperCase());
 		return new org.springframework.security.core.userdetails.User(wizard.getLogin(), wizard.getPassword(),
 				Collections.singleton(grantedAuthority));
 	}

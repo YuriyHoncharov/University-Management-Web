@@ -1,5 +1,11 @@
 package ua.com.foxminded.yuriy.schedulewebapp.config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -9,14 +15,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-
 import lombok.RequiredArgsConstructor;
-import ua.com.foxminded.yuriy.schedulewebapp.service.WizardService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,20 +32,17 @@ public class SecurityConfig {
 
 	private final WizardService wizardService;
 
+	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().cors().disable()
-		.authorizeRequests(request -> request
-				.antMatchers("/profile").authenticated()
-					.antMatchers("/admin").hasRole("ADMIN")
-					.anyRequest().permitAll())
-			.exceptionHandling(exception -> exception
-					.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-			.formLogin(formLoginConfigurer -> formLoginConfigurer
-					.loginPage("/login")
-				.permitAll().defaultSuccessUrl("/profile")
-				.loginProcessingUrl("/login"))
-			.logout(logoutConf -> logoutConf.logoutSuccessUrl("/login"));
+				.authorizeRequests(request -> request.antMatchers("/profile_dashboard").hasAnyRole("STUDENT", "PROFESSOR")
+						.antMatchers("/headmaster_dashboard").hasRole("HEADMASTER").anyRequest().permitAll())
+				.exceptionHandling(
+						exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll().successHandler(customAuthenticationSuccessHandler())
+						.loginProcessingUrl("/login"))
+				.logout(logoutConf -> logoutConf.logoutSuccessUrl("/login"));
 		return http.build();
 
 	}
@@ -62,6 +64,23 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
+	}
+
+
+	private AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+		return new AuthenticationSuccessHandler() {
+
+			@Override
+			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+					Authentication authentication) throws IOException, ServletException {
+				if (authentication.getAuthorities().stream()
+						.anyMatch(authority -> authority.getAuthority().equals("ROLE_HEADMASTER"))) {
+					response.sendRedirect("/headmaster_dashboard");
+				} else {
+					response.sendRedirect("/profile_dashboard");
+				}
+			}
+		};
 	}
 
 }

@@ -1,9 +1,9 @@
 -- Insert sample Roles
 
 INSERT INTO Roles (roleName) VALUES
-('Headmaster'),
-('Student'),
-('Professor');
+('HEADMASTER'),
+('STUDENT'),
+('PROFESSOR');
 
 -- Insert sample Houses
 
@@ -34,7 +34,7 @@ INSERT INTO Wizards (login, password, name, lastName, role_id, house_id, year_id
 
 -- Gryffindor
 
-('harry', 'harry', 'Harry', 'Potter', 2, 1, 1),
+('harry', '$2a$12$tI5MAdTqct0W1yr8eVUWee.FWLfDjkBykC4sr.UNiOL18E95Ha.QW', 'Harry', 'Potter', 2, 1, 1),
 ('hermione', 'hermione', 'Hermione', 'Granger', 2, 1, 1),
 ('ron', 'ron', 'Ron', 'Weasley', 2, 1, 1),
 ('ginny', 'ginny', 'Ginny', 'Weasley', 2, 1, 1),
@@ -106,7 +106,7 @@ INSERT INTO Auditoriums (id, name) VALUES
 
 -- Insert Headmaster Dumbledore
 INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
-('dumbledore', 'dumbledore', 'Albus', 'Dumbledore', 1);
+('dumbledore', '$2a$12$s.4vLeV2gdXa5HttrTwmoO82GXqiUFxB0lwV58kOjr1pmmnoWjDdu', 'Albus', 'Dumbledore', 1);
 
 -- Insert sample Enrollments for Students
 -- Gryffindor

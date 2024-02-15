@@ -1,34 +1,21 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.List;
-
-import javax.xml.bind.ValidationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
+import lombok.AllArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
 @Controller
 @RequestMapping("/lessons")
+@AllArgsConstructor
 public class LessonsController {
 
-	@Autowired
 	private LessonService lessonService;
 
 	@GetMapping
@@ -44,26 +31,17 @@ public class LessonsController {
 		return "lessons";
 	}
 
-	@GetMapping
-	public ModelAndView getUpdateForm(@PathVariable Long id) {
-		ModelAndView mav = new ModelAndView();
-		return lessonService.getById(id).map(lesson -> {
-			mav.addObject("lesson", lesson);
-			mav.setViewName("headmaster_dashboard/lesson/edit");
-			return mav;
-		}).orElseGet(() -> {
-			mav.setViewName("redirect:/headmaster_dashboard/lesson");
-			return mav;
-		});
-	}
-	
-	@PutMapping(value = "headmaster_dashboard/lesson/update/{id}")
-	public ResponseEntity<Object>update(@RequestBody Lesson lesson, @PathVariable Long id){
-		try {
-			Lesson updatedLesson = lessonService.update(lesson);
-			return ResponseEntity.ok(updatedLesson);
-		} catch (ValidationException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	}
+//	@GetMapping
+//	public ModelAndView getUpdateForm(@PathVariable Long id) {
+//		ModelAndView mav = new ModelAndView();
+//		return lessonService.getById(id).map(lesson -> {
+//			mav.addObject("lesson", lesson);
+//			mav.setViewName("headmaster_dashboard/lesson/edit");
+//			return mav;
+//		}).orElseGet(() -> {
+//			mav.setViewName("redirect:/headmaster_dashboard/lesson");
+//			return mav;
+//		});
+//	}
+
 }

@@ -55,6 +55,48 @@ ul {
 li {
 	margin-bottom: 20px;
 }
+
+.cute-form {
+	background-color: rgba(248, 249, 250, 0.9);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 300px;
+}
+
+.form-outline {
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+input {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+}
+
+button {
+	background-color: #007bff;
+	color: #fff;
+	padding: 12px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
 </style>
 </head>
 <body>
@@ -71,28 +113,36 @@ li {
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
 				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
-				<li class="nav-item active"><a class="nav-link" href="/houses">Houses<span
+				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
+				<li class="nav-item active"><a class="nav-link" href="/lessons">Lessons<span
 						class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link" href="/lessons">Lessons</a></li>
 			</ul>
 		</div>
 	</nav>
-	
-	<div>
-	<form th:action="@{/login}" method="post">
-	<fieldsetet>
-	<div>
-	<label for="login">Login
-	<input type="text" id="login" name="login" placeholder="Login">
-	</label>
-	</div>
-	<div>
-	<label for="password">Password</label>
-	<input type="password" id="password" name="password" placeholder="Password">
-	</div>
-	<button type="submit">Login</button>
-	</fieldset>
-	</form>
+
+	<div class="container-fluid mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<form th:action="@{/login}" method="post" class="cute-form">
+					<fieldset>
+						<h1 class="text-center mb-4">🌟 Please sign in 🌟</h1>
+
+						<div class="form-outline mb-4">
+							<label for="username">🧙‍♂️ Login</label> <input type="text"
+								id="username" name="username"
+								placeholder="Enter your magical username">
+						</div>
+						<div class="form-outline mb-4">
+							<label for="password">🔒 Password</label> <input type="password"
+								id="password" name="password"
+								placeholder="Enter your secret password">
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Cast
+							the Login Spell ✨</button>
+					</fieldset>
+				</form>
+			</div>
+		</div>
 	</div>
 
 
