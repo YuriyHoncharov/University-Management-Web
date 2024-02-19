@@ -15,6 +15,8 @@ public interface LessonService {
 	Lesson save(Lesson lesson);
 
 	void delete(Long id);
+	
+	List<LessonDto> getAllLessonsDto();
 
 	List<LessonDto> getByStudentIdAndFilters(Long studentId, LocalDateTime selectedDate);
 	

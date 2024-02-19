@@ -1,7 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
 
-import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;

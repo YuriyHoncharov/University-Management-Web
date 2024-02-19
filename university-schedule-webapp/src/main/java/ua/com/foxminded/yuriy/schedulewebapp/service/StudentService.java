@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 
 public interface StudentService {
-
-	List<Student> getAll();
+	
+	List<Student> getAll();	
 
 	Optional<Student> getById(Long id);
 

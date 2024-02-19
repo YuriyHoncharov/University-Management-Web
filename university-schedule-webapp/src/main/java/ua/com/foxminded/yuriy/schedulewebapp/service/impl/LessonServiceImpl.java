@@ -102,4 +102,9 @@ public class LessonServiceImpl implements LessonService {
 		}
 	}
 
+	@Override
+	public List<LessonDto> getAllLessonsDto() {
+		return lessonRepository.findAll().stream().map(LessonDto::new).collect(Collectors.toList());
+	}
+
 }

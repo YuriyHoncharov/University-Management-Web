@@ -36,10 +36,10 @@ public class LessonsController {
 //		ModelAndView mav = new ModelAndView();
 //		return lessonService.getById(id).map(lesson -> {
 //			mav.addObject("lesson", lesson);
-//			mav.setViewName("headmaster_dashboard/lesson/edit");
+//			mav.setViewName("headmaster/lesson/edit");
 //			return mav;
 //		}).orElseGet(() -> {
-//			mav.setViewName("redirect:/headmaster_dashboard/lesson");
+//			mav.setViewName("redirect:/headmaster/dashboard/lesson");
 //			return mav;
 //		});
 //	}
