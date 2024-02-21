@@ -97,6 +97,33 @@ button {
 button:hover {
 	background-color: #0056b3;
 }
+
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.data-table {
+	padding-top: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.8);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th, .data-table td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+	background-color: #f2f2f2;
+}
 </style>
 </head>
 
@@ -136,105 +163,147 @@ button:hover {
 		Welcome, <span th:text="${name}"></span>
 	</h3>
 
-	<form action="/headmaster/dashboard/houses" method="get"
-		onsubmit="showTable('housesTable'); return false;">
-		<button type="submit">HOUSES</button>
-	</form>
-	<form action="/headmaster/dashboard/students" method="get"
-		onsubmit="showTable('studentsTable'); return false;">
-		<button type="submit">STUDENTS</button>
-	</form>
-	<form action="/headmaster/dashboard/professors" method="get"
-		onsubmit="showTable('professorsTable'); return false;">
-		<button type="submit">PROFESSORS</button>
-	</form>
-	<form action="/headmaster/dashboard/lessons" method="get"
-		onsubmit="showTable('lessonsTable'); return false;">
-		<button type="submit">LESSONS</button>
-	</form>
+	<div class="container text-center" style="padding-top: 200px;">
+		<!-- Added container and text-center for centering -->
+		<form class="d-inline-block" action="/headmaster/dashboard/houses"
+			method="get" onsubmit="showTable('housesTable'); return false;">
+			<button type="submit" class="btn btn-dark">HOUSES</button>
+		</form>
+		<form class="d-inline-block" action="/headmaster/dashboard/students"
+			method="get" onsubmit="showTable('studentsTable'); return false;">
+			<button type="submit" class="btn btn-dark">STUDENTS</button>
+		</form>
+		<form class="d-inline-block" action="/headmaster/dashboard/professors"
+			method="get" onsubmit="showTable('professorsTable'); return false;">
+			<button type="submit" class="btn btn-dark">PROFESSORS</button>
+		</form>
+		<form class="d-inline-block" action="/headmaster/dashboard/lessons"
+			method="get" onsubmit="showTable('lessonsTable'); return false;">
+			<button type="submit" class="btn btn-dark">LESSONS</button>
+		</form>
+	</div>
 
-	<table id="housesTable" class="data-table" style="display: none;">
-		<tr>
-			<th>House ID:</th>
-			<th>Name:</th>
-		</tr>
-		<th:block th:each="house : ${houses}">
-			<tr>
+	<div>
+		<table id="housesTable" class="data-table" style="display: none;">
+			<thead>
+				<tr>
+					<th>House ID:</th>
+					<th>Name:</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			</tbody>
+			<tr th:each="house : ${houses}">
 				<td th:text="${house.id}">House ID:</td>
 				<td th:text="${house.house}">Name:</td>
+				<td><a th:href="@{'/editHouse/' + ${house.id}}"> <img
+						src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+				</a></td>
+				<td><a th:href="@{'/removeHouse/' + ${house.id}}"> <img
+						src="/icons/delete.svg" alt="Remove" width="20" height="20"/>
 			</tr>
-		</th:block>
-	</table>
+			</tbody>
+		</table>
 
-	<table id="studentsTable" class="data-table" style="display: none;">
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Last Name</th>
-			<th>Year</th>
-			<th>House</th>
-			<th>Subjects</th>
-			<th:block th:each="student : ${students}">
+		<table id="studentsTable" class="data-table" style="display: none;">
+			<thead>
 				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Last Name</th>
+					<th>Year</th>
+					<th>House</th>
+					<th>Subjects</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="student : ${students}">
 					<td th:text="${student.id}">ID</td>
 					<td th:text="${student.name}">Name</td>
 					<td th:text="${student.lastName}">Last Name</td>
 					<td th:text="${student.year}">Year</td>
 					<td th:text="${student.house}">House</td>
-					<td><th:block th:each="subject : ${student.subjects}">
-							<span th:text="${subject.name}"></span>
-							<span th:if="${!#isLast()}">,</span>
-						</th:block></td>
+					<td><span th:each="subject : ${student.subjects}"> <span
+							th:text="${subject.name}"></span>
+					</span></td>
+					<td><a th:href="@{'/editStudent/' + ${student.id}}"> <img
+							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					</a></td>
+					<td><a th:href="@{'/removeStudent/' + ${student.id}}"> <img
+							src="/icons/delete.svg" alt="Remove" width="20" height="20"/>
 				</tr>
-			</th:block>
-		</tr>
-	</table>
+			</tbody>
+		</table>
 
-	<table id="professorsTable" class="data-table" style="display: none;">
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Last Name</th>
-			<th>Subjects</th>
-			<th:block th:each="professor : ${professors}">
+		<table id="professorsTable" class="data-table" style="display: none;">
+			<thead>
 				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Last Name</th>
+					<th>Subjects</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="professor : ${professors}">
+
 					<td th:text="${professor.id}">ID</td>
 					<td th:text="${professor.name}">Name</td>
 					<td th:text="${professor.lastName}">Last Name</td>
 					<td><th:block th:each="subject : ${professor.subjects}">
 							<span th:text="${subject.name}"></span>
-							<span th:if="${!#isLast()}">,</span>
-						</th:block></td>
+							<td>
+							<td><a th:href="@{'/editProfessor/' + ${professor.id}}">
+									<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+							</a></td>
+							<td><a th:href="@{'/removeProfessor/' + ${professor.id}}">
+									<img src="/icons/delete.svg" alt="Remove" width="20" height="20"/>
 				</tr>
-			</th:block>
-			<th>
-		</tr>
-	</table>
+				</th:block>
+		</table>
 
-	<table id="lessonsTable" class="data-table" style="display: none;">
-		<tr>
-			<th>Subject:</th>
-			<th>Professor Name:</th>
-			<th>Professor LastName:</th>
-			<th>Date:</th>
-			<th>Start Time:</th>
-			<th>End Time:</th>
-			<th>Auditorium:</th>
-			<th>House:</th>
-		</tr>
-		<th:block th:each="lesson : ${lessons}">
-			<tr>
-				<td th:text="${lesson.subject}">Subject:</td>
-				<td th:text="${lesson.professorName}">Professor Name:</td>
-				<td th:text="${lesson.professorLastName}">Professor LastName:</td>
-				<td th:text="${lesson.date}">Date</td>
-				<td th:text="${lesson.startTime}">Start Time</td>
-				<td th:text="${lesson.endTime}">End Time</td>
-				<td th:text="${lesson.auditorium}">Auditorium:</td>
-				<td th:text="${lesson.house}">House:</td>
-			</tr>
-		</th:block>
-	</table>
+
+
+		<table id="lessonsTable" class="data-table" style="display: none;">
+			<thead>
+				<tr>
+					<th>Subject:</th>
+					<th>Professor Name:</th>
+					<th>Professor LastName:</th>
+					<th>Date:</th>
+					<th>Start Time:</th>
+					<th>End Time:</th>
+					<th>Auditorium:</th>
+					<th>House:</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="lesson : ${lessons}">
+					<td th:text="${lesson.subject}">Subject:</td>
+					<td th:text="${lesson.professorName}">Professor Name:</td>
+					<td th:text="${lesson.professorLastName}">Professor LastName:</td>
+					<td th:text="${lesson.date}">Date</td>
+					<td th:text="${lesson.startTime}">Start Time</td>
+					<td th:text="${lesson.endTime}">End Time</td>
+					<td th:text="${lesson.auditorium}">Auditorium:</td>
+					<td th:text="${lesson.house}">House:</td>
+					<td><a th:href="@{'/editLesson/' + ${lesson.id}}"> <img
+							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					</a></td>
+					<td><a th:href="@{'/removeLesson/' + ${lesson.id}}"> <img
+							src="/icons/delete.svg" alt="Remove" width="20" height="20"/>
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
 
 
@@ -250,5 +319,7 @@ button:hover {
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'
+		crossorigin='anonymous'></script>
 </body>
 </html>

@@ -2,13 +2,12 @@ package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
-import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.StudentDto;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.StudentService;
 
@@ -20,8 +19,8 @@ public class StudentServiceImpl implements StudentService {
 	private final StudentRepository studentRepository;
 
 	@Override
-	public List<Student> getAll() {
-		return studentRepository.findAll();
+	public List<StudentDto> getAll() {
+		return studentRepository.findAll().stream().map(StudentDto::new).collect(Collectors.toList());
 	}
 
 	@Override

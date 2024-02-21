@@ -46,8 +46,4 @@ public abstract class Wizard {
 	@JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Role role;
 
-	@ManyToOne
-	@JoinColumn(name = "house_id")
-	private House house;
-
 }
