@@ -10,6 +10,18 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'
+	crossorigin='anonymous'></script>
+
 <style>
 body {
 	font-family: 'HarryPotterFont', Arial, sans-serif;
@@ -76,13 +88,13 @@ label {
 }
 
 input {
-	width: calc(100% - 22px);
 	padding: 10px;
 	margin-bottom: 5px;
 	margin-top: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	text-align: center;
+	size: inherit;
 }
 
 button {
@@ -124,9 +136,34 @@ button:hover {
 .data-table th {
 	background-color: #f2f2f2;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+}
+
+.pagination li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #007bff;
+}
+
+.pagination li.active a {
+	background-color: #007bff;
+	color: #fff;
+}
 </style>
 </head>
 <body>
+
 	<nav class="navbar navbar-light bg-light fixed-top">
 		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
 			Wizardry</a>
@@ -144,28 +181,80 @@ button:hover {
 			</ul>
 		</div>
 	</nav>
-	<h3>
-		Welcome, <span th:text="${name}"></span>
-	</h3>
+
 
 	<div class="container text-center" style="padding-top: 200px;">
-		<form class="d-inline-block" action="/headmaster/dashboard/houses"
+		<form class="d-inline-block" action="/headmaster/dashboard"
 			method="get">
-			<button type="submit" class="btn btn-dark">HOUSES</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/students"
-			method="get">
-			<button type="submit" class="btn btn-dark">STUDENTS</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/professors"
-			method="get">
-			<button type="submit" class="btn btn-dark">PROFESSORS</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/lessons"
-			method="get">
-			<button type="submit" class="btn btn-dark">LESSONS</button>
+			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
 	</div>
 
+	<div th:if="${error}" class="error-message">
+		<p th:text="${error}"></p>
+	</div>
+
+	<form class="container text-center"
+		action="/headmaster/dashboard/lessons" method="get">
+		<label for="selectedDate">Select a Day:</label> <input type="date"
+			id="selectedDate" name="selectedDate" required>
+		<button type="submit">Find</button>
+	</form>
+	<div>
+
+
+
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th>Subject:</th>
+					<th>Professor Name:</th>
+					<th>Professor LastName:</th>
+					<th>Date:</th>
+					<th>Start Time:</th>
+					<th>End Time:</th>
+					<th>Auditorium:</th>
+					<th>House:</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="lesson : ${pageLessons.content}">
+					<td th:text="${lesson.subject}">Subject:</td>
+					<td th:text="${lesson.professorName}">Professor Name:</td>
+					<td th:text="${lesson.professorLastName}">Professor LastName:</td>
+					<td th:text="${lesson.date}">Date</td>
+					<td th:text="${lesson.startTime}">Start Time</td>
+					<td th:text="${lesson.endTime}">End Time</td>
+					<td th:text="${lesson.auditorium}">Auditorium:</td>
+					<td th:text="${lesson.house}">House:</td>
+					<td><a th:href="@{'/headmaster/dashboard/lessons/edit/' + ${lesson.id}}"> <img
+							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					</a></td>
+					<td>
+						<button th:value="${lesson.id}"
+							class="deleteLesson btn btn-link p-0" type="button">
+							<img alt="Delete" src="/icons/delete.svg" width="20" height="20">
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="text-align: center;">
+			<ul class="pagination" th:if="${pageLessons.totalPages > 0}">
+				<li th:each="pageNumber : ${numbers}"
+					th:class="${pageNumber == pageLessons.number} ? active : ''">
+					<a
+					th:href="@{'/headmaster/dashboard/lessons?page=' + ${pageNumber}}"
+					th:text="${pageNumber}"> </a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="/js/lessons.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>
 </html>

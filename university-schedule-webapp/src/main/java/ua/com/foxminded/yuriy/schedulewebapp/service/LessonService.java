@@ -3,6 +3,10 @@ package ua.com.foxminded.yuriy.schedulewebapp.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 
@@ -23,6 +27,8 @@ public interface LessonService {
 	List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate);
 	
 	List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate);
+	
+	Page<LessonDto> getAllByPage(Pageable pageable);
 	
 		
 }

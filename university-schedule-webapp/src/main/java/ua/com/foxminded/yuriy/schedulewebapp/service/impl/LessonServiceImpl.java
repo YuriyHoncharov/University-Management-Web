@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -105,6 +107,12 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public List<LessonDto> getAllLessonsDto() {
 		return lessonRepository.findAll().stream().map(LessonDto::new).collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<LessonDto> getAllByPage(Pageable pageable) {
+		Page<Lesson>pageLesson = lessonRepository.findAll(pageable);
+		return pageLesson.map(LessonDto::new);
 	}
 
 }

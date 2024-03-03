@@ -24,7 +24,7 @@ public class Student extends Wizard {
 	@JoinColumn(name = "house_id")
 	private House house;
 
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	@ManyToMany(cascade = { CascadeType.MERGE})
 	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;
 

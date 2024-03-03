@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
@@ -34,7 +38,14 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(Long id) {
 		studentRepository.deleteById(id);
+	}
+
+	@Override
+	public Page<StudentDto> getAllByPage(Pageable pageable) {
+		Page<Student>pageStudent = studentRepository.findAll(pageable);
+		return pageStudent.map(StudentDto::new);
 	}
 }
