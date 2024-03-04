@@ -134,8 +134,8 @@ h1 {
 
 	<div class="transparent-box">
 		<form
-			th:action="@{/headmaster/dashboard/students/edit/${student.id}/subjects"
-			th:object="${subject}">
+			th:action="@{/headmaster/dashboard/houses/edit/{id}(id=${house.id})}"
+			th:object="${house}" method="post">
 			<div class="form-group">
 				<label for="houseId" class="label-large">ID</label> <input
 					type="text" class="form-control" id="houseId" aria-describedby="ID"
@@ -157,7 +157,7 @@ h1 {
 
 	<script src="/js/houses.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	
+
 </body>
 
 </html>

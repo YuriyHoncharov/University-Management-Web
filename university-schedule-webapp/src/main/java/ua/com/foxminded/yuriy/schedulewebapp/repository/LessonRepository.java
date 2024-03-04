@@ -21,6 +21,9 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.professor.id =:professorId AND DATE(l.time) = DATE(:selectedDate)")
 	List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate);
 	
+	@Query("SELECT DISTINCT l FROM Lesson l WHERE DATE(l.time) = DATE(:selectedDate)")
+	Page<Lesson>getByDate(LocalDateTime selectedDate, Pageable pageable);
+	
 	Page<Lesson> findAll(Pageable pageable);
 	
 	}

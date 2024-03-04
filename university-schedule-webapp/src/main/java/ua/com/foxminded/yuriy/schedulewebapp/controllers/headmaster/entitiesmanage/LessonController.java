@@ -26,18 +26,6 @@ public class LessonController {
 
 	private LessonService lessonService;
 
-//	@GetMapping
-//	public String getAllWizardLessonsByDate(@RequestParam(name = "selectedDate", required = false) String selectedDate,
-//			@RequestParam(name = "userId", required = false) Long userId, Model model) {
-//
-//		try {
-//			List<LessonDto> lessons = lessonService.getByWizardIdAndDate(userId != null ? userId : 5L, selectedDate);
-//			model.addAttribute("lessons", lessons);
-//		} catch (UserNotFoundException e) {
-//			model.addAttribute("error", "User not found. Please enter a valid ID");
-//		}
-//		return "headmaster/entities/lessons";
-//	}
 
 	@GetMapping
 	public ModelAndView pagination(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
@@ -59,4 +47,21 @@ public class LessonController {
 		}
 	}
 
+	@GetMapping("/search")
+	public ModelAndView getLessonsByDate(
+	    @RequestParam(name = "selectedDate", required = false) String selectedDate,
+	    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+
+	    if (selectedDate != null) {
+	        // Search by date
+	        Page<LessonDto> lessonPageByDate = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
+	        ModelAndView mav = new ModelAndView();
+	        mav.addObject("pageLessons", lessonPageByDate);
+	        mav.addObject("numbers", IntStream.range(1, lessonPageByDate.getTotalPages()).toArray());
+	        mav.setViewName("headmaster/entities/lessons");
+	        return mav;
+	    } else {	        
+	        return pagination(page);
+	    }
+	}
 }

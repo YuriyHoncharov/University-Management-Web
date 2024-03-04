@@ -30,5 +30,6 @@ public interface LessonService {
 	
 	Page<LessonDto> getAllByPage(Pageable pageable);
 	
-		
+	Page<LessonDto> getAllByDate(String selectedDate, Pageable pageable);
+			
 }

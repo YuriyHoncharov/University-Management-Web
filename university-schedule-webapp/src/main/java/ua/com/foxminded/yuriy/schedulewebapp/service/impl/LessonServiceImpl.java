@@ -115,4 +115,11 @@ public class LessonServiceImpl implements LessonService {
 		return pageLesson.map(LessonDto::new);
 	}
 
+	@Override
+	public Page<LessonDto> getAllByDate(String selectedDate, Pageable pageable) {
+		LocalDateTime selectedDateStamp = parseSelectedDate(selectedDate);
+		Page<Lesson>pageLesson = lessonRepository.getByDate(selectedDateStamp, pageable);
+		return pageLesson.map(LessonDto::new);
+	}
+
 }
