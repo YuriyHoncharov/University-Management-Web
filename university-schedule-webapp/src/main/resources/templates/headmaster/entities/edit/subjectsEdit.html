@@ -90,6 +90,26 @@ h1 {
 .small-text {
 	font-size: 14px;
 }
+.data-table {
+	padding-top: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.8);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th, .data-table td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+	background-color: #f2f2f2;
+}
 </style>
 </head>
 
@@ -153,7 +173,7 @@ h1 {
                     <td th:text="${subject.name}">Name:</td>
                     <td th:text="${subject.description}">Description:</td>
                     <td>
-                        <button th:value="${subject.id}" class="deleteSubject btn btn-link p-0" type="button">
+                        <button th:value="${subject.id}" th:data-student-id="${student.id}" class="deleteStudentSubject btn btn-link p-0" type="button">
                             <img alt="Delete" src="/icons/delete.svg" width="20" height="20">
                         </button>
                     </td>

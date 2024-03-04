@@ -9,6 +9,30 @@ $(document).ready(function() {
 
 	});
 
+	$('.deleteStudentSubject').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let studentId = $(this).data('student-id');
+		let subjectId = $(this).val();
+		deleteStudentSubject(studentId, subjectId);
+	});
+
+	function deleteStudentSubject(studentId, subjectId) {
+		if (confirm('Are you sure you want to delete this subject for the student?')) {
+
+			$.ajax({
+				type: "DELETE",
+				url: `/headmaster/dashboard/students/${studentId}/subjects/${subjectId}`,
+				success: function(response) {
+					alert(response);
+					location.reload();
+				},
+				error: function(error) {
+					alert('Error: ' + error.responseText);
+				}
+			});
+		}
+	}
 
 	function deleteStudent(studentId) {
 		if (confirm('Are you sure you want to delete the student with following ID : ' + studentId + '?')) {
@@ -26,12 +50,14 @@ $(document).ready(function() {
 		}
 	}
 
+
+
 	$('#updateStudent').click(function(e) {
 		e.preventDefault();
 		$(this).prop('disabled', true);
 		let studentId = $('#studentId').val();
 		let selectedYearId = $('#studentYear').val();
-				let json = { "id": studentId, "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": $('#studentHouse').val() };
+		let json = { "id": studentId, "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": $('#studentHouse').val() };
 		sendStudentData("PUT", "/headmaster/dashboard/students/update/" + studentId, json, "Updating : [");
 	});
 

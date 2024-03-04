@@ -1,5 +1,7 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster.entitiesmanage;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.AllArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.StudentDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
@@ -91,17 +94,49 @@ public class StudentController {
 	public ModelAndView showSubjectsEditPage(@PathVariable Long id) {
 
 		ModelAndView mav = new ModelAndView();
-		
+
 		return studentService.getById(id).map(student -> {
 			mav.addObject("student", student);
 			mav.addObject("subjects", student.getSubjects());
-			mav.addObject("availableSubjects", subjectService.getAll().stream().filter(subject -> !student.getSubjects().contains(subject)).collect(Collectors.toList()));
+			mav.addObject("availableSubjects", subjectService.getAll().stream()
+					.filter(subject -> !student.getSubjects().contains(subject)).collect(Collectors.toList()));
 			mav.setViewName("headmaster/entities/edit/subjectsEdit");
 			return mav;
 		}).orElseGet(() -> {
 			mav.setViewName("redirect:headmaster/entities/edit/studentEdit");
 			return mav;
 		});
+	}
+
+	@DeleteMapping("/{studentId}/subjects/{subjectId}")
+	public ResponseEntity<String> deleteStudentSubject(@PathVariable Long studentId, @PathVariable Long subjectId) {
+		try {
+			Optional<Student> optionalStudent = studentService.getById(studentId);
+
+			if (optionalStudent.isPresent()) {
+				Student student = optionalStudent.get();
+				List<Subject> subjects = student.getSubjects();
+
+				Optional<Subject> subjectToDelete = subjects.stream().filter(subject -> subject.getId().equals(subjectId))
+						.findFirst();
+
+				if (subjectToDelete.isPresent()) {
+
+					subjects.remove(subjectToDelete.get());
+
+					studentService.save(student);
+
+					return ResponseEntity.ok("Subject deleted successfully.");
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found for deletion.");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error deleting subject: " + e.getMessage());
+		}
 	}
 
 }
