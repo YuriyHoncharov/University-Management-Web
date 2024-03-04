@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,35 +109,38 @@ public class StudentController {
 		});
 	}
 
-	@DeleteMapping("/{studentId}/subjects/{subjectId}")
-	public ResponseEntity<String> deleteStudentSubject(@PathVariable Long studentId, @PathVariable Long subjectId) {
-		try {
-			Optional<Student> optionalStudent = studentService.getById(studentId);
+	@PostMapping("/edit/{studentId}/subjects/{subjectId}")
+	public ResponseEntity<String> editStudentSubjects(@PathVariable Long studentId, @PathVariable Long subjectId) {
+	    try {
+	        Optional<Student> optionalStudent = studentService.getById(studentId);
 
-			if (optionalStudent.isPresent()) {
-				Student student = optionalStudent.get();
-				List<Subject> subjects = student.getSubjects();
+	        if (optionalStudent.isPresent()) {
+	            Student student = optionalStudent.get();
+	            List<Subject> subjects = student.getSubjects();
 
-				Optional<Subject> subjectToDelete = subjects.stream().filter(subject -> subject.getId().equals(subjectId))
-						.findFirst();
+	            Optional<Subject> subjectToDelete = subjects.stream()
+	                    .filter(subject -> subject.getId().equals(subjectId))
+	                    .findFirst();
 
-				if (subjectToDelete.isPresent()) {
-
-					subjects.remove(subjectToDelete.get());
-
-					studentService.save(student);
-
-					return ResponseEntity.ok("Subject deleted successfully.");
-				} else {
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found for deletion.");
-				}
-			} else {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found.");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error deleting subject: " + e.getMessage());
-		}
+	            if (subjectToDelete.isPresent()) {
+	                // Subject found, delete it
+	                subjects.remove(subjectToDelete.get());
+	                studentService.save(student);
+	                return ResponseEntity.ok("Subject deleted successfully.");
+	            } else {
+	                // Subject not found, add it
+	                Subject subjectToAdd = subjectService.getById(subjectId).get();
+	                subjects.add(subjectToAdd);
+	                studentService.save(student);
+	                return ResponseEntity.ok("Subject added successfully");
+	            }
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found.");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error modifying subjects: " + e.getMessage());
+	    }
 	}
 
 }

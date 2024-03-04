@@ -9,20 +9,28 @@ $(document).ready(function() {
 
 	});
 
-	$('.deleteStudentSubject').click(function(e) {
+	$('.editStudentSubjects').click(function(e) {
 		e.preventDefault();
 		$(this).prop('disabled', true);
 		let studentId = $(this).data('student-id');
 		let subjectId = $(this).val();
-		deleteStudentSubject(studentId, subjectId);
+		editStudentSubjects(studentId, subjectId);
+	});
+	
+	$('.addSubject').click(function (e){
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let studentId = $(this).data('student-id');
+      let subjectId = $('#subjectId').val();
+      editStudentSubjects(studentId, subjectId);
 	});
 
-	function deleteStudentSubject(studentId, subjectId) {
+	function editStudentSubjects(studentId, subjectId) {
 		if (confirm('Are you sure you want to delete this subject for the student?')) {
 
 			$.ajax({
-				type: "DELETE",
-				url: `/headmaster/dashboard/students/${studentId}/subjects/${subjectId}`,
+				type: "POST",
+				url: `/headmaster/dashboard/students/edit/${studentId}/subjects/${subjectId}`,
 				success: function(response) {
 					alert(response);
 					location.reload();
