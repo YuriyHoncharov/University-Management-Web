@@ -56,7 +56,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<LessonDto> getByStudentIdAndFilters(Long wizardId, LocalDateTime selectedDate) {
+	public List<LessonDto> getByStudentIdAndFilters(Long wizardId, LocalDate selectedDate) {
 
 		Optional<Student> student = studentRepository.findById(wizardId);
 		if (student.isPresent()) {
@@ -71,7 +71,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDateTime selectedDate) {
+	public List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate) {
 
 		if (professorRepository.findById(professorId).isPresent()) {
 			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate).stream().map(LessonDto::new)
@@ -85,7 +85,7 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate) {
 
-		LocalDateTime selectedDateStamp = parseSelectedDate(selectedDate);
+		LocalDate selectedDateStamp = parseSelectedDate(selectedDate);
 		if (studentRepository.findById(wizardId).isPresent()) {
 			return getByStudentIdAndFilters(wizardId, selectedDateStamp);
 		} else {
@@ -94,13 +94,13 @@ public class LessonServiceImpl implements LessonService {
 
 	}
 
-	private LocalDateTime parseSelectedDate(String selectedDate) {
+	private LocalDate parseSelectedDate(String selectedDate) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		if (selectedDate == null || selectedDate.isEmpty()) {
-			return LocalDateTime.now();
+			return LocalDate.now();
 		} else {
-			return LocalDate.parse(selectedDate, formatter).atStartOfDay();
+			return LocalDate.parse(selectedDate, formatter);
 		}
 	}
 
@@ -117,7 +117,7 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public Page<LessonDto> getAllByDate(String selectedDate, Pageable pageable) {
-		LocalDateTime selectedDateStamp = parseSelectedDate(selectedDate);
+		LocalDate selectedDateStamp = parseSelectedDate(selectedDate);
 		Page<Lesson>pageLesson = lessonRepository.getByDate(selectedDateStamp, pageable);
 		return pageLesson.map(LessonDto::new);
 	}

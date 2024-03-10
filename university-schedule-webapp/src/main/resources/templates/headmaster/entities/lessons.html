@@ -195,7 +195,7 @@ button:hover {
 	</div>
 
 	<form class="container text-center"
-		action="/headmaster/dashboard/lessons/search" method="get">
+		action="/headmaster/dashboard/lessons" method="get">
 		<label for="selectedDate">Select a Day:</label> <input type="date"
 			id="selectedDate" name="selectedDate" required>
 		<button type="submit">Find</button>
@@ -209,7 +209,6 @@ button:hover {
 				<tr>
 					<th>Subject:</th>
 					<th>Professor Name:</th>
-					<th>Professor LastName:</th>
 					<th>Date:</th>
 					<th>Start Time:</th>
 					<th>End Time:</th>
@@ -222,15 +221,16 @@ button:hover {
 			<tbody>
 				<tr th:each="lesson : ${pageLessons.content}">
 					<td th:text="${lesson.subject}">Subject:</td>
-					<td th:text="${lesson.professorName}">Professor Name:</td>
-					<td th:text="${lesson.professorLastName}">Professor LastName:</td>
+					<td th:text="${lesson.professorName + ' ' + lesson.professorLastName}">Professor Name:</td>
+					
 					<td th:text="${lesson.date}">Date</td>
-					<td th:text="${lesson.startTime}">Start Time</td>
+					<td th:text="${lesson.time}">Start Time</td>
 					<td th:text="${lesson.endTime}">End Time</td>
 					<td th:text="${lesson.auditorium}">Auditorium:</td>
 					<td th:text="${lesson.house}">House:</td>
-					<td><a th:href="@{'/headmaster/dashboard/lessons/edit/' + ${lesson.id}}"> <img
-							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					<td><a
+						th:href="@{'/headmaster/dashboard/lessons/edit/' + ${lesson.id}}">
+							<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
 					</a></td>
 					<td>
 						<button th:value="${lesson.id}"
@@ -244,12 +244,15 @@ button:hover {
 
 		<div style="text-align: center;">
 			<ul class="pagination" th:if="${pageLessons.totalPages > 0}">
-				<li th:each="pageNumber : ${numbers}"
-					th:class="${pageNumber == pageLessons.number} ? active : ''">
-					<a
+				<li
+					th:each="pageNumber : ${#numbers.sequence(0, pageLessons.totalPages - 1)}"
+					th:class="${pageNumber == pageLessons.number} ? 'active'"><a
+					th:if="${selectedDate != null}"
+					th:href="@{'/headmaster/dashboard/lessons?page=' + ${pageNumber} + '&selectedDate=' + ${selectedDate}}"
+					th:text="${pageNumber + 1}"> </a> <a
+					th:unless="${selectedDate != null}"
 					th:href="@{'/headmaster/dashboard/lessons?page=' + ${pageNumber}}"
-					th:text="${pageNumber}"> </a>
-				</li>
+					th:text="${pageNumber + 1}"> </a></li>
 			</ul>
 		</div>
 	</div>

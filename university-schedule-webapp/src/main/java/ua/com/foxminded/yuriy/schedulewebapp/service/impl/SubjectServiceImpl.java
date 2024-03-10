@@ -37,4 +37,9 @@ public class SubjectServiceImpl implements SubjectService {
 	public void delete(Long id) {
 		subjectRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Subject> findAllUnassignedSubjects() {
+		return subjectRepository.findAllUnassignedSubjects();
+	}
 }

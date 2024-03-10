@@ -27,7 +27,7 @@ public class LessonDto {
 	private String auditorium;
 	private String house;
 	private String date;
-	private String startTime;
+	private String time;
 	private String endTime;
 	private int year;
 
@@ -39,10 +39,10 @@ public class LessonDto {
 		this.auditorium = lesson.getAuditorium().getName();
 		this.house = lesson.getHouse().getHouse();
 		this.year = lesson.getYear().getYearValue();
-		Timestamp startTimeStamp = lesson.getTime();
-		this.date = formatDate(startTimeStamp);
-		this.startTime = formatTime(startTimeStamp);
-		this.endTime = formatTime(new Timestamp(startTimeStamp.getTime() + TimeUnit.HOURS.toMillis(1)));
+		this.date = lesson.getDate().toString();
+		this.time = lesson.getTime().toString();
+		this.endTime = lesson.getEndTime().toString();
+
 	}
 
 	private String formatDate(Timestamp timestamp) {

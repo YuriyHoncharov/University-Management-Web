@@ -239,10 +239,10 @@ button:hover {
 
 	<div style="text-align: center">
 		<ul class="pagination" th:if="${pageStudent.totalPages > 0}">
-			<li th:each="pageNumber : ${numbers}"
+			<li th:each="pageNumber : ${#numbers.sequence(0, pageStudent.totalPages - 1)}"
 				th:class="${pageNumber == pageStudent.number} ? active : ''"><a
 				th:href="@{'/headmaster/dashboard/students?page=' + ${pageNumber}}"
-				th:text="${pageNumber}"> </a></li>
+				th:text="${pageNumber + 1}"> </a></li>
 
 		</ul>
 

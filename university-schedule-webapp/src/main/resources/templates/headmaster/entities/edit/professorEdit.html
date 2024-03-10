@@ -154,9 +154,20 @@ h1 {
 					aria-describedby="professorLastName" placeholder="Enter Last Name"
 					th:value="${professor.lastName}">
 			</div>
-			<div class="center-button">
-				<button id="updateProfessor" type="submit" class="btn btn-primary">Submit</button>
+			<div>
+				<label class="label-large">Professor's Subject</label><select
+					id="subjectId" class="form-control">
+					<option th:text="${actualSubject.name + ' - ' + actualSubject.description}" disabled selected></option>
+					<option th:each="subject : ${availableSubjects}"
+						th:value="${subject.id}"
+						th:text="${subject.name + ' - ' + subject.description}"></option>
+				</select>
 			</div>
+			<div class="center-button">
+				<button id="updateProfessor" type="submit" class="btn btn-primary mx-auto d-block mt-3">Submit</button>
+			</div>
+
+
 		</form>
 	</div>
 

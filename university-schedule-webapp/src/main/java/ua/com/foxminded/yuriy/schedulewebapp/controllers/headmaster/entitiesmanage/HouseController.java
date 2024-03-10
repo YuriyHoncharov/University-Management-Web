@@ -60,6 +60,7 @@ public class HouseController {
 
 	@PutMapping("update/{id}")
 	public ResponseEntity<Object> update(@RequestBody House house, @PathVariable Long id) {
+						 
 		try {
 			House updatedHouse = houseService.save(house);
 			return ResponseEntity.ok(updatedHouse);
@@ -68,5 +69,5 @@ public class HouseController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
 }

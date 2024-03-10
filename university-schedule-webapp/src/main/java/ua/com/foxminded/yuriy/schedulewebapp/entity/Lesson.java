@@ -1,6 +1,11 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
 
-import java.sql.Timestamp;
+
+import java.sql.Time;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,8 +38,14 @@ public class Lesson {
 	@JoinColumn(name = "teacher_id", nullable = false)
 	private Professor professor;
 
-	@Column(name = "time", nullable = false)
-	private Timestamp time;
+	@Column(name = "lesson_date", nullable = false)
+	private LocalDate date;
+	
+	@Column(name = "lesson_time", nullable = false)
+	private LocalTime time;
+	
+	@Column(name = "lesson_end_time", nullable = true)
+	private LocalTime endTime;	
 
 	@ManyToOne
 	@JoinColumn(name = "auditorium_id", nullable = false)

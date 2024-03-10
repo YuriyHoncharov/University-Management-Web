@@ -14,4 +14,6 @@ public interface HouseService {
 	House save(House house);
 
 	void delete(Long id);
+	
+	Optional<House> getByHouse(String house);
 }

@@ -23,5 +23,60 @@ $(document).ready(function() {
 		}
 	}
 	
+	$('#updateLesson').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let lessonId = $('#lessonId').val();
+		let subjectId = $('#lessonSubject').val();
+		let professorId = $('#lessonProfessor').val();
+		let lessonDate = $('#lessonDate').val();
+		let lessonTime = $('#lessonTime').val();
+		let lessonAuditorium = $('#lessonAuditorium').val();
+		let lessonHouse = $('#lessonHouse').val();
+		let lessonYear = $('#lessonYear').val();
+		
+		
+		let json = { "id": lessonId, 
+		"subject": { "id": subjectId } ,
+		"professor": { "id": professorId } ,
+		"date": lessonDate,
+		"time": lessonTime,
+		"auditorium": { "id": lessonAuditorium } ,
+		"house": { "id": lessonHouse } ,
+		"year": { "id": lessonYear } };
+		sendLessonData("PUT", "/headmaster/dashboard/lessons/update/" + lessonId, json, "Updating : [");
+
+	});
+
+	function sendLessonData(type, url, jsonData, successMsg) {
+		$.ajax({
+			type: type,
+			url: url,
+			data: JSON.stringify(jsonData),
+			dataType: "json",
+			contentType: "application/json",
+			success: function(data) {
+				let respContent = "<div class='successAlert alert alert-success'>" + "<span class='success'>" + successMsg + "<b>" + data.id + "</b>] - Success! </span></div>";
+				setTimeout(function() {
+					window.location.href = "/headmaster/dashboard/lessons"
+				}, 2000);
+				$('#successAlert').html(respContent).show();
+			},
+			error: function(xhr) {
+				let respContent = "<div class='errorAlert alert alert-danger'>" +
+					"<span class='error'>" + xhr.responseText + "</span></div>";
+				setTimeout(function() {
+					$('#saveProfessor').prop('disabled', false);
+					$('#updateProfessor').prop('disabled', false);
+					$('#errorAlert').hide();
+				}, 2000);
+				$('#errorAlert').html(respContent).show();
+				console.log("Error updating Lesson", xhr.responseText);
+			}
+		});
+	}
+	
+	
+	
 
 });

@@ -1,5 +1,6 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster.entitiesmanage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.AllArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Controller
 @RequestMapping("/headmaster/dashboard/professors")
@@ -26,6 +29,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 public class ProfessorController {
 
 	private ProfessorService professorService;
+	private SubjectService subjectService;
 
 	@GetMapping
 	public ModelAndView getProfessorPage() {
@@ -50,7 +54,10 @@ public class ProfessorController {
 	@GetMapping("/edit/{id}")
 	public ModelAndView showEditView(@PathVariable Long id) {
 		ModelAndView mav = new ModelAndView();
+		List<Subject> availableSubjects = subjectService.findAllUnassignedSubjects();
 		return professorService.getById(id).map(professor -> {
+			mav.addObject("actualSubject", professor.getSubjects().get(0));
+			mav.addObject("availableSubjects", availableSubjects);
 			mav.addObject("professor", professor);
 			mav.setViewName("headmaster/entities/edit/professorEdit");
 			return mav;
@@ -64,10 +71,16 @@ public class ProfessorController {
 	public ResponseEntity<Object> update(@RequestBody Professor professor, @PathVariable Long id) {
 		try {
 			Professor existingProfessor = professorService.getById(id).get();
-			 if (existingProfessor != null) {
-				 existingProfessor.setName(professor.getName());
-				 existingProfessor.setLastName(professor.getLastName());
-			 }
+			if (existingProfessor != null) {
+				List<Subject> subject = new ArrayList<>();
+				Subject assignedSubject = subjectService.getById(professor.getSubjects().get(0).getId()).get();
+				if (assignedSubject != null) {
+					subject.add(assignedSubject);
+				}
+				existingProfessor.setName(professor.getName());
+				existingProfessor.setLastName(professor.getLastName());
+				existingProfessor.setSubjects(subject);
+			}
 			Professor updatedProfessor = professorService.save(existingProfessor);
 			return ResponseEntity.ok(updatedProfessor);
 

@@ -27,7 +27,8 @@ $(document).ready(function() {
 		e.preventDefault();
 		$(this).prop('disabled', true);
 		let professorId = $('#professorId').val();
-		let json = { "id": professorId, "name": $('#professorName').val(), "lastName": $('#professorLastName').val() };
+		let subjectId = $('#subjectId').val();
+		let json = { "id": professorId, "name": $('#professorName').val(), "lastName": $('#professorLastName').val(), "subjects": [ { "id": subjectId } ] };
 		sendProfessorData("PUT", "/headmaster/dashboard/professors/update/" + professorId, json, "Updating : [");
 
 	});

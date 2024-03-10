@@ -51,7 +51,9 @@ subject_id INT NOT NULL,
 FOREIGN KEY (subject_id) REFERENCES Subjects (id),
 teacher_id INT NOT NULL,
 FOREIGN KEY (teacher_id) REFERENCES Wizards (id),
-time TIMESTAMP NOT NULL,
+lesson_date DATE NOT NULL,
+lesson_time TIME NOT NULL,
+lesson_end_time TIME,
 auditorium_id INT NOT NULL,
 FOREIGN KEY (auditorium_id) REFERENCES Auditoriums (id),
 house_id INT NOT NULL,
@@ -59,3 +61,18 @@ FOREIGN KEY (house_id) REFERENCES Houses (id) ON DELETE CASCADE,
 year_id INT,
 FOREIGN KEY (year_id) REFERENCES Years(id) ON DELETE CASCADE
 );
+
+CREATE OR REPLACE FUNCTION update_end_time()
+RETURNS TRIGGER AS $$
+BEGIN
+	NEW.lesson_end_time = NEW.lesson_time + interval '45 minutes';
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_update_end_time
+BEFORE INSERT OR UPDATE ON Lessons
+FOR EACH ROW
+EXECUTE FUNCTION update_end_time();
+
+
