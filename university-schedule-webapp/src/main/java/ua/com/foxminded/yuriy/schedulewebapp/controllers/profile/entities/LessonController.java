@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster.entitiesmanage;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities;
 
 import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,6 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
@@ -33,7 +32,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("headmaster/dashboard/lessons")
+@RequestMapping("profile/dashboard/lessons")
 public class LessonController {
 
 	private LessonService lessonService;
@@ -59,7 +58,7 @@ public class LessonController {
 
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(0, pageLessons.getTotalPages()).toArray());
-		mav.setViewName("headmaster/entities/lessons");
+		mav.setViewName("profile/entities/lessons");
 		return mav;
 	}
 
@@ -84,10 +83,10 @@ public class LessonController {
 			mav.addObject("lesson", lesson);
 			mav.addObject("years", yearService.getAll());
 			mav.addObject("houses", houseService.getAll());
-			mav.setViewName("headmaster/entities/edit/lessonEdit");
+			mav.setViewName("profile/entities/edit/lessonEdit");
 			return mav;
 		}).orElseGet(() -> {
-			mav.setViewName("redirect:headmaster/entities/lessons");
+			mav.setViewName("redirect:profile/entities/lessons");
 			return mav;
 		});
 	}
@@ -100,8 +99,8 @@ public class LessonController {
 
 				Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
 				Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
-				Auditorium auditorium = auditoriumService.getById(lesson.getSubject().getId()).get();
-				House house = houseService.getById(lesson.getSubject().getId()).get();
+				Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
+				House house = houseService.getById(lesson.getHouse().getId()).get();
 				Year year = yearService.getById(lesson.getYear().getId()).get();
 
 				existingLesson.setSubject(subject);

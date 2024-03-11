@@ -32,8 +32,8 @@ public class HouseServiceImpl implements HouseService {
 
 	@Override
 	public House save(House house) {
-		House alreadyExistingHouse = houseRepository.getByHouseName(house.getHouse()).get();
-		if (alreadyExistingHouse != null) {
+		Optional<House> alreadyExistingHouse = houseRepository.getByHouseName(house.getHouse());
+		if (alreadyExistingHouse.isPresent()) {
 			throw new ValidationException("House with following name is already exist");
 		} else {
 			return houseRepository.save(house);

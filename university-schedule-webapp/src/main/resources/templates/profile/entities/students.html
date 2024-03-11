@@ -11,6 +11,16 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'
+	crossorigin='anonymous'></script>
 <style>
 body {
 	font-family: 'HarryPotterFont', Arial, sans-serif;
@@ -125,9 +135,36 @@ button:hover {
 .data-table th {
 	background-color: #f2f2f2;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+}
+
+.pagination li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #007bff;
+}
+
+.pagination li.active a {
+	background-color: #007bff;
+	color: #fff;
+}
 </style>
 </head>
+
 <body>
+
+
 
 	<nav class="navbar navbar-light bg-light fixed-top">
 		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
@@ -147,49 +184,73 @@ button:hover {
 		</div>
 	</nav>
 
-
 	<div class="container text-center" style="padding-top: 200px;">
-		<form class="d-inline-block" action="/headmaster/dashboard"
+		<form class="d-inline-block" action="/profile/dashboard"
 			method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
 	</div>
-
 	<div>
+
 		<table class="data-table">
 			<thead>
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
 					<th>Last Name</th>
+					<th>Year</th>
+					<th>House</th>
 					<th>Subjects</th>
 					<th>Edit</th>
 					<th>Remove</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="professor : ${professors}">
+				<tr th:each="student : ${pageStudent.content}">
+					<td th:text="${student.id}">ID</td>
+					<td th:text="${student.name}">Name</td>
+					<td th:text="${student.lastName}">Last Name</td>
+					<td th:text="${student.year}">Year</td>
+					<td th:text="${student.house}">House</td>
+					<td><span th:each="subject : ${student.subjects}"> <span
+							th:text="${subject.name}"></span>
+					</span></td>
+					<td><a th:href="@{'/profile/dashboard/students/edit/' + ${student.id}}"> <img
+							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					</a></td>
 
-					<td th:text="${professor.id}">ID</td>
-					<td th:text="${professor.name}">Name</td>
-					<td th:text="${professor.lastName}">Last Name</td>
-					<td><th:block th:each="subject : ${professor.subjects}">
-							<span th:text="${subject.name}"></span>
+					<td>
+						<button th:value="${student.getId()}"
+							class="deleteStudent btn btn-link p-0" type="button">
+							<img alt="Delete" src="/icons/delete.svg" width="20" height="20">
+						</button>
+					</td>
 
-							<td><a th:href="@{'/headmaster/dashboard/professors/edit/' + ${professor.id}}">
-									<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
-							</a></td>
-							<td>
-								<button th:value="${professor.id}" class="deleteProfessor btn btn-link p-0" type="button">
-									<img src="/icons/delete.svg" alt="Remove" width="20"
-										height="20" />
-								</button>
-							</td>
+
+
+
+
+
+
 				</tr>
-				</th:block>
+			</tbody>
 		</table>
 	</div>
-	<script src="/js/professors.js"></script>
+
+	<div style="text-align: center">
+		<ul class="pagination" th:if="${pageStudent.totalPages > 0}">
+			<li th:each="pageNumber : ${#numbers.sequence(0, pageStudent.totalPages - 1)}"
+				th:class="${pageNumber == pageStudent.number} ? active : ''"><a
+				th:href="@{'/profile/dashboard/students?page=' + ${pageNumber}}"
+				th:text="${pageNumber + 1}"> </a></li>
+
+		</ul>
+
+	</div>
+
+
+
+	<script src="/js/students.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>
 </html>

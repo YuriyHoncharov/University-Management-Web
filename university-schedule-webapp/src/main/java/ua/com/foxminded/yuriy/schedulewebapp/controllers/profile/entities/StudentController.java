@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster.entitiesmanage;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 
 @Controller
-@RequestMapping("/headmaster/dashboard/students")
+@RequestMapping("/profile/dashboard/students")
 @AllArgsConstructor
 public class StudentController {
 
@@ -44,7 +44,7 @@ public class StudentController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pageStudent", pageStudent);
 		mav.addObject("numbers", IntStream.range(1, pageStudent.getTotalPages()).toArray());
-		mav.setViewName("headmaster/entities/students");
+		mav.setViewName("profile/entities/students");
 		return mav;
 	}
 
@@ -65,10 +65,10 @@ public class StudentController {
 		return studentService.getById(id).map(student -> {
 			mav.addObject("years", yearService.getAll());
 			mav.addObject("student", student);
-			mav.setViewName("headmaster/entities/edit/studentEdit");
+			mav.setViewName("profile/entities/edit/studentEdit");
 			return mav;
 		}).orElseGet(() -> {
-			mav.setViewName("redirect:headmaster/entities/students");
+			mav.setViewName("redirect:profile/entities/students");
 			return mav;
 		});
 	}
@@ -101,10 +101,10 @@ public class StudentController {
 			mav.addObject("subjects", student.getSubjects());
 			mav.addObject("availableSubjects", subjectService.getAll().stream()
 					.filter(subject -> !student.getSubjects().contains(subject)).collect(Collectors.toList()));
-			mav.setViewName("headmaster/entities/edit/subjectsEdit");
+			mav.setViewName("profile/entities/edit/subjectsEdit");
 			return mav;
 		}).orElseGet(() -> {
-			mav.setViewName("redirect:headmaster/entities/edit/studentEdit");
+			mav.setViewName("redirect:profile/entities/edit/studentEdit");
 			return mav;
 		});
 	}

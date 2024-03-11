@@ -11,7 +11,7 @@ $(document).ready(function() {
 		if (confirm('Are you sure you want to delete Professor with following ID : ' + professorId + '?')) {
 			$.ajax({
 				type: 'DELETE',
-				url: '/headmaster/dashboard/professors/delete/' + professorId,
+				url: '/profile/dashboard/professors/delete/' + professorId,
 				success: function(response) {
 					alert(response);
 					location.reload();
@@ -29,7 +29,7 @@ $(document).ready(function() {
 		let professorId = $('#professorId').val();
 		let subjectId = $('#subjectId').val();
 		let json = { "id": professorId, "name": $('#professorName').val(), "lastName": $('#professorLastName').val(), "subjects": [ { "id": subjectId } ] };
-		sendProfessorData("PUT", "/headmaster/dashboard/professors/update/" + professorId, json, "Updating : [");
+		sendProfessorData("PUT", "/profile/dashboard/professors/update/" + professorId, json, "Updating : [");
 
 	});
 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 			success: function(data) {
 				let respContent = "<div class='successAlert alert alert-success'>" + "<span class='success'>" + successMsg + "<b>" + data.name + " " + data.lastName + "</b>] - Success! </span></div>";
 				setTimeout(function() {
-					window.location.href = "/headmaster/dashboard/professors"
+					window.location.href = "/profile/dashboard/professors"
 				}, 2000);
 				$('#successAlert').html(respContent).show();
 			},

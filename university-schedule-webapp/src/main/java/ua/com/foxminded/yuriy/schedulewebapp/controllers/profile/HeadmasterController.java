@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile;
 
 import java.security.Principal;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 
 
 @Controller
-@RequestMapping("/headmaster/dashboard")
+@RequestMapping("/profile/dashboard")
 @AllArgsConstructor
 public class HeadmasterController {
 
@@ -17,12 +17,13 @@ public class HeadmasterController {
 
 	@GetMapping
 	public ModelAndView getWelcomeMessage(Principal principal) {
+		
 		String name = principal.getName();
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("name", name);
 
-		mav.setViewName("headmaster/dashboard");
+		mav.setViewName("profile/dashboard");
 		return mav;
 	}
 }

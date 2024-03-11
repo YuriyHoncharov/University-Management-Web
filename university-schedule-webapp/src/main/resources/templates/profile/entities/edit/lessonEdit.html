@@ -124,7 +124,7 @@ h1 {
 
 		<!-- Back button -->
 
-		<form class="d-inline-block" action="/headmaster/dashboard"
+		<form class="d-inline-block" action="/profile/dashboard"
 			method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
@@ -134,7 +134,7 @@ h1 {
 
 	<div class="transparent-box">
 		<form
-			th:action="@{/headmaster/dashboard/lessons/edit/{id} (id=${lesson.id})}"
+			th:action="@{/profile/dashboard/lessons/edit/{id} (id=${lesson.id})}"
 			th:object="${lesson}">
 			<div class="form-group">
 				<label for="lessonId" class="label-large">ID</label> <input

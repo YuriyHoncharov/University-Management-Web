@@ -11,7 +11,7 @@ $(document).ready(function() {
 		if (confirm('Are you sure you want to delete the lesson with following ID : ' + lessonId + '?')) {
 			$.ajax({
 				type: 'DELETE',
-				url: '/headmaster/dashboard/lessons/delete/' + lessonId,
+				url: '/profile/dashboard/lessons/delete/' + lessonId,
 				success: function(response) {
 					alert(response);
 					location.reload();
@@ -44,7 +44,7 @@ $(document).ready(function() {
 		"auditorium": { "id": lessonAuditorium } ,
 		"house": { "id": lessonHouse } ,
 		"year": { "id": lessonYear } };
-		sendLessonData("PUT", "/headmaster/dashboard/lessons/update/" + lessonId, json, "Updating : [");
+		sendLessonData("PUT", "/profile/dashboard/lessons/update/" + lessonId, json, "Updating : [");
 
 	});
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 			success: function(data) {
 				let respContent = "<div class='successAlert alert alert-success'>" + "<span class='success'>" + successMsg + "<b>" + data.id + "</b>] - Success! </span></div>";
 				setTimeout(function() {
-					window.location.href = "/headmaster/dashboard/lessons"
+					window.location.href = "/profile/dashboard/lessons"
 				}, 2000);
 				$('#successAlert').html(respContent).show();
 			},

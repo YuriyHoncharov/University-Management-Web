@@ -10,6 +10,17 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'
+	crossorigin='anonymous'></script>
 <style>
 body {
 	font-family: 'HarryPotterFont', Arial, sans-serif;
@@ -127,6 +138,7 @@ button:hover {
 </style>
 </head>
 <body>
+
 	<nav class="navbar navbar-light bg-light fixed-top">
 		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
 			Wizardry</a>
@@ -144,28 +156,50 @@ button:hover {
 			</ul>
 		</div>
 	</nav>
-	<h3>
-		Welcome, <span th:text="${name}"></span>
-	</h3>
+
 
 	<div class="container text-center" style="padding-top: 200px;">
-		<form class="d-inline-block" action="/headmaster/dashboard/houses"
+		<form class="d-inline-block" action="/profile/dashboard"
 			method="get">
-			<button type="submit" class="btn btn-dark">HOUSES</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/students"
-			method="get">
-			<button type="submit" class="btn btn-dark">STUDENTS</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/professors"
-			method="get">
-			<button type="submit" class="btn btn-dark">PROFESSORS</button>
-		</form>
-		<form class="d-inline-block" action="/headmaster/dashboard/lessons"
-			method="get">
-			<button type="submit" class="btn btn-dark">LESSONS</button>
+			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
 	</div>
 
+	<div>
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Last Name</th>
+					<th>Subjects</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="professor : ${professors}">
+
+					<td th:text="${professor.id}">ID</td>
+					<td th:text="${professor.name}">Name</td>
+					<td th:text="${professor.lastName}">Last Name</td>
+					<td><th:block th:each="subject : ${professor.subjects}">
+							<span th:text="${subject.name}"></span>
+
+							<td><a th:href="@{'/profile/dashboard/professors/edit/' + ${professor.id}}">
+									<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+							</a></td>
+							<td>
+								<button th:value="${professor.id}" class="deleteProfessor btn btn-link p-0" type="button">
+									<img src="/icons/delete.svg" alt="Remove" width="20"
+										height="20" />
+								</button>
+							</td>
+				</tr>
+				</th:block>
+		</table>
+	</div>
+	<script src="/js/professors.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>
 </html>

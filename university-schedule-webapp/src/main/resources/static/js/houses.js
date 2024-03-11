@@ -14,7 +14,7 @@ $(document).ready(function() {
 		if (confirm('Are you sure you want to delete the House with following ID : ' + houseId + '?')) {
 			$.ajax({
 				type: "DELETE",
-				url: '/headmaster/dashboard/houses/delete/' + houseId,
+				url: '/profile/dashboard/houses/delete/' + houseId,
 				success: function(response) {
 					alert(response);
 					location.reload();
@@ -31,7 +31,7 @@ $(document).ready(function() {
 		$(this).prop('disabled', true);
 		let houseId = $('#houseId').val();
 		let json = { "id": houseId, "house": $('#house').val() };
-		sendHouseData("PUT", "/headmaster/dashboard/houses/update/" + houseId, json, "Updating : [");
+		sendHouseData("PUT", "/profile/dashboard/houses/update/" + houseId, json, "Updating : [");
 
 	});
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
 			success: function(data) {
 				let respContent = "<div class='successAlert alert alert-success'>" + "<span class='success'>" + successMsg + "<b>" + data.house + "</b>] - Success! </span></div>";
 				setTimeout(function() {
-					window.location.href = "/headmaster/dashboard/houses"
+					window.location.href = "/profile/dashboard/houses"
 				}, 2000);
 				$("#successAlert").html(respContent).show();
 			},

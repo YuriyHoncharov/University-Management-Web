@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers.headmaster.entitiesmanage;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Controller
-@RequestMapping("/headmaster/dashboard/professors")
+@RequestMapping("/profile/dashboard/professors")
 @AllArgsConstructor
 public class ProfessorController {
 
@@ -36,7 +36,7 @@ public class ProfessorController {
 		List<ProfessorDto> professors = professorService.getAll();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("professors", professors);
-		mav.setViewName("headmaster/entities/professors");
+		mav.setViewName("profile/entities/professors");
 		return mav;
 	}
 
@@ -59,10 +59,10 @@ public class ProfessorController {
 			mav.addObject("actualSubject", professor.getSubjects().get(0));
 			mav.addObject("availableSubjects", availableSubjects);
 			mav.addObject("professor", professor);
-			mav.setViewName("headmaster/entities/edit/professorEdit");
+			mav.setViewName("profile/entities/edit/professorEdit");
 			return mav;
 		}).orElseGet(() -> {
-			mav.setViewName("redirect:headmaster/entities/professors");
+			mav.setViewName("redirect:profile/entities/professors");
 			return mav;
 		});
 	}

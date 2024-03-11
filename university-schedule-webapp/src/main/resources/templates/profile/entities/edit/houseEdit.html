@@ -10,7 +10,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
-<script src="/js/students.js"></script>
+<script src="/js/houses.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -39,7 +39,7 @@ body {
 	background-image: url('/images/hogwarts2.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
-	
+	padding-top: 70px;
 }
 
 nav {
@@ -90,28 +90,6 @@ h1 {
 .small-text {
 	font-size: 14px;
 }
-
-.data-table {
-	padding-top: 150px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 50%;
-	border-collapse: collapse;
-	margin-bottom: 20px;
-	background-color: rgba(255, 255, 255, 0.8);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.data-table th, .data-table td {
-	padding: 12px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
-}
-
-.data-table th {
-	background-color: #f2f2f2;
-}
-
 </style>
 </head>
 
@@ -146,7 +124,7 @@ h1 {
 
 		<!-- Back button -->
 
-		<form class="d-inline-block" action="/headmaster/dashboard"
+		<form class="d-inline-block" action="/profile/dashboard"
 			method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
@@ -156,58 +134,28 @@ h1 {
 
 	<div class="transparent-box">
 		<form
-			th:action="@{/headmaster/dashboard/students/edit/{id} (id=${student.id})}"
-			th:object="${student}" method="post">
-			<!-- Existing form fields for student information -->
-
-			<div>
-				<table class="data-table">
-					<thead>
-						<tr>
-							<th>ID:</th>
-							<th>Name:</th>
-							<th>Description:</th>
-							<th>Remove:</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- Iterate over subjects associated with the student -->
-						<tr th:each="subject : ${student.subjects}">
-							<td th:text="${subject.id}">Subject ID:</td>
-							<td th:text="${subject.name}">Name:</td>
-							<td th:text="${subject.description}">Description:</td>
-							<td>
-								<button th:value="${subject.id}"
-									th:data-student-id="${student.id}"
-									class="editStudentSubjects btn btn-link p-0" type="button">
-									<img alt="Delete" src="/icons/delete.svg" width="20"
-										height="20">
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
+			th:action="@{/profile/dashboard/houses/edit/{id}(id=${house.id})}"
+			th:object="${house}" method="post">
 			<div class="form-group">
-				<label class="label-large">Select Subject:</label> <select
-					id="subjectId" class="form-control">
-					<option value="" disabled selected>Select a Subject</option>
-					<option th:each="subject : ${availableSubjects}"
-						th:value="${subject.id}"
-						th:text="${subject.name + ' - ' + subject.description}"></option>
-				</select>
-				<button th:data-student-id="${student.id}"
-					class="addSubject addbtn btn-success mx-auto d-block mt-3"
-					type="button" id="addSubject">Add Subject</button>
+				<label for="houseId" class="label-large">ID</label> <input
+					type="text" class="form-control" id="houseId" aria-describedby="ID"
+					placeholder="Enter ID" th:value="${house.id}" readonly="readonly">
 			</div>
-
-
-
+			<div class="form-group">
+				<label for="house" class="label-large">House</label> <input
+					type="text" class="form-control" id="house"
+					placeholder="Enter House name" th:value="${house.house}"><small
+					id="houseHelp" class="form-text text-muted small-text">Please
+					make sure you have entered the name of the house that does not yet
+					exist.</small>
+			</div>
+			<div class="center-button">
+				<button id="updateHouse" type="submit" class="btn btn-primary">Submit</button>
+			</div>
 		</form>
 	</div>
 
-	<script src="/js/students.js"></script>
+	<script src="/js/houses.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 </body>

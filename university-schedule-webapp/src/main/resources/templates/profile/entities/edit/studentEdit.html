@@ -10,7 +10,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
-<script src="/js/houses.js"></script>
+<script src="/js/students.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -124,7 +124,7 @@ h1 {
 
 		<!-- Back button -->
 
-		<form class="d-inline-block" action="/headmaster/dashboard"
+		<form class="d-inline-block" action="/profile/dashboard"
 			method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
@@ -134,30 +134,42 @@ h1 {
 
 	<div class="transparent-box">
 		<form
-			th:action="@{/headmaster/dashboard/houses/edit/{id}(id=${house.id})}"
-			th:object="${house}" method="post">
+			th:action="@{/profile/dashboard/students/edit/{id} (id=${student.id})}"
+			th:object="${student}">
 			<div class="form-group">
-				<label for="houseId" class="label-large">ID</label> <input
-					type="text" class="form-control" id="houseId" aria-describedby="ID"
-					placeholder="Enter ID" th:value="${house.id}" readonly="readonly">
+				<label for="studentId" class="label-large">ID</label> <input
+					type="text" class="form-control" id="studentId"
+					aria-describedby="studentId" placeholder="Enter ID"
+					th:value="${student.id}" readonly="readonly">
 			</div>
 			<div class="form-group">
-				<label for="house" class="label-large">House</label> <input
-					type="text" class="form-control" id="house"
-					placeholder="Enter House name" th:value="${house.house}"><small
-					id="houseHelp" class="form-text text-muted small-text">Please
-					make sure you have entered the name of the house that does not yet
-					exist.</small>
+				<label for="studentName" class="label-large">Name</label> <input
+					type="text" class="form-control" id="studentName"
+					aria-describedby="studentName" placeholder="Enter Name"
+					th:value="${student.name}">
+			</div>
+			<div class="form-group">
+				<label for="studentLastName" class="label-large">Last Name</label>
+				<input type="text" class="form-control" id="studentLastName"
+					aria-describedby="studentLastName" placeholder="Enter Last Name"
+					th:value="${student.lastName}">
+			</div>
+			<div class="form-group">
+				<label for="studentYear" class="label-large">Year</label>
+				 <select class="form-control" id="studentYear" aria-describedby="studentYear" th:field="${student.year}">
+        <option th:each="year : ${years}" th:value="${year.yearValue}" th:text="${year.yearValue}"></option>
+    </select>
 			</div>
 			<div class="center-button">
-				<button id="updateHouse" type="submit" class="btn btn-primary">Submit</button>
+				<button id="updateStudent" type="submit" class="btn btn-primary">Submit</button>
+				<a th:href="@{/profile/dashboard/students/edit/{id}/subjects(id=${student.id})}" class="btn btn-secondary" id="manageSubjects">Manage Subjects</a>
 			</div>
 		</form>
 	</div>
 
-	<script src="/js/houses.js"></script>
+	<script src="/js/students.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
+	
 </body>
 
 </html>

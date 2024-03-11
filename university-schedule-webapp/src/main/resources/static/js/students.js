@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 			$.ajax({
 				type: "POST",
-				url: `/headmaster/dashboard/students/edit/${studentId}/subjects/${subjectId}`,
+				url: `/profile/dashboard/students/edit/${studentId}/subjects/${subjectId}`,
 				success: function(response) {
 					alert(response);
 					location.reload();
@@ -46,7 +46,7 @@ $(document).ready(function() {
 		if (confirm('Are you sure you want to delete the student with following ID : ' + studentId + '?')) {
 			$.ajax({
 				type: "DELETE",
-				url: '/headmaster/dashboard/students/delete/' + studentId,
+				url: '/profile/dashboard/students/delete/' + studentId,
 				success: function(response) {
 					alert(response);
 					location.reload();
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		let studentId = $('#studentId').val();
 		let selectedYearId = $('#studentYear').val();
 		let json = { "id": studentId, "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": $('#studentHouse').val() };
-		sendStudentData("PUT", "/headmaster/dashboard/students/update/" + studentId, json, "Updating : [");
+		sendStudentData("PUT", "/profile/dashboard/students/update/" + studentId, json, "Updating : [");
 	});
 
 	function sendStudentData(type, url, jsonData, successMsg) {
@@ -79,7 +79,7 @@ $(document).ready(function() {
 			success: function(data) {
 				let respContent = "<div class='successAlert alert alert-success'>" + "<span class='success'>" + successMsg + "<b>" + data.name + data.lastName + "</b>] - Success! </span></div>";
 				setTimeout(function() {
-					window.location.href = "/headmaster/dashboard/students"
+					window.location.href = "/profile/dashboard/students"
 				}, 2000);
 				$("#successAlert").html(respContent).show();
 

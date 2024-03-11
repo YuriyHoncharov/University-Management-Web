@@ -36,8 +36,8 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().cors().disable()
-				.authorizeRequests(request -> request.antMatchers("/profile_dashboard").hasAnyRole("STUDENT", "PROFESSOR")
-						.antMatchers("/headmaster/dashboard").hasRole("HEADMASTER").anyRequest().permitAll())
+				.authorizeRequests(request -> request.antMatchers("/profile/dashboard").hasAnyRole("STUDENT", "PROFESSOR", "HEADMASTER")
+						.anyRequest().permitAll())
 				.exceptionHandling(
 						exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll().successHandler(customAuthenticationSuccessHandler())
@@ -75,9 +75,9 @@ public class SecurityConfig {
 					Authentication authentication) throws IOException, ServletException {
 				if (authentication.getAuthorities().stream()
 						.anyMatch(authority -> authority.getAuthority().equals("ROLE_HEADMASTER"))) {
-					response.sendRedirect("/headmaster/dashboard");
+					response.sendRedirect("/profile/dashboard");
 				} else {
-					response.sendRedirect("/profile_dashboard");
+					response.sendRedirect("/profile/dashboard");
 				}
 			}
 		};
