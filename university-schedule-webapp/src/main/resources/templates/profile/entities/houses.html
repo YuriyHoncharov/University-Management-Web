@@ -183,7 +183,7 @@ button:hover {
 				<td th:text="${house.house}">Name:</td>
 				
 				
-				<td ><a 
+				<td sec:authorize="hasRole('ROLE_HEADMASTER')"><a 
 					th:href="@{'/profile/dashboard/houses/edit/' + ${house.id}}"> <img
 						src="/icons/edit.svg" alt="Remove" width="20" height="20" />
 				</a></td>
