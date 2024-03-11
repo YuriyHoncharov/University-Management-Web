@@ -21,6 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -36,15 +40,16 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().cors().disable()
-				.authorizeRequests(request -> request.antMatchers("/profile/dashboard").hasAnyRole("STUDENT", "PROFESSOR", "HEADMASTER")
-						.anyRequest().permitAll())
+				.authorizeRequests(
+						request -> request.antMatchers("/profile/dashboard").hasAnyRole("STUDENT", "PROFESSOR", "HEADMASTER")
+
+								.requestMatchers(adminMatchers()).hasRole("HEADMASTER").anyRequest().permitAll())
 				.exceptionHandling(
 						exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll().successHandler(customAuthenticationSuccessHandler())
-						.loginProcessingUrl("/login"))
+				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll()
+						.successHandler(customAuthenticationSuccessHandler()).loginProcessingUrl("/login"))
 				.logout(logoutConf -> logoutConf.logoutSuccessUrl("/login"));
 		return http.build();
-
 	}
 
 	@Bean
@@ -66,7 +71,6 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-
 	private AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
 		return new AuthenticationSuccessHandler() {
 
@@ -81,6 +85,18 @@ public class SecurityConfig {
 				}
 			}
 		};
+
 	}
 
+	private RequestMatcher adminMatchers() {
+		return new OrRequestMatcher(new AntPathRequestMatcher("/profile/dashboard/houses/*"),
+				new AntPathRequestMatcher("/profile/dashboard/students/*"),
+				new AntPathRequestMatcher("/profile/dashboard/professors/*"),
+				new AntPathRequestMatcher("/profile/dashboard/lessons/*"));
+	}
+
+	private RequestMatcher permitAllMatchers() {
+		return new OrRequestMatcher(new AntPathRequestMatcher("/login"));
+
+	}
 }
