@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -214,8 +216,8 @@ button:hover {
 					<th>End Time:</th>
 					<th>Auditorium:</th>
 					<th>House:</th>
-					<th>Edit</th>
-					<th>Remove</th>
+					<th sec:authorize="hasRole('HEADMASTER')">Edit</th>
+					<th sec:authorize="hasRole('HEADMASTER')">Remove</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -228,11 +230,11 @@ button:hover {
 					<td th:text="${lesson.endTime}">End Time</td>
 					<td th:text="${lesson.auditorium}">Auditorium:</td>
 					<td th:text="${lesson.house}">House:</td>
-					<td><a
+					<td sec:authorize="hasRole('HEADMASTER')"><a
 						th:href="@{'/profile/dashboard/lessons/edit/' + ${lesson.id}}">
 							<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
 					</a></td>
-					<td>
+					<td sec:authorize="hasRole('HEADMASTER')">
 						<button th:value="${lesson.id}"
 							class="deleteLesson btn btn-link p-0" type="button">
 							<img alt="Delete" src="/icons/delete.svg" width="20" height="20">

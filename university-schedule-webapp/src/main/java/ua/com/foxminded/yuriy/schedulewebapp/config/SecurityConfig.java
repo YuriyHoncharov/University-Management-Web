@@ -15,9 +15,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -30,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(securedEnabled = true)
 
 public class SecurityConfig {
 
@@ -39,11 +41,12 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().cors().disable()
-				.authorizeRequests(
-						request -> request.antMatchers("/profile/dashboard").hasAnyRole("STUDENT", "PROFESSOR", "HEADMASTER")
+		http.csrf(AbstractHttpConfigurer::disable).cors().disable()
+				.authorizeHttpRequests(registry -> registry.requestMatchers(permitAuthenticatedMatchers()).authenticated()
+						.requestMatchers(adminMatchers()).hasRole("HEADMASTER")
 
-								.requestMatchers(adminMatchers()).hasRole("HEADMASTER").anyRequest().permitAll())
+						.anyRequest().permitAll())
+
 				.exceptionHandling(
 						exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll()
@@ -71,6 +74,11 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
+	@Bean
+	public AuthenticationEntryPoint authenticationEntryPoint() {
+		return new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
+	}
+
 	private AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
 		return new AuthenticationSuccessHandler() {
 
@@ -88,15 +96,24 @@ public class SecurityConfig {
 
 	}
 
-	private RequestMatcher adminMatchers() {
-		return new OrRequestMatcher(new AntPathRequestMatcher("/profile/dashboard/houses/*"),
-				new AntPathRequestMatcher("/profile/dashboard/students/*"),
-				new AntPathRequestMatcher("/profile/dashboard/professors/*"),
-				new AntPathRequestMatcher("/profile/dashboard/lessons/*"));
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring().antMatchers("/style/**", "/js/**", "/webjars/**");
 	}
 
-	private RequestMatcher permitAllMatchers() {
-		return new OrRequestMatcher(new AntPathRequestMatcher("/login"));
+	private RequestMatcher adminMatchers() {
+		return new OrRequestMatcher(new AntPathRequestMatcher("/profile/dashboard/houses/**"),
+				new AntPathRequestMatcher("/profile/dashboard/students/**"),
+				new AntPathRequestMatcher("/profile/dashboard/professors/**"),
+				new AntPathRequestMatcher("/profile/dashboard/lessons/**"));
+	}
+
+	private RequestMatcher permitAuthenticatedMatchers() {
+		return new OrRequestMatcher(new AntPathRequestMatcher("/profile/dashboard/students"),
+				new AntPathRequestMatcher("/profile/dashboard/professors"),
+				new AntPathRequestMatcher("/profile/dashboard/lessons"),
+				new AntPathRequestMatcher("/profile/dashboard/houses"),
+				new AntPathRequestMatcher("/profile/dashboard"));
 
 	}
 }

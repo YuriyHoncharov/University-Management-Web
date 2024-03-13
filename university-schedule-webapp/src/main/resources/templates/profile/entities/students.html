@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -185,8 +187,7 @@ button:hover {
 	</nav>
 
 	<div class="container text-center" style="padding-top: 200px;">
-		<form class="d-inline-block" action="/profile/dashboard"
-			method="get">
+		<form class="d-inline-block" action="/profile/dashboard" method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
 	</div>
@@ -201,8 +202,8 @@ button:hover {
 					<th>Year</th>
 					<th>House</th>
 					<th>Subjects</th>
-					<th>Edit</th>
-					<th>Remove</th>
+					<th sec:authorize="hasRole('HEADMASTER')">Edit</th>
+					<th sec:authorize="hasRole('HEADMASTER')">Remove</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -212,14 +213,16 @@ button:hover {
 					<td th:text="${student.lastName}">Last Name</td>
 					<td th:text="${student.year}">Year</td>
 					<td th:text="${student.house}">House</td>
-					<td><span th:each="subject : ${student.subjects}"> <span
+					<td><span
+						th:each="subject : ${student.subjects}"> <span
 							th:text="${subject.name}"></span>
 					</span></td>
-					<td><a th:href="@{'/profile/dashboard/students/edit/' + ${student.id}}"> <img
-							src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+					<td sec:authorize="hasRole('HEADMASTER')"><a
+						th:href="@{'/profile/dashboard/students/edit/' + ${student.id}}">
+							<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
 					</a></td>
 
-					<td>
+					<td sec:authorize="hasRole('HEADMASTER')">
 						<button th:value="${student.getId()}"
 							class="deleteStudent btn btn-link p-0" type="button">
 							<img alt="Delete" src="/icons/delete.svg" width="20" height="20">
@@ -239,7 +242,8 @@ button:hover {
 
 	<div style="text-align: center">
 		<ul class="pagination" th:if="${pageStudent.totalPages > 0}">
-			<li th:each="pageNumber : ${#numbers.sequence(0, pageStudent.totalPages - 1)}"
+			<li
+				th:each="pageNumber : ${#numbers.sequence(0, pageStudent.totalPages - 1)}"
 				th:class="${pageNumber == pageStudent.number} ? active : ''"><a
 				th:href="@{'/profile/dashboard/students?page=' + ${pageNumber}}"
 				th:text="${pageNumber + 1}"> </a></li>

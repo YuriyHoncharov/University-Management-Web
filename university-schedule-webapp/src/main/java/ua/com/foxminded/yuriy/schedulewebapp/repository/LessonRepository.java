@@ -14,14 +14,20 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.house =:house AND l.year =:year AND l.subject IN :subjects AND l.date = :selectedDate")
-	List<Lesson> getByStudentIdAndDate(House house, Year year, List<Subject> subjects, LocalDate selectedDate);
+	Page<Lesson> getByStudentIdAndDate(House house, Year year, List<Subject> subjects, LocalDate selectedDate, Pageable pageable);
 
 	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.professor.id =:professorId AND l.date = :selectedDate")
-	List<Lesson> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate);
+	Page<Lesson> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable);
 
 	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.date = :selectedDate")
 	Page<Lesson> getByDate(LocalDate selectedDate, Pageable pageable);
 
 	Page<Lesson> findAll(Pageable pageable);
+	
+	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.house =:house AND l.year =:year AND l.subject IN :subjects")
+	Page<Lesson> getByStudentId(House house, Year year, List<Subject> subjects, Pageable pageable);
+
+	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.professor.id =:professorId")
+	Page<Lesson> getByProfessorId(Long professorId, Pageable pageable);
 
 }

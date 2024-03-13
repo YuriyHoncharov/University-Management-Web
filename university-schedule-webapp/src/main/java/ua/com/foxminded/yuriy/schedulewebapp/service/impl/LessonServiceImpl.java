@@ -56,26 +56,25 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<LessonDto> getByStudentIdAndFilters(Long wizardId, LocalDate selectedDate) {
+	public Page<LessonDto> getByStudentIdAndDate(Long wizardId, LocalDate selectedDate, Pageable pageable) {
 
 		Optional<Student> student = studentRepository.findById(wizardId);
 		if (student.isPresent()) {
 			House house = student.get().getHouse();
 			Year year = student.get().getYear();
 			List<Subject> subjects = student.get().getSubjects();
-			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate).stream().map(LessonDto::new)
-					.collect(Collectors.toList());
+			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate, pageable).map(LessonDto::new);
+					
 		} else {
 			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
 		}
 	}
 
 	@Override
-	public List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate) {
+	public Page<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable) {
 
 		if (professorRepository.findById(professorId).isPresent()) {
-			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate).stream().map(LessonDto::new)
-					.collect(Collectors.toList());
+			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate, pageable).map(LessonDto::new);
 		} else {
 			throw new UserNotFoundException("Any user was found with the followind ID : " + professorId);
 		}
@@ -83,13 +82,13 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate) {
+	public Page<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate, Pageable pageable) {
 
 		LocalDate selectedDateStamp = parseSelectedDate(selectedDate);
 		if (studentRepository.findById(wizardId).isPresent()) {
-			return getByStudentIdAndFilters(wizardId, selectedDateStamp);
+			return getByStudentIdAndDate(wizardId, selectedDateStamp, pageable);
 		} else {
-			return getByProfessorIdAndDate(wizardId, selectedDateStamp);
+			return getByProfessorIdAndDate(wizardId, selectedDateStamp, pageable);
 		}
 
 	}
@@ -120,6 +119,38 @@ public class LessonServiceImpl implements LessonService {
 		LocalDate selectedDateStamp = parseSelectedDate(selectedDate);
 		Page<Lesson>pageLesson = lessonRepository.getByDate(selectedDateStamp, pageable);
 		return pageLesson.map(LessonDto::new);
+	}
+
+	@Override
+	public Page<LessonDto> getByStudentId(Long wizardId, Pageable pageable) {
+		Optional<Student> student = studentRepository.findById(wizardId);
+		if (student.isPresent()) {
+			House house = student.get().getHouse();
+			Year year = student.get().getYear();
+			List<Subject> subjects = student.get().getSubjects();
+			return lessonRepository.getByStudentId(house, year, subjects, pageable).map(LessonDto::new);
+					
+		} else {
+			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
+		}
+	}
+
+	@Override
+	public Page<LessonDto> getByProfessorId(Long wizardId, Pageable pageable) {
+		if (professorRepository.findById(wizardId).isPresent()) {
+			return lessonRepository.getByProfessorId(wizardId, pageable).map(LessonDto::new);
+		} else {
+			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
+		}
+	}
+
+	@Override
+	public Page<LessonDto> getByWizardId(Long wizardId, Pageable pageable) {
+		if (studentRepository.findById(wizardId).isPresent()) {
+			return getByStudentId(wizardId, pageable);
+		} else {
+			return getByProfessorId(wizardId, pageable);
+		}
 	}
 
 }

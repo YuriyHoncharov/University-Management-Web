@@ -19,6 +19,7 @@ public class WizardService implements UserDetailsService {
 
 	private final WizardRepository wizardRepository;
 	
+	
 	public Optional<Wizard> findByLogin(String login) {
 		return wizardRepository.findByLogin(login);
 	}

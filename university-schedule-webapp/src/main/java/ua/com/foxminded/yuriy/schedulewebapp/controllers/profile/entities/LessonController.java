@@ -1,10 +1,14 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities;
 
 import java.util.stream.IntStream;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +27,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.WizardRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.AuditoriumService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
@@ -41,21 +46,40 @@ public class LessonController {
 	private HouseService houseService;
 	private ProfessorService professorService;
 	private YearService yearService;
+	private WizardRepository wizardRepository;
 
 	@GetMapping
-	public ModelAndView pagination(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+	public ModelAndView pagination(HttpServletRequest request, Authentication authentication,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "selectedDate", required = false) String selectedDate) {
 
 		ModelAndView mav = new ModelAndView();
 		Page<LessonDto> pageLessons = null;
 
-		if (selectedDate != null) {
+		boolean isAdmin = request.isUserInRole("HEADMASTER");
+		boolean isStudent = request.isUserInRole("STUDENT");
+		boolean isProfessor = request.isUserInRole("PROFESSOR");
+		
+		String name = authentication.getName();
+		Long wizardId = wizardRepository.findByLogin(name).get().getId();
+		
+		// ADMIN
+		
+		if (selectedDate != null && isAdmin) {
 			pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
 			mav.addObject("selectedDate", selectedDate);
 		} else {
 			pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
 		}
-
+		
+		// STUDENT OR PROFESSOR
+		
+		if (selectedDate != null && (isStudent || isProfessor)) {
+			pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
+			mav.addObject("selectedDate", selectedDate);
+		} else {
+			pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
+		}
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(0, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");

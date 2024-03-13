@@ -18,11 +18,7 @@ public class HeadmasterController {
 	@GetMapping
 	public ModelAndView getWelcomeMessage(Principal principal) {
 		
-		String name = principal.getName();
-
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("name", name);
-
 		mav.setViewName("profile/dashboard");
 		return mav;
 	}

@@ -17,17 +17,23 @@ public interface LessonService {
 	Lesson save(Lesson lesson);
 
 	void delete(Long id);
-	
+
 	List<LessonDto> getAllLessonsDto();
 
-	List<LessonDto> getByStudentIdAndFilters(Long studentId, LocalDate selectedDate);
-	
-	List<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate);
-	
-	List<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate);
-	
+	Page<LessonDto> getByStudentIdAndDate(Long studentId, LocalDate selectedDate, Pageable pageable);
+
+	Page<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable);
+
+	Page<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate, Pageable pageable);
+
 	Page<LessonDto> getAllByPage(Pageable pageable);
-	
+
 	Page<LessonDto> getAllByDate(String selectedDate, Pageable pageable);
-			
+	
+	Page<LessonDto> getByStudentId(Long wizardId, Pageable pageable);
+	
+	Page<LessonDto> getByProfessorId(Long wizardId, Pageable pageable);
+	
+	Page<LessonDto> getByWizardId(Long wizardId, Pageable pageable);
+
 }
