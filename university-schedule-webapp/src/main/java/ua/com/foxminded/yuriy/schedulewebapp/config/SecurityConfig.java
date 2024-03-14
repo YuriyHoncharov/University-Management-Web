@@ -48,7 +48,7 @@ public class SecurityConfig {
 						.anyRequest().permitAll())
 
 				.exceptionHandling(
-						exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+						exception -> exception.accessDeniedPage("/login"))
 				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll()
 						.successHandler(customAuthenticationSuccessHandler()).loginProcessingUrl("/login"))
 				.logout(logoutConf -> logoutConf.logoutSuccessUrl("/login"));
