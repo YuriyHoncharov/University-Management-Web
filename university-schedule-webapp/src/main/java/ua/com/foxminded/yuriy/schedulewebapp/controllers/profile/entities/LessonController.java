@@ -63,23 +63,25 @@ public class LessonController {
 		String name = authentication.getName();
 		Long wizardId = wizardRepository.findByLogin(name).get().getId();
 		
-		// ADMIN
-		
-		if (selectedDate != null && isAdmin) {
-			pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
-			mav.addObject("selectedDate", selectedDate);
-		} else {
-			pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
-		}
-		
-		// STUDENT OR PROFESSOR
-		
-		if (selectedDate != null && (isStudent || isProfessor)) {
-			pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
-			mav.addObject("selectedDate", selectedDate);
-		} else {
-			pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
-		}
+	// ADMIN
+	    if (isAdmin) {
+	        if (selectedDate != null) {
+	            pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
+	            mav.addObject("selectedDate", selectedDate);
+	        } else {
+	            pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
+	        }
+	    }
+
+	    // STUDENT OR PROFESSOR
+	    else if (isStudent || isProfessor) {
+	        if (selectedDate != null) {
+	            pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
+	            mav.addObject("selectedDate", selectedDate);
+	        } else {
+	            pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
+	        }
+	    }
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(0, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");

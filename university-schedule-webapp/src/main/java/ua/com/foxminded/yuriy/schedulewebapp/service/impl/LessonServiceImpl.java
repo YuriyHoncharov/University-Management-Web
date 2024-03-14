@@ -131,7 +131,7 @@ public class LessonServiceImpl implements LessonService {
 			return lessonRepository.getByStudentId(house, year, subjects, pageable).map(LessonDto::new);
 					
 		} else {
-			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
+			throw new UserNotFoundException("Any student was found with the followind ID : " + wizardId);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class LessonServiceImpl implements LessonService {
 		if (professorRepository.findById(wizardId).isPresent()) {
 			return lessonRepository.getByProfessorId(wizardId, pageable).map(LessonDto::new);
 		} else {
-			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
+			throw new UserNotFoundException("Any Professor was found with the followind ID : " + wizardId);
 		}
 	}
 
