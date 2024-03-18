@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -137,6 +137,30 @@ button:hover {
 .data-table th {
 	background-color: #f2f2f2;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+}
+
+.pagination li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #007bff;
+}
+
+.pagination li.active a {
+	background-color: #007bff;
+	color: #fff;
+}
 </style>
 </head>
 <body>
@@ -161,8 +185,7 @@ button:hover {
 
 
 	<div class="container text-center" style="padding-top: 200px;">
-		<form class="d-inline-block" action="/profile/dashboard"
-			method="get">
+		<form class="d-inline-block" action="/profile/dashboard" method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
 	</div>
@@ -180,7 +203,7 @@ button:hover {
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="professor : ${professors}">
+				<tr th:each="professor : ${professors.content}">
 
 					<td th:text="${professor.id}">ID</td>
 					<td th:text="${professor.name}">Name</td>
@@ -188,11 +211,13 @@ button:hover {
 					<td><th:block th:each="subject : ${professor.subjects}">
 							<span th:text="${subject.name}"></span>
 
-							<td sec:authorize="hasRole('HEADMASTER')"><a th:href="@{'/profile/dashboard/professors/edit/' + ${professor.id}}">
+							<td sec:authorize="hasRole('HEADMASTER')"><a
+								th:href="@{'/profile/dashboard/professors/edit/' + ${professor.id}}">
 									<img src="/icons/edit.svg" alt="Remove" width="20" height="20" />
 							</a></td>
 							<td sec:authorize="hasRole('HEADMASTER')">
-								<button th:value="${professor.id}" class="deleteProfessor btn btn-link p-0" type="button">
+								<button th:value="${professor.id}"
+									class="deleteProfessor btn btn-link p-0" type="button">
 									<img src="/icons/delete.svg" alt="Remove" width="20"
 										height="20" />
 								</button>
@@ -201,6 +226,21 @@ button:hover {
 				</th:block>
 		</table>
 	</div>
+
+
+	<div style="text-align: center">
+		<ul class="pagination" th:if="${professors.totalPages > 0}">
+			<li
+				th:each="pageNumber : ${#numbers.sequence(0, professors.totalPages - 1)}"
+				th:class="${pageNumber == professors.number} ? active : ''"><a
+				th:href="@{'/profile/dashboard/professors?page=' + ${pageNumber}}"
+				th:text="${pageNumber + 1}"> </a></li>
+
+		</ul>
+
+	</div>
+
+
 	<script src="/js/professors.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>

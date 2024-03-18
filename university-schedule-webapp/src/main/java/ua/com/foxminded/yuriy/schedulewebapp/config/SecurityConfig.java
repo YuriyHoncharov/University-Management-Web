@@ -43,12 +43,9 @@ public class SecurityConfig {
 
 		http.csrf(AbstractHttpConfigurer::disable).cors().disable()
 				.authorizeHttpRequests(registry -> registry.requestMatchers(permitAuthenticatedMatchers()).authenticated()
-						.requestMatchers(adminMatchers()).hasRole("HEADMASTER")
+						.requestMatchers(adminMatchers()).hasRole("HEADMASTER").anyRequest().permitAll())
+				.exceptionHandling(exception -> exception.accessDeniedPage("/login"))
 
-						.anyRequest().permitAll())
-
-				.exceptionHandling(
-						exception -> exception.accessDeniedPage("/login"))
 				.formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login").permitAll()
 						.successHandler(customAuthenticationSuccessHandler()).loginProcessingUrl("/login"))
 				.logout(logoutConf -> logoutConf.logoutSuccessUrl("/login"));
@@ -112,8 +109,7 @@ public class SecurityConfig {
 		return new OrRequestMatcher(new AntPathRequestMatcher("/profile/dashboard/students"),
 				new AntPathRequestMatcher("/profile/dashboard/professors"),
 				new AntPathRequestMatcher("/profile/dashboard/lessons"),
-				new AntPathRequestMatcher("/profile/dashboard/houses"),
-				new AntPathRequestMatcher("/profile/dashboard"));
+				new AntPathRequestMatcher("/profile/dashboard/houses"), new AntPathRequestMatcher("/profile/dashboard"));
 
 	}
 }

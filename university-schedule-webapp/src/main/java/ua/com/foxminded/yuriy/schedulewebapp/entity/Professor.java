@@ -1,6 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity;
 
-import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;

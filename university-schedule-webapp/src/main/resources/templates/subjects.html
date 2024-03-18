@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Subjects</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <style>
+h1 {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	color: black;
+	text-align: center;
+	margin-top: 700px;
+	font-size: 16px;
+	margin-left: 500px;
+	margin-right: 500px;
+	margin-left: 500px;
+	font-weight: bold;
+	background-color: rgba(169, 169, 169, 0.5);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .page-title {
 	text-align: center;
 	color: #007bff;
@@ -57,7 +78,7 @@ ul {
 }
 
 li {
-	margin-bottom: 20px;
+	color: black;
 }
 
 .subject-name {
@@ -86,24 +107,52 @@ li {
 					href="/subjects">Subjects<span class="sr-only">(current)</span></a></li>
 				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
 				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
-				<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+					class="nav-link" href="/login">Sign In</a></li>
+				<li class="nav-item" sec:authorize="isAuthenticated()"><a
+					class="nav-link" href="/profile/dashboard">Profile</a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<div class="container mt-5">
-		<h1 class="page-title">All Subjects</h1>
-		<ul>
-			<li th:each="subject, stat : ${subjects}">
-				<div>
-					<span class="subject-name" th:text="${subject.name}"></span> - <span
-						class="description" th:text="${subject.description}"></span>
-				</div>
-			</li>
-		</ul>
-	</div>
+	<h1>
+		In this school, you can encounter subjects like: :
 
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		<ul style="display: inline;">
+			<li th:each="subject, iterStat : ${subjects}"
+				style="display: inline-block;"><span th:text="${subject.name}"></span>
+				<span th:if="${!iterStat.last}">,</span> <span
+				th:unless="${!iterStat.last}">.</span></li>
+		</ul>
+		These subjects, with their diverse focuses and magical applications,
+		form the backbone of the comprehensive education provided at this
+		esteemed institution. Through rigorous study and hands-on experience,
+		students are equipped with the knowledge and skills necessary to
+		navigate the complexities of the magical world with wisdom and
+		confidence. Through a blend of theoretical learning and practical
+		application, students are immersed in a curriculum designed to nurture
+		their magical abilities and cultivate a deep understanding of the
+		forces that shape their world. From mastering complex incantations to
+		honing their potion-brewing skills, each subject plays a vital role in
+		shaping well-rounded wizards and witches. Moreover, the hands-on
+		experiences provided in these subjects not only enhance students'
+		magical proficiency but also foster collaboration, critical thinking,
+		and problem-solving skills. Whether working together to brew a
+		challenging potion or unraveling the mysteries of ancient magical
+		texts, students learn the value of teamwork and perseverance in the
+		face of adversity. Beyond the confines of the classroom,
+		extracurricular activities such as Quidditch matches, magical dueling
+		clubs, and community service initiatives further enrich the
+		educational experience, providing opportunities for students to apply
+		their newfound knowledge in real-world scenarios. Ultimately, the
+		comprehensive education offered at this esteemed institution goes
+		beyond mere academic achievement. It instills in students a sense of
+		responsibility, empathy, and respect for the magical world around
+		them, preparing them to become compassionate and capable witches and
+		wizards who will shape the future of wizarding society.
+	</h1>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>
 	<script

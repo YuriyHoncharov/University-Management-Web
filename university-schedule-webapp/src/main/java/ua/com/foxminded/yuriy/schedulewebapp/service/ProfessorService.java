@@ -1,18 +1,25 @@
 package ua.com.foxminded.yuriy.schedulewebapp.service;
 
+
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
 
 public interface ProfessorService {
 
-	List<ProfessorDto> getAll();
+	Page<ProfessorDto> getAll(Pageable pageable);
 
 	Optional<Professor> getById(Long id);
 
 	Professor save(Professor teacher);
 
 	void delete(Long id);
+	
+	List<ProfessorDto> getAll();
 
 }

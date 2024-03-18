@@ -8,7 +8,7 @@ $(document).ready(function() {
 	});
 
 	function deleteProfessor(professorId) {
-		if (confirm('Are you sure you want to delete Professor with following ID : ' + professorId + '?')) {
+		if (confirm('If any lessons are assigned to this professor, deleting the professor will also delete these associated lessons. Are you sure you want to delete Professor with following ID : ' + professorId + '?')) {
 			$.ajax({
 				type: 'DELETE',
 				url: '/profile/dashboard/professors/delete/' + professorId,

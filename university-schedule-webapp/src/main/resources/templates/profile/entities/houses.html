@@ -137,6 +137,30 @@ button:hover {
 .data-table th {
 	background-color: #f2f2f2;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+}
+
+.pagination li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #007bff;
+}
+
+.pagination li.active a {
+	background-color: #007bff;
+	color: #fff;
+}
 </style>
 </head>
 
@@ -179,7 +203,7 @@ button:hover {
 				</tr>
 			</thead>
 			</tbody>
-			<tr th:each="house : ${houses}">
+			<tr th:each="house : ${houses.content}">
 				<td th:text="${house.id}">House ID:</td>
 				<td th:text="${house.house}">Name:</td>
 
@@ -199,6 +223,19 @@ button:hover {
 			</tbody>
 		</table>
 	</div>
+
+	<div style="text-align: center">
+		<ul class="pagination" th:if="${houses.totalPages > 0}">
+			<li
+				th:each="pageNumber : ${#numbers.sequence(0, houses.totalPages - 1)}"
+				th:class="${pageNumber == houses.number} ? active : ''"><a
+				th:href="@{'/profile/dashboard/houses?page=' + ${pageNumber}}"
+				th:text="${pageNumber + 1}"> </a></li>
+
+		</ul>
+
+	</div>
+
 	<script src="/js/houses.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>

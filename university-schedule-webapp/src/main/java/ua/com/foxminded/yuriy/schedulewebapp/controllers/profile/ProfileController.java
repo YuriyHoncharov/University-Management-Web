@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Controller
 @RequestMapping("/profile/dashboard")
 @AllArgsConstructor
-public class HeadmasterController {
+public class ProfileController {
 
 	
 

@@ -3,6 +3,8 @@ package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
@@ -18,8 +20,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private final ProfessorRepository teacherRepository;
 
 	@Override
-	public List<ProfessorDto> getAll() {
-		return teacherRepository.findAll().stream().map(ProfessorDto::new).collect(Collectors.toList());
+	public Page<ProfessorDto> getAll(Pageable pageable) {
+		return teacherRepository.findAll(pageable).map(ProfessorDto::new);
 	}
 
 	@Override
@@ -35,5 +37,10 @@ public class ProfessorServiceImpl implements ProfessorService {
 	@Override
 	public void delete(Long id) {
 		teacherRepository.deleteById(id);
+	}
+
+	@Override
+	public List<ProfessorDto> getAll() {
+		return teacherRepository.findAll().stream().map(ProfessorDto::new).collect(Collectors.toList());
 	}
 }

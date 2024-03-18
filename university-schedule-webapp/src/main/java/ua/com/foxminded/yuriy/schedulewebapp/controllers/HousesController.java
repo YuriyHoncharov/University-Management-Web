@@ -16,6 +16,7 @@ public class HousesController {
 
 	@GetMapping
 	public String getAllHouses(Model model) {
+		
 		model.addAttribute("houses", houseService.getAll());
 		return "houses";
 	}

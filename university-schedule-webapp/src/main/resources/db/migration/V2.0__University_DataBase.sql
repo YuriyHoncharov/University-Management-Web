@@ -48,9 +48,9 @@ FOREIGN KEY(subject_id) REFERENCES Subjects (id) ON DELETE CASCADE
 CREATE TABLE IF NOT EXISTS Lessons (
 id SERIAL PRIMARY KEY,
 subject_id INT NOT NULL,
-FOREIGN KEY (subject_id) REFERENCES Subjects (id),
+FOREIGN KEY (subject_id) REFERENCES Subjects (id) ON DELETE CASCADE,
 teacher_id INT NOT NULL,
-FOREIGN KEY (teacher_id) REFERENCES Wizards (id),
+FOREIGN KEY (teacher_id) REFERENCES Wizards (id) ON DELETE CASCADE,
 lesson_date DATE NOT NULL,
 lesson_time TIME NOT NULL,
 lesson_end_time TIME,

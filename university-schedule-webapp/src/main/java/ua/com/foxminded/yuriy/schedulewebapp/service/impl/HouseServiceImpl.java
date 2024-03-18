@@ -3,6 +3,8 @@ package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -49,4 +51,10 @@ public class HouseServiceImpl implements HouseService {
 	public Optional<House> getByHouse(String house) {
 		return houseRepository.getByHouseName(house);
 	}
+
+	@Override
+	public Page<House> findAll(Pageable pageable) {
+		return houseRepository.findAll(pageable);
+	}
+
 }

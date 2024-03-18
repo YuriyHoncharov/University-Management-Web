@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +13,22 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <style>
+h1 {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	color: black;
+	text-align: center;
+	margin-top: 700px;
+	font-size: 16px;
+	margin-left: 500px;
+	margin-right: 500px;
+	margin-left: 500px;
+	font-weight: bold;
+	background-color: rgba(169, 169, 169, 0.5);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .page-title {
 	text-align: center;
 	color: #007bff;
@@ -60,7 +78,7 @@ ul {
 }
 
 li {
-	margin-bottom: 20px;
+	color: black;
 }
 
 .house-name {
@@ -90,18 +108,52 @@ li {
 				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
 				<li class="nav-item active"><a class="nav-link" href="/houses">Houses<span
 						class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+					class="nav-link" href="/login">Sign In</a></li>
+				<li class="nav-item" sec:authorize="isAuthenticated()"><a
+					class="nav-link" href="/profile/dashboard">Profile</a></li>
+
 			</ul>
 		</div>
 	</nav>
 
-	<div class="container mt-5">
-		<h1 class="page-title">All Houses</h1>
-		<ul>
-			<li th:each="house : ${houses}"><span class="house-name"
-				th:text="${house.house}"></span></li>
+
+
+	<h1>
+		Welcome to Hogwarts School of Witchcraft and Wizardry, the renowned
+		magical institution nestled in the enchanting Scottish Highlands.
+		Hogwarts is not just a school; it's a place of wonder, learning, and
+		magical discovery. Founded over a thousand years ago by the four
+		greatest witches and wizards of their time – Godric Gryffindor, Helga
+		Hufflepuff, Rowena Ravenclaw, and Salazar Slytherin – Hogwarts stands
+		as a beacon of magical education. The castle itself is a majestic
+		sight, with towering spires, hidden passages, and magical staircases
+		that shift at their own whims. Its enchanted grounds are home to
+		mythical creatures, secret gardens, and the famous Black Lake. The
+		school is divided into following houses, each bearing the name of its
+		founder :
+
+		<ul style="display: inline;">
+			<li th:each="house, iterStat : ${houses}"
+				style="display: inline-block;"><span th:text="${house.house}"></span>
+				<span th:if="${!iterStat.last}">,</span> <span
+				th:unless="${!iterStat.last}">.</span></li>
 		</ul>
-	</div>
+
+		Hogwarts offers a diverse curriculum, covering subjects like Potions,
+		Defense Against the Dark Arts, Transfiguration, and more. The
+		professors, many of whom are accomplished witches and wizards in their
+		own right, guide students in honing their magical abilities. The
+		school is not just about academic excellence but also about personal
+		growth, friendship, and the discovery of one's true potential. As you
+		step into the magical world of Hogwarts, be prepared for a journey
+		filled with spells, potions, magical creatures, and lifelong
+		friendships. Your adventure at Hogwarts awaits, where the pages of
+		magical history come alive, and every corridor holds the promise of
+		extraordinary discoveries. Welcome to a place where the ordinary
+		becomes extraordinary – welcome to Hogwarts School of Witchcraft and
+		Wizardry!
+	</h1>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
