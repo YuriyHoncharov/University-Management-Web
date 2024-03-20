@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Professor extends Wizard {
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	@ManyToMany(cascade = { CascadeType.MERGE })
 	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;	
 }

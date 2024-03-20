@@ -124,7 +124,7 @@ h1 {
 
 		<!-- Back button -->
 
-		<form class="d-inline-block" action="/profile/dashboard"
+		<form class="d-inline-block" action="/profile/dashboard/houses"
 			method="get">
 			<button type="submit" class="btn btn-dark">Back</button>
 		</form>
@@ -134,24 +134,19 @@ h1 {
 
 	<div class="transparent-box">
 		<form
-			th:action="@{/profile/dashboard/houses/edit/{id}(id=${house.id})}"
+			th:action="@{/profile/dashboard/houses/create}"
 			th:object="${house}" method="post">
-			<div class="form-group">
-				<label for="houseId" class="label-large">ID</label> <input
-					type="text" class="form-control" id="houseId" aria-describedby="ID"
-					placeholder="Enter ID" th:value="${house.id}" readonly="readonly">
-			</div>
 			
-						<div class="form-group">
+			<div class="form-group">
 				<label for="house" class="label-large">House</label> <input
 					type="text" class="form-control" id="house"
-					placeholder="Enter House name" th:value="${house.house}"><small
+					placeholder="Enter House name"><small
 					id="houseHelp" class="form-text text-muted small-text">Please
 					make sure you have entered the name of the house that does not yet
 					exist.</small>
 			</div>
 			<div class="center-button">
-				<button id="updateHouse" type="submit" class="btn btn-primary">Submit</button>
+				<button id="createHouse" type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</form>
 	</div>

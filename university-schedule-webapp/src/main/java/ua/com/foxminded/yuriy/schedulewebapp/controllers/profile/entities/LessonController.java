@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,29 +60,29 @@ public class LessonController {
 		boolean isAdmin = request.isUserInRole("HEADMASTER");
 		boolean isStudent = request.isUserInRole("STUDENT");
 		boolean isProfessor = request.isUserInRole("PROFESSOR");
-		
+
 		String name = authentication.getName();
 		Long wizardId = wizardRepository.findByLogin(name).get().getId();
-		
-	// ADMIN
-	    if (isAdmin) {
-	        if (selectedDate != null) {
-	            pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
-	            mav.addObject("selectedDate", selectedDate);
-	        } else {
-	            pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
-	        }
-	    }
 
-	    // STUDENT OR PROFESSOR
-	    else if (isStudent || isProfessor) {
-	        if (selectedDate != null) {
-	            pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
-	            mav.addObject("selectedDate", selectedDate);
-	        } else {
-	            pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
-	        }
-	    }
+		// ADMIN
+		if (isAdmin) {
+			if (selectedDate != null) {
+				pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
+				mav.addObject("selectedDate", selectedDate);
+			} else {
+				pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
+			}
+		}
+
+		// STUDENT OR PROFESSOR
+		else if (isStudent || isProfessor) {
+			if (selectedDate != null) {
+				pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
+				mav.addObject("selectedDate", selectedDate);
+			} else {
+				pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
+			}
+		}
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(0, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");
@@ -112,7 +113,7 @@ public class LessonController {
 			mav.setViewName("profile/entities/edit/lessonEdit");
 			return mav;
 		}).orElseGet(() -> {
-			mav.setViewName("redirect:profile/entities/lessons");
+			mav.setViewName("redirect:/profile/dashboard/lessons");
 			return mav;
 		});
 	}
@@ -141,6 +142,35 @@ public class LessonController {
 			}
 			Lesson updatedLesson = lessonService.save(existingLesson);
 			return ResponseEntity.ok(updatedLesson);
+
+		} catch (ValidationException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/create")
+	public ModelAndView showEditView() {
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("subjects", subjectService.getAll());
+		mav.addObject("professors", professorService.getAll());
+		mav.addObject("auditoriums", auditoriumService.getAll());
+		mav.addObject("years", yearService.getAll());
+		mav.addObject("houses", houseService.getAll());
+		mav.setViewName("profile/entities/create/lessonCreate");
+		return mav;
+	}
+
+	@PostMapping("/create")
+	public ResponseEntity<Object> create(@RequestBody Lesson lesson) {
+		
+		try {
+			Lesson createdLesson = new Lesson();
+			Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
+			createdLesson.setProfessor(professor);
+			
+			createdLesson = lessonService.save(lesson);
+			return ResponseEntity.ok(createdLesson);
 
 		} catch (ValidationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -49,11 +49,11 @@ public class Lesson {
 	private Auditorium auditorium;
 
 	@ManyToOne
-	@JoinColumn(name = "house_id", nullable = false)
+	@JoinColumn(name = "house_id", nullable = true)
 	private House house;
 
 	@ManyToOne
-	@JoinColumn(name = "year_id")
+	@JoinColumn(name = "year_id", nullable = true)
 	private Year year;
 
 }

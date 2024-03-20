@@ -74,5 +74,22 @@ public class HouseController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/create")
+	public ModelAndView showCreateView() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("profile/entities/create/houseCreate");
+		return mav;
+	}
+	
+	@PutMapping("/create")
+	public ResponseEntity<Object>create(@RequestBody House house){
+		try {
+			House newHouse = houseService.save(house);
+			return ResponseEntity.ok(newHouse);
+		} catch (ValidationException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

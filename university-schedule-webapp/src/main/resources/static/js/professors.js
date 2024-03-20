@@ -32,6 +32,15 @@ $(document).ready(function() {
 		sendProfessorData("PUT", "/profile/dashboard/professors/update/" + professorId, json, "Updating : [");
 
 	});
+	
+	$('#createProfessor').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let subjectId = $('#subjectId').val();
+		let json = {"login": $('#professorLogin').val(),"password": $('#professorPassword').val(), "name": $('#professorName').val(), "lastName": $('#professorLastName').val(), "subjects": [ { "id": subjectId } ] };
+		sendProfessorData("POST", "/profile/dashboard/professors/create", json, "Creating : [");
+
+	});
 
 	function sendProfessorData(type, url, jsonData, successMsg) {
 		$.ajax({

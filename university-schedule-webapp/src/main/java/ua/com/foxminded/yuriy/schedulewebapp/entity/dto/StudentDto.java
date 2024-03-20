@@ -13,21 +13,31 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 @AllArgsConstructor
 
 public class StudentDto {
-	
+
 	private Long id;
 	private String name;
 	private String lastName;
-	private int year;
+	private String year;
 	private String house;
-	private List<Subject>subjects;
-	
+	private List<Subject> subjects;
+
 	public StudentDto(Student student) {
 		this.id = student.getId();
 		this.name = student.getName();
 		this.lastName = student.getLastName();
-		this.year = student.getYear().getYearValue();
-		this.house = student.getHouse().getHouse();
+		if (student.getYear() != null) {
+			this.year = String.valueOf(student.getYear().getYearValue());
+
+		} else {
+			this.year = "Waiting for Assignement";
+		}
+		if (student.getHouse() != null) {
+			this.house = String.valueOf(student.getHouse().getHouse());
+
+		} else {
+			this.house = "Waiting for Assignement";
+		}
 		this.subjects = student.getSubjects();
 	}
-	
+
 }

@@ -34,6 +34,15 @@ $(document).ready(function() {
 		sendHouseData("PUT", "/profile/dashboard/houses/update/" + houseId, json, "Updating : [");
 
 	});
+	
+	$('#createHouse').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		
+		let json = {"house": $('#house').val() };
+		sendHouseData("PUT", "/profile/dashboard/houses/create", json, "Creating : [");
+
+	});
 
 	function sendHouseData(type, url, jsonData, successMsg) {
 		$.ajax({

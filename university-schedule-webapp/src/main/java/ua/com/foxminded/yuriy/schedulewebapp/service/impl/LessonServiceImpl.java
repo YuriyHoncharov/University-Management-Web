@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
@@ -28,6 +30,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.SubjectRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
 
 @Service
@@ -39,6 +42,7 @@ public class LessonServiceImpl implements LessonService {
 	private final StudentRepository studentRepository;
 	private final ProfessorRepository professorRepository;
 	private final AuditoriumRepository auditoriumRepository;
+	private final SubjectRepository subjectRepository;
 
 	@Override
 	public List<Lesson> getAll() {
@@ -52,13 +56,20 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public Lesson save(Lesson lesson) {
-		if(!hasConflict(lesson)) {
-			return lessonRepository.save(lesson);
+		
+		if(properTeacher(lesson)) {
+			if (!hasConflict(lesson)) {
+				return lessonRepository.save(lesson);
+			} else {
+				throw new ValidationException("Another Lesson is already assigned to this Auditorium for " + lesson.getDate()
+						+ " and time " + lesson.getTime());
+			}
 		} else {
-			throw new ValidationException("Another Lesson is already assigned to this Auditorium for " + lesson.getDate() + " and time " + lesson.getTime());
+			throw new ValidationException(lesson.getProfessor().getName() + " " +lesson.getProfessor().getLastName() + " don't teaching : " + lesson.getSubject().getName());
 		}
 
 		
+
 	}
 
 	@Override
@@ -82,6 +93,20 @@ public class LessonServiceImpl implements LessonService {
 			return true;
 		}
 
+	}
+
+	public boolean properTeacher(Lesson lesson) {
+		Professor assignedProfessor = professorRepository.findById(lesson.getProfessor().getId()).get();
+		Subject subject = subjectRepository.findById(lesson.getSubject().getId()).get();
+		List<Subject> subjects = new ArrayList<>();
+		subjects.add(subject);
+		Professor professor = professorRepository.getBySubject(subjects);
+		if (assignedProfessor.equals(professor)) {
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	@Override

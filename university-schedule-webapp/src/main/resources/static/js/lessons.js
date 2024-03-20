@@ -47,6 +47,30 @@ $(document).ready(function() {
 		sendLessonData("PUT", "/profile/dashboard/lessons/update/" + lessonId, json, "Updating : [");
 
 	});
+	
+	$('#createLesson').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let subjectId = $('#lessonSubject').val();
+		let professorId = $('#lessonProfessor').val();
+		let lessonDate = $('#lessonDate').val();
+		let lessonTime = $('#lessonTime').val();
+		let lessonAuditorium = $('#lessonAuditorium').val();
+		let lessonHouse = $('#lessonHouse').val();
+		let lessonYear = $('#lessonYear').val();
+		
+		
+		let json = { 
+	   "subject": { "id": subjectId } ,
+		"professor": { "id": professorId } ,
+		"date": lessonDate,
+		"time": lessonTime,
+		"auditorium": { "id": lessonAuditorium } ,
+		"house": { "id": lessonHouse } ,
+		"year": { "id": lessonYear } };
+		sendLessonData("POST", "/profile/dashboard/lessons/create", json, "Creating : [");
+
+	});
 
 	function sendLessonData(type, url, jsonData, successMsg) {
 		$.ajax({

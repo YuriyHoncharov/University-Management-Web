@@ -29,7 +29,7 @@ public class LessonDto {
 	private String date;
 	private String time;
 	private String endTime;
-	private int year;
+	private String year;
 
 	public LessonDto(Lesson lesson) {
 		this.id = lesson.getId();
@@ -37,8 +37,16 @@ public class LessonDto {
 		this.professorName = lesson.getProfessor().getName();
 		this.professorLastName = lesson.getProfessor().getLastName();
 		this.auditorium = lesson.getAuditorium().getName();
-		this.house = lesson.getHouse().getHouse();
-		this.year = lesson.getYear().getYearValue();
+		if(lesson.getHouse() != null) {
+			this.house = lesson.getHouse().getHouse();
+		} else {
+			this.house = "Waiting for Assignement";
+		}
+		if(lesson.getYear() != null) {
+			this.year =String.valueOf(lesson.getYear().getYearValue());
+		} else {
+			this.year = "Waiting for Assignement";
+		}
 		this.date = lesson.getDate().toString();
 		this.time = lesson.getTime().toString();
 		this.endTime = lesson.getEndTime().toString();

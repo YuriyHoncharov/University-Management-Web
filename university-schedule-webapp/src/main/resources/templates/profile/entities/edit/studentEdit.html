@@ -143,21 +143,27 @@ h1 {
 					th:value="${student.id}" readonly="readonly">
 			</div>
 			<div class="form-group">
-				<label for="studentName" class="label-large">Name</label> <input
+				<label for="studentName" class="label-large">NAME</label> <input
 					type="text" class="form-control" id="studentName"
 					aria-describedby="studentName" placeholder="Enter Name"
 					th:value="${student.name}">
 			</div>
 			<div class="form-group">
-				<label for="studentLastName" class="label-large">Last Name</label>
+				<label for="studentLastName" class="label-large">LAST NAME</label>
 				<input type="text" class="form-control" id="studentLastName"
 					aria-describedby="studentLastName" placeholder="Enter Last Name"
 					th:value="${student.lastName}">
 			</div>
 			<div class="form-group">
-				<label for="studentYear" class="label-large">Year</label>
+				<label for="studentYear" class="label-large">YEAR</label>
 				 <select class="form-control" id="studentYear" aria-describedby="studentYear" th:field="${student.year}">
         <option th:each="year : ${years}" th:value="${year.yearValue}" th:text="${year.yearValue}"></option>
+    </select>
+			</div>
+			<div class="form-group">
+				<label for="studentYear" class="label-large">HOUSE</label>
+				 <select class="form-control" id="studentHouse" aria-describedby="studentHouse" th:field="${student.house}">
+        <option th:each="house : ${houses}" th:value="${house.id}" th:text="${house.house}"></option>
     </select>
 			</div>
 			<div class="center-button">

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.RoleService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Controller
@@ -34,9 +37,11 @@ public class ProfessorController {
 
 	private ProfessorService professorService;
 	private SubjectService subjectService;
+	private RoleService roleService;
 
 	@GetMapping
-	public ModelAndView getProfessorPage(@RequestParam(value = "page", defaultValue = "0", required = false) Integer page) {
+	public ModelAndView getProfessorPage(
+			@RequestParam(value = "page", defaultValue = "0", required = false) Integer page) {
 		Page<ProfessorDto> professors = professorService.getAll(PageRequest.of(page, 2));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("professors", professors);
@@ -87,6 +92,30 @@ public class ProfessorController {
 				existingProfessor.setSubjects(subject);
 			}
 			Professor updatedProfessor = professorService.save(existingProfessor);
+			return ResponseEntity.ok(updatedProfessor);
+
+		} catch (ValidationException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/create")
+	public ModelAndView showCreateView() {
+		ModelAndView mav = new ModelAndView();
+
+		List<Subject> availableSubjects = subjectService.findAllUnassignedSubjects();
+		mav.addObject("availableSubjects", availableSubjects);
+		mav.setViewName("profile/entities/create/professorCreate");
+		return mav;
+
+	}
+
+	@PostMapping("/create")
+	public ResponseEntity<Object> create(@RequestBody Professor professor) {
+		
+		try {
+			professor.setRole(roleService.getById((long) 3).get());
+			Professor updatedProfessor = professorService.save(professor);
 			return ResponseEntity.ok(updatedProfessor);
 
 		} catch (ValidationException e) {

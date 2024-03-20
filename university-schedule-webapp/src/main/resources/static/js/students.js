@@ -65,8 +65,16 @@ $(document).ready(function() {
 		$(this).prop('disabled', true);
 		let studentId = $('#studentId').val();
 		let selectedYearId = $('#studentYear').val();
-		let json = { "id": studentId, "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": $('#studentHouse').val() };
+		let json = { "id": studentId, "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": {"id" : $('#studentHouse').val() }};
 		sendStudentData("PUT", "/profile/dashboard/students/update/" + studentId, json, "Updating : [");
+	});
+	
+		$('#createStudent').click(function(e) {
+		e.preventDefault();
+		$(this).prop('disabled', true);
+		let selectedYearId = $('#studentYear').val();
+		let json = { "login": $('#studentLogin').val(), "password": $('#studentPassword').val(), "name": $('#studentName').val(), "lastName": $('#studentLastName').val(), "year": { "id": selectedYearId }, "house": {"id" :$('#studentHouse').val() }};
+		sendStudentData("POST", "/profile/dashboard/students/create", json, "Creating : [");
 	});
 
 	function sendStudentData(type, url, jsonData, successMsg) {
