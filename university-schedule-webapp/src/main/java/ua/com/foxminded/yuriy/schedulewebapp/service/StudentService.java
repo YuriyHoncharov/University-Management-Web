@@ -17,7 +17,7 @@ public interface StudentService {
 
 	Student save(Student student);
 
-	void delete(Long id);
+	Long delete(Long id);
 
-	Page<StudentDto> getAllByPage(Pageable pageable);
+	Page<StudentDto> findAll(Pageable pageable);
 }

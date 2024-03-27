@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,6 @@ public class ProfessorsController {
 	@GetMapping
 	public String getAllProfessors(Model model) {
 		model.addAttribute("professors", professorService.getAll());
-		return "professors";
+		return "professors_info";
 	}
 }

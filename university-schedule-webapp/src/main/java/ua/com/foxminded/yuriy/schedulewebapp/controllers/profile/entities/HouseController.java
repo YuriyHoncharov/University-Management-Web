@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +24,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping("/profile/dashboard/houses")
 public class HouseController {
@@ -39,15 +41,11 @@ public class HouseController {
 		return mav;
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteHouse(@PathVariable Long id) {
-		try {
-			houseService.delete(id);
-			return new ResponseEntity<>("House deleted successfully", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Failed to delete the house : " + e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@GetMapping("/create")
+	public ModelAndView showCreateView() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("profile/entities/create/houseCreate");
+		return mav;
 	}
 
 	@GetMapping("/edit/{id}")
@@ -63,6 +61,18 @@ public class HouseController {
 		});
 	}
 
+	@DeleteMapping("/delete/{id}")
+
+	public ResponseEntity<String> deleteHouse(@PathVariable Long id) {
+		try {
+			houseService.delete(id);
+			return new ResponseEntity<>("House deleted successfully", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Failed to delete the house : " + e.getMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Object> update(@RequestBody House house, @PathVariable Long id) {
 
@@ -74,16 +84,9 @@ public class HouseController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@GetMapping("/create")
-	public ModelAndView showCreateView() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("profile/entities/create/houseCreate");
-		return mav;
-	}
-	
-	@PutMapping("/create")
-	public ResponseEntity<Object>create(@RequestBody House house){
+
+	@PostMapping("/create")
+	public ResponseEntity<Object> create(@RequestBody House house) {
 		try {
 			House newHouse = houseService.save(house);
 			return ResponseEntity.ok(newHouse);

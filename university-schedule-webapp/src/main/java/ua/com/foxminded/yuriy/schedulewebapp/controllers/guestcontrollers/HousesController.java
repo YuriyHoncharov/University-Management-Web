@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +18,6 @@ public class HousesController {
 	public String getAllHouses(Model model) {
 		
 		model.addAttribute("houses", houseService.getAll());
-		return "houses";
+		return "houses_info";
 	}
 }

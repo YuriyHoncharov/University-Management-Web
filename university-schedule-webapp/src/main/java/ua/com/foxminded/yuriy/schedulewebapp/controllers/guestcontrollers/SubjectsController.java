@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,6 @@ public class SubjectsController {
 	@GetMapping
 	public String getAllSubjects(Model model) {
 		model.addAttribute("subjects", subjectService.getAll());
-		return "subjects";
+		return "subjects_info";
 	}
 }

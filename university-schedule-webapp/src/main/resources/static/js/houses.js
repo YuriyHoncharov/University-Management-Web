@@ -40,7 +40,7 @@ $(document).ready(function() {
 		$(this).prop('disabled', true);
 		
 		let json = {"house": $('#house').val() };
-		sendHouseData("PUT", "/profile/dashboard/houses/create", json, "Creating : [");
+		sendHouseData("POST", "/profile/dashboard/houses/create", json, "Creating : [");
 
 	});
 

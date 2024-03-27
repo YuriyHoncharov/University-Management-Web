@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.StudentDto;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.StudentService;
 
@@ -39,13 +40,19 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
-		studentRepository.deleteById(id);
+	public Long delete(Long id) {
+		if (studentRepository.findById(id).isPresent()) {
+			studentRepository.deleteById(id);
+		} else {
+			String errorMessage = String.format("Student with following ID : %d is not present in DataBase", id);
+			throw new UserNotFoundException(errorMessage);
+		}
+		return id;
 	}
 
 	@Override
-	public Page<StudentDto> getAllByPage(Pageable pageable) {
-		Page<Student>pageStudent = studentRepository.findAll(pageable);
+	public Page<StudentDto> findAll(Pageable pageable) {
+		Page<Student> pageStudent = studentRepository.findAll(pageable);
 		return pageStudent.map(StudentDto::new);
 	}
 }

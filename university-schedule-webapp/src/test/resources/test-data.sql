@@ -14,22 +14,32 @@ INSERT INTO Years (yearValue) VALUES
 (2),
 (3),
 (4);
+-- Test data for Admin
+INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
+('headmaster', 'headmaster123', 'Headmaster', 'User', 1);
 
--- Test data for Wizards
-
+-- Test data for Students
 INSERT INTO Wizards (login, password, name, lastName, role_id, house_id, year_id) VALUES
-('headmaster', 'headmaster123', 'Headmaster', 'User', 1, NULL, NULL),
 ('student1', 'student123', 'Student', 'One', 2, 1, 1),
-('student2', 'student123', 'Student', 'Two', 2, 2, 1),
-('teacher1', 'teacher123', 'Professor', 'One', 3, NULL, NULL),
-('teacher2', 'teacher123', 'Professor', 'Two', 3, NULL, NULL);
+('student2', 'student123', 'Student', 'Two', 2, 2, 1);
+-- Test data for Professors
+INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
+('teacher1', 'teacher123', 'Professor', 'One', 3),
+('teacher2', 'teacher123', 'Professor', 'Two', 3),
+('teacher3', 'teacher123', 'Professor', 'Three', 3);
+
+
+
+
+
 
 -- Test data for Subjects
 
 INSERT INTO Subjects (name, description) VALUES
 ('Math', 'Mathematics course'),
 ('Physics', 'Physics course'),
-('History', 'History course');
+('History', 'History course'),
+('UnassignedSubject', 'UnassignedSubject');
 
 -- Test data for Auditoriums
 
@@ -38,15 +48,22 @@ INSERT INTO Auditoriums (id, name) VALUES
 (2, 'B202'),
 (3, 'C303');
 
--- Test data for Enrollments
+-- Test data for Enrollments PROFESSORS
+
+INSERT INTO Enrollments (wizard_id, subject_id) VALUES (4, 1);
+INSERT INTO Enrollments (wizard_id, subject_id) VALUES (5, 2);
+INSERT INTO Enrollments (wizard_id, subject_id) VALUES (6, 3);
+
+-- Test data for Enrollments STUDENTS
 
 INSERT INTO Enrollments (wizard_id, subject_id) VALUES (2, 1);
 INSERT INTO Enrollments (wizard_id, subject_id) VALUES (3, 2);
-INSERT INTO Enrollments (wizard_id, subject_id) VALUES (4, 3);
+
+
 
 -- Test data for Lessons
 
-INSERT INTO Lessons (subject_id, teacher_id, time, auditorium_id, house_id) VALUES
-(1, 4, '2024-01-15 09:00:00', 1, 1),
-(2, 5, '2024-01-16 10:30:00', 2, 2),
-(3, 4, '2024-01-17 13:45:00', 3, 3);
+INSERT INTO Lessons (subject_id, teacher_id, lesson_date, lesson_time, auditorium_id, house_id, year_id) VALUES
+(1, 4, '2024-01-15', '09:00:00', 1, 1, 1),
+(2, 4, '2024-01-16', '10:00:00', 2, 2, 2),
+(3, 5, '2024-01-17', '13:00:00', 3, 3, 3);

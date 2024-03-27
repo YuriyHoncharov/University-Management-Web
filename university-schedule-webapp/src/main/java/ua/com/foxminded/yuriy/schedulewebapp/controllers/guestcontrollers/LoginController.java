@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

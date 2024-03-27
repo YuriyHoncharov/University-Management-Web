@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("profile/dashboard/lessons")
+@RequestMapping("/profile/dashboard/lessons")
 public class LessonController {
 
 	private LessonService lessonService;
@@ -55,14 +56,11 @@ public class LessonController {
 			@RequestParam(value = "selectedDate", required = false) String selectedDate) {
 
 		ModelAndView mav = new ModelAndView();
-		Page<LessonDto> pageLessons = null;
+		Page<LessonDto> pageLessons = Page.empty();
 
 		boolean isAdmin = request.isUserInRole("HEADMASTER");
 		boolean isStudent = request.isUserInRole("STUDENT");
 		boolean isProfessor = request.isUserInRole("PROFESSOR");
-
-		String name = authentication.getName();
-		Long wizardId = wizardRepository.findByLogin(name).get().getId();
 
 		// ADMIN
 		if (isAdmin) {
@@ -76,6 +74,8 @@ public class LessonController {
 
 		// STUDENT OR PROFESSOR
 		else if (isStudent || isProfessor) {
+			String name = authentication.getName();
+			Long wizardId = wizardRepository.findByLogin(name).get().getId();
 			if (selectedDate != null) {
 				pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
 				mav.addObject("selectedDate", selectedDate);
@@ -84,7 +84,7 @@ public class LessonController {
 			}
 		}
 		mav.addObject("pageLessons", pageLessons);
-		mav.addObject("numbers", IntStream.range(0, pageLessons.getTotalPages()).toArray());
+		mav.addObject("numbers", IntStream.range(1, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");
 		return mav;
 	}
@@ -149,7 +149,7 @@ public class LessonController {
 	}
 
 	@GetMapping("/create")
-	public ModelAndView showEditView() {
+	public ModelAndView showCreateView() {
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("subjects", subjectService.getAll());

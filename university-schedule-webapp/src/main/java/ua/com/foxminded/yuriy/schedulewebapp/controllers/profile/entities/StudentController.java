@@ -44,7 +44,7 @@ public class StudentController {
 
 	@GetMapping
 	public ModelAndView pagination(@RequestParam(value = "page", defaultValue = "0", required = false) Integer page) {
-		Page<StudentDto> pageStudent = studentService.getAllByPage(PageRequest.of(page, 10));
+		Page<StudentDto> pageStudent = studentService.findAll(PageRequest.of(page, 10));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pageStudent", pageStudent);
 		mav.addObject("numbers", IntStream.range(1, pageStudent.getTotalPages()).toArray());
