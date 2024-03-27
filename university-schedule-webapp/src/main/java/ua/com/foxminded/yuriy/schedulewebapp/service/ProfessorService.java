@@ -18,7 +18,7 @@ public interface ProfessorService {
 
 	Professor save(Professor teacher);
 
-	void delete(Long id);
+	Long delete(Long id);
 	
 	List<ProfessorDto> getAll();
 

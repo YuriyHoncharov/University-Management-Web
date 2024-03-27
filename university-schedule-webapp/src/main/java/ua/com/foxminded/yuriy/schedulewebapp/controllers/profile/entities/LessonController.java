@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,9 +59,10 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView();
 		Page<LessonDto> pageLessons = Page.empty();
 
-		boolean isAdmin = request.isUserInRole("HEADMASTER");
-		boolean isStudent = request.isUserInRole("STUDENT");
-		boolean isProfessor = request.isUserInRole("PROFESSOR");
+		String login = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean isAdmin = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("HEADMASTER");
+		boolean isStudent = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("STUDENT");
+		boolean isProfessor = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("PROFESSOR");
 
 		// ADMIN
 		if (isAdmin) {
@@ -163,12 +165,12 @@ public class LessonController {
 
 	@PostMapping("/create")
 	public ResponseEntity<Object> create(@RequestBody Lesson lesson) {
-		
+
 		try {
 			Lesson createdLesson = new Lesson();
 			Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
 			createdLesson.setProfessor(professor);
-			
+
 			createdLesson = lessonService.save(lesson);
 			return ResponseEntity.ok(createdLesson);
 

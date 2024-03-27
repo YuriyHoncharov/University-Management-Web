@@ -25,6 +25,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.RoleService;
@@ -55,8 +56,8 @@ public class ProfessorController {
 		try {
 			professorService.delete(id);
 			return new ResponseEntity<>("Professor deleted successfully", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Failed to delete professor : " + e.getMessage(),
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>("Failed to delete professor " + e.getMessage(),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -114,7 +115,7 @@ public class ProfessorController {
 	public ResponseEntity<Object> create(@RequestBody Professor professor) {
 		
 		try {
-			professor.setRole(roleService.getById((long) 3).get());
+			professor.setRole(roleService.getById(3L).get());
 			Professor updatedProfessor = professorService.save(professor);
 			return ResponseEntity.ok(updatedProfessor);
 

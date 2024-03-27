@@ -162,7 +162,7 @@ public class StudentController {
 	@PostMapping("/create")
 	public ResponseEntity<Object> create(@RequestBody Student student) {
 		try {
-			student.setRole(roleService.getById((long) 2).get());
+			student.setRole(roleService.getById(2L).get());
 			Student createdStudent = studentService.save(student);
 			return ResponseEntity.ok(createdStudent);
 

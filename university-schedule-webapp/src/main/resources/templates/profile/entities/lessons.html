@@ -192,7 +192,7 @@ button:hover {
 		</form>
 		<form class="d-inline-block" action="/profile/dashboard/lessons/create"
 			method="get">
-			<button type="submit" class="btn btn-dark">ADD NEW</button>
+			<button sec:authorize="hasRole('HEADMASTER')" type="submit" class="btn btn-dark">ADD NEW</button>
 		</form>
 	</div>
 

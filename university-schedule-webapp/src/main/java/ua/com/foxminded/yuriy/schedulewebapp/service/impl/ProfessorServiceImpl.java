@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 
@@ -35,8 +36,14 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		teacherRepository.deleteById(id);
+	public Long delete(Long id) {
+		if (teacherRepository.findById(id).isPresent()) {
+			teacherRepository.deleteById(id);
+		} else {
+			throw new UserNotFoundException("with following Id : " + id);
+		}
+		return id;
+
 	}
 
 	@Override

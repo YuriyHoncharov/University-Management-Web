@@ -1,6 +1,7 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository.controller.profile.entities;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,7 +33,9 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Wizard;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
@@ -83,15 +88,52 @@ public class LessonControllerTest {
 	void should_ReturnView_With_AllLessons_To_AdminUser() throws Exception {
 
 		Page<LessonDto> lessonPage = Mockito.mock(Page.class);
-		
-		when(request.isUserInRole("HEADMASTER")).thenReturn(true);
+		String login = "login";
+		Wizard wizard = mock(Wizard.class);
+		Role role = new Role();
+		role.setName("HEADMASTER");
+		Authentication authentication = Mockito.mock(Authentication.class);
+		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+		SecurityContextHolder.setContext(securityContext);
+		when(lessonPage.getTotalPages()).thenReturn(1);
+		when(authentication.getName()).thenReturn(login);
+		when(wizard.getRole()).thenReturn(role);
+		when(wizardRepository.findByLogin(login)).thenReturn(Optional.of(wizard));
 		when(lessonService.getAllByPage(any())).thenReturn(lessonPage);
-
+		
 		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication))
-				.andExpect(model().attribute("pageLesson", lessonPage))
+				.andExpect(model().attribute("pageLessons", lessonPage))
 				.andExpect(model().attribute("numbers", IntStream.range(1, lessonPage.getTotalPages()).toArray()))
 				.andExpect(view().name("profile/entities/lessons"));
 		verify(lessonService, times(1)).getAllByPage(any());
+	}
+	
+	@Test
+	@WithMockUser(roles = "HEADMASTER")
+	void should_return_view_With_AllLessons_To_StudentUser_ByDate() throws Exception {
+
+		Page<LessonDto> lessonPage = Mockito.mock(Page.class);
+		String login = "login";
+		Wizard wizard = mock(Wizard.class);
+		Role role = new Role();
+		role.setName("STUDENT");
+		Authentication authentication = Mockito.mock(Authentication.class);
+		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+		SecurityContextHolder.setContext(securityContext);		
+		when(lessonPage.getTotalPages()).thenReturn(1);
+		when(authentication.getName()).thenReturn(login);
+		when(wizard.getRole()).thenReturn(role);
+		
+		when(wizardRepository.findByLogin(login)).thenReturn(Optional.of(wizard));
+		when(lessonService.getByWizardIdAndDate(any(), any(), any())).thenReturn(lessonPage);
+		
+		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication).param("selectedDate", "2024-03-30"))
+				.andExpect(model().attribute("pageLessons", lessonPage))
+				.andExpect(model().attribute("numbers", IntStream.range(1, lessonPage.getTotalPages()).toArray()))
+				.andExpect(view().name("profile/entities/lessons"));
+		verify(lessonService, times(1)).getByWizardIdAndDate(any(), any(), any());
 	}
 
 	@Test
@@ -161,30 +203,27 @@ public class LessonControllerTest {
 				.content(updatedLessonJson)).andExpect(status().isOk());
 		verify(lessonService, times(1)).save(lesson);
 	}
-	
+
 	@Test
 	void should_show_createView() throws Exception {
 		List<Subject> subjects = new ArrayList<>();
 		List<ProfessorDto> professors = new ArrayList<>();
 		List<Auditorium> auditoriums = new ArrayList<>();
 		List<Year> years = new ArrayList<>();
-		List<House> houses = new ArrayList<>();		
+		List<House> houses = new ArrayList<>();
 		when(subjectService.getAll()).thenReturn(subjects);
 		when(professorService.getAll()).thenReturn(professors);
 		when(auditoriumService.getAll()).thenReturn(auditoriums);
 		when(yearService.getAll()).thenReturn(years);
-		when(houseService.getAll()).thenReturn(houses);		
-		
+		when(houseService.getAll()).thenReturn(houses);
+
 		mockMvc.perform(get("/profile/dashboard/lessons/create"))
-		.andExpect(view().name("profile/entities/create/lessonCreate"))
-		.andExpect(model().attribute("subjects", subjects))
-		.andExpect(model().attribute("professors", professors))
-		.andExpect(model().attribute("auditoriums", auditoriums))
-		.andExpect(model().attribute("years", years))
-		.andExpect(model().attribute("houses", houses))
-		.andExpect(status().isOk());
+				.andExpect(view().name("profile/entities/create/lessonCreate"))
+				.andExpect(model().attribute("subjects", subjects)).andExpect(model().attribute("professors", professors))
+				.andExpect(model().attribute("auditoriums", auditoriums)).andExpect(model().attribute("years", years))
+				.andExpect(model().attribute("houses", houses)).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void should_create_newLesson() throws Exception {
 		Lesson newLesson = new Lesson();
@@ -193,9 +232,12 @@ public class LessonControllerTest {
 		newLesson.setProfessor(professor);
 		when(professorService.getById(newLesson.getProfessor().getId())).thenReturn(Optional.of(professor));
 		String lessonJSON = objectMapper.writeValueAsString(newLesson);
-		mockMvc.perform(post("/profile/dashboard/lessons/create").contentType(MediaType.APPLICATION_JSON).content(lessonJSON)).andExpect(status().isOk());
+		mockMvc
+				.perform(
+						post("/profile/dashboard/lessons/create").contentType(MediaType.APPLICATION_JSON).content(lessonJSON))
+				.andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void should_not_create_newLesson() throws Exception {
 		Lesson newLesson = new Lesson();
@@ -203,9 +245,13 @@ public class LessonControllerTest {
 		professor.setId(1L);
 		newLesson.setProfessor(professor);
 		when(professorService.getById(newLesson.getProfessor().getId())).thenReturn(Optional.of(new Professor()));
-		when(lessonService.save(newLesson)).thenThrow(new ValidationException("Another Lesson is already assigned to this Auditorium for "));
+		when(lessonService.save(newLesson))
+				.thenThrow(new ValidationException("Another Lesson is already assigned to this Auditorium for "));
 		String lessonJSON = objectMapper.writeValueAsString(newLesson);
-		mockMvc.perform(post("/profile/dashboard/lessons/create").contentType(MediaType.APPLICATION_JSON).content(lessonJSON)).andExpect(content().string("Another Lesson is already assigned to this Auditorium for "));
-		
+		mockMvc
+				.perform(
+						post("/profile/dashboard/lessons/create").contentType(MediaType.APPLICATION_JSON).content(lessonJSON))
+				.andExpect(content().string("Another Lesson is already assigned to this Auditorium for "));
+
 	}
 }
