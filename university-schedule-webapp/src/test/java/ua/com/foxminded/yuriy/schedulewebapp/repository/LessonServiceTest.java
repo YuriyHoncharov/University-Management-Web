@@ -3,6 +3,7 @@ package ua.com.foxminded.yuriy.schedulewebapp.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,12 +47,8 @@ public class LessonServiceTest {
 
 	@Test
 	public void shouldSaveLessonSuccessfullyWhenProperTeacherAndNoConflict() {
-
-		// LESSON CREATION
+		// PROFESSOR
 		Long id = 1L;
-		Subject subject = new Subject(1L, "test", "test");
-		List<Subject> subjects = new ArrayList<>();
-		subjects.add(subject);
 		Professor professor = new Professor();
 		professor.setId(id);
 		professor.setLastName("test");
@@ -59,30 +56,47 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
+
+		// SUBJECTS
+		Subject subject = new Subject(1L, "test", "test", professor);
+		List<Subject> subjects = new ArrayList<>();
+		subjects.add(subject);
+
+		// SUBJECTS ASSIGNEMENT
 		professor.setSubjects(subjects);
+
+		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
 		LocalTime endTime = LocalTime.parse("10:45:00");
+
+		// AUDITORIUM
 		Auditorium auditorium = new Auditorium(1L, "test");
+
+		// HOUSE
 		House house = new House();
 		house.setHouse("test");
 		house.setId(1L);
+
+		// YEAR
 		Year year = new Year();
 		year.setId(1L);
 		year.setYearValue(1);
+
+		// LESSONS
 		Lesson lesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
 		Lesson savedLesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
 
 		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(professor));
 		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject));
-		when(professorRepository.getBySubject(subjects)).thenReturn(professor);
+
 		when(lessonRepository.findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59), id))
 				.thenReturn(Collections.emptyList());
 		when(lessonRepository.save(lesson)).thenReturn(savedLesson);
 		Lesson result = lessonServiceImpl.save(lesson);
 		verify(professorRepository).findById(lesson.getProfessor().getId());
 		verify(subjectRepository).findById(lesson.getSubject().getId());
-		verify(professorRepository).getBySubject(subjects);
+
 		verify(lessonRepository).findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59),
 				id);
 		verify(lessonRepository).save(lesson);
@@ -92,10 +106,8 @@ public class LessonServiceTest {
 	@Test
 	public void shouldThrowValidationExceptionWhenSchedulingConflict() {
 
+		// PROFESSOR
 		Long id = 1L;
-		Subject subject = new Subject(1L, "test", "test");
-		List<Subject> subjects = new ArrayList<>();
-		subjects.add(subject);
 		Professor professor = new Professor();
 		professor.setId(id);
 		professor.setLastName("test");
@@ -103,24 +115,39 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
+
+		// SUBJECT
+		Subject subject = new Subject(1L, "test", "test", professor);
+
+		// SUBJECT ASSIGNEMENT
+		List<Subject> subjects = new ArrayList<>();
+		subjects.add(subject);
 		professor.setSubjects(subjects);
+
+		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
 		LocalTime endTime = LocalTime.parse("10:45:00");
 		Auditorium auditorium = new Auditorium(1L, "test");
+
+		// HOUSE
 		House house = new House();
 		house.setHouse("test");
 		house.setId(1L);
+
+		// YEAR
 		Year year = new Year();
 		year.setId(1L);
 		year.setYearValue(1);
+
+		// LESSON
 		Lesson lesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
 		List<Lesson> conflictingLesson = new ArrayList<>();
 		conflictingLesson.add(lesson);
 
 		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(professor));
 		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject));
-		when(professorRepository.getBySubject(subjects)).thenReturn(professor);
+
 		when(lessonRepository.findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59), id))
 				.thenReturn(conflictingLesson);
 
@@ -128,24 +155,14 @@ public class LessonServiceTest {
 
 		verify(professorRepository).findById(lesson.getProfessor().getId());
 		verify(subjectRepository).findById(lesson.getSubject().getId());
-		verify(professorRepository).getBySubject(subjects);
 		verify(lessonRepository).findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59),
 				id);
 	}
 
 	@Test
 	public void shouldThrowValidationExceptionWhenImproperTeacher() {
-		// LESSON CREATION
+		// PROFESSOR NUMBER 1
 		Long id = 1L;
-		Subject subject = new Subject(1L, "test", "test");
-		Subject subject2 = new Subject(2L, "test1", "test1");
-
-		List<Subject> subjects = new ArrayList<>();
-		subjects.add(subject);
-
-		List<Subject> anotherSubject = new ArrayList<>();
-		anotherSubject.add(subject2);
-
 		Professor professor = new Professor();
 		professor.setId(id);
 		professor.setLastName("test");
@@ -153,10 +170,24 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
-		professor.setSubjects(subjects);
 
+		// PROFESSOR NUMBER 2 (IMPRORPER)
 		Professor anotherProfessor = new Professor();
-		anotherProfessor.setSubjects(anotherSubject);
+
+		// LESSON CREATION
+		Subject subject = new Subject(1L, "test", "test", anotherProfessor);
+		Subject subject2 = new Subject(2L, "test1", "test1", professor);
+
+		// SUBJECT
+		List<Subject> subjects = new ArrayList<>();
+		subjects.add(subject);
+
+		List<Subject> anotherSubject = new ArrayList<>();
+		anotherSubject.add(subject2);
+
+		// SUBJECT ASSIGNEMENT
+		professor.setSubjects(anotherSubject);
+		anotherProfessor.setSubjects(subjects);
 
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
@@ -168,16 +199,16 @@ public class LessonServiceTest {
 		Year year = new Year();
 		year.setId(1L);
 		year.setYearValue(1);
-		Lesson lesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
-
-		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(professor));
-		when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-		when(professorRepository.getBySubject(subjects)).thenReturn(anotherProfessor);
+		Lesson lesson = new Lesson(id, subject2, professor, date, time, endTime, auditorium, house, year);
+		
+		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject2));
+		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(anotherProfessor));
+		
 
 		assertThrows(ValidationException.class, () -> lessonServiceImpl.save(lesson));
 
-		verify(professorRepository).findById(lesson.getProfessor().getId());
-		verify(subjectRepository).findById(id);
-		verify(professorRepository).getBySubject(subjects);
+		verify(professorRepository, times(1)).findById(lesson.getProfessor().getId());
+		verify(subjectRepository, times(1)).findById(lesson.getSubject().getId());
+
 	}
 }

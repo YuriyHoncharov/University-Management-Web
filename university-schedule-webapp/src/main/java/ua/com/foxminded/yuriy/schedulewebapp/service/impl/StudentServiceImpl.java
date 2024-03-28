@@ -41,12 +41,9 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	@Transactional
 	public Long delete(Long id) {
-		if (studentRepository.findById(id).isPresent()) {
-			studentRepository.deleteById(id);
-		} else {
-			String errorMessage = String.format("Student with following ID : %d is not present in DataBase", id);
-			throw new UserNotFoundException(errorMessage);
-		}
+		String errorMessage = String.format("Student with following ID : %d is not present in DataBase", id);
+		studentRepository.findById(id).orElseThrow(() -> new UserNotFoundException(errorMessage));
+		studentRepository.deleteById(id);
 		return id;
 	}
 

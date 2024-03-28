@@ -37,13 +37,9 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 	@Override
 	public Long delete(Long id) {
-		if (teacherRepository.findById(id).isPresent()) {
-			teacherRepository.deleteById(id);
-		} else {
-			throw new UserNotFoundException("with following Id : " + id);
-		}
+		teacherRepository.findById(id).orElseThrow(() -> new UserNotFoundException("with following Id : " + id));
+		teacherRepository.deleteById(id);
 		return id;
-
 	}
 
 	@Override

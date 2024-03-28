@@ -34,7 +34,7 @@ public class HouseServiceTest {
 	@Test
 	public void testSave_ExistingHouse() {
 		House house = new House(1L, "B");
-		when(houseRepository.save(house)).thenThrow(new ValidationException("Already Exist"));
+		when(houseRepository.findByHouse(house.getHouse())).thenThrow(new ValidationException("Already Exist"));
 		assertThrows(ValidationException.class, () -> houseServiceImpl.save(house));
 	}
 }

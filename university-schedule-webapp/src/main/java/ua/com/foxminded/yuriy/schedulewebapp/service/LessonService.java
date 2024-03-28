@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 
@@ -35,5 +37,7 @@ public interface LessonService {
 	Page<LessonDto> getByProfessorId(Long wizardId, Pageable pageable);
 	
 	Page<LessonDto> getByWizardId(Long wizardId, Pageable pageable);
+	
+	Page<LessonDto>getLessonsByFilters(String login, String selectedDate, Authentication authentication);
 
 }

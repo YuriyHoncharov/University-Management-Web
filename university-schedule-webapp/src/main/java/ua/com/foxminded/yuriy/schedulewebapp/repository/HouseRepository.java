@@ -11,8 +11,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 
 public interface HouseRepository extends JpaRepository<House, Long>{
 	
-	@Query("SELECT h FROM House h WHERE h.house = :houseName")
-	Optional<House> getByHouseName(String houseName);
+	Optional<House> findByHouse(String houseName);
 	
 	Page<House> findAll (Pageable pageable);
 	

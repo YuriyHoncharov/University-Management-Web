@@ -52,17 +52,28 @@ public class LessonController {
 	private WizardRepository wizardRepository;
 
 	@GetMapping
-	public ModelAndView pagination(HttpServletRequest request, Authentication authentication,
+	public ModelAndView pagination(Authentication authentication,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "selectedDate", required = false) String selectedDate) {
 
 		ModelAndView mav = new ModelAndView();
 		Page<LessonDto> pageLessons = Page.empty();
 
-		String login = SecurityContextHolder.getContext().getAuthentication().getName();
-		boolean isAdmin = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("HEADMASTER");
-		boolean isStudent = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("STUDENT");
-		boolean isProfessor = (wizardRepository.findByLogin(login).get().getRole().getName()).equals("PROFESSOR");
+		String login = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+		
+		
+		// role , date , authentiction
+		
+		
+		
+		
+		
+		
+		
+		
+		boolean isAdmin = (login).equals("ROLE_HEADMASTER");
+		boolean isStudent = (login).equals("ROLE_STUDENT");
+		boolean isProfessor = (login).equals("ROLE_PROFESSOR");
 
 		// ADMIN
 		if (isAdmin) {
@@ -85,6 +96,7 @@ public class LessonController {
 				pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
 			}
 		}
+		
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(1, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");

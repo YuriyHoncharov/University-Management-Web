@@ -33,13 +33,12 @@ public class HouseServiceImpl implements HouseService {
 	}
 
 	@Override
-	public House save(House house) {
-		Optional<House> alreadyExistingHouse = houseRepository.getByHouseName(house.getHouse());
-		if (alreadyExistingHouse.isPresent()) {
-			throw new ValidationException("House with following name is already exist");
-		} else {
-			return houseRepository.save(house);
-		}
+	public House save(House house) {	    
+	    Optional<House> alreadyExistingHouse = houseRepository.findByHouse(house.getHouse());
+	    alreadyExistingHouse.ifPresent(existingHouse -> {
+	        throw new ValidationException("House with the following name already exists");
+	    });	    	    
+	    return houseRepository.save(house);
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class HouseServiceImpl implements HouseService {
 
 	@Override
 	public Optional<House> getByHouse(String house) {
-		return houseRepository.getByHouseName(house);
+		return houseRepository.findByHouse(house);
 	}
 
 	@Override

@@ -89,12 +89,12 @@ INSERT INTO Wizards (login, password, name, lastName, role_id, house_id, year_id
 
 -- Insert sample Subjects
 
-INSERT INTO Subjects (name, description) VALUES
-('Transfiguration', 'Changing the form or appearance of an object'),
-('Potions', 'Magical mixtures and elixirs'),
-('Charms', 'Spells and incantations'),
-('Herbology', 'Study of magical plants and fungi'),
-('test', 'test');
+INSERT INTO Subjects (name, description, professor_id) VALUES
+('Transfiguration', 'Changing the form or appearance of an object', 1),
+('Potions', 'Magical mixtures and elixirs', 2),
+('Charms', 'Spells and incantations', 3),
+('Herbology', 'Study of magical plants and fungi', 4),
+('test', 'test', null);
 
 
 -- Insert sample Auditoriums

@@ -35,11 +35,11 @@ INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
 
 -- Test data for Subjects
 
-INSERT INTO Subjects (name, description) VALUES
-('Math', 'Mathematics course'),
-('Physics', 'Physics course'),
-('History', 'History course'),
-('UnassignedSubject', 'UnassignedSubject');
+INSERT INTO Subjects (name, description, professor_id) VALUES
+('Math', 'Mathematics course', 1),
+('Physics', 'Physics course', 2),
+('History', 'History course', 3),
+('UnassignedSubject', 'UnassignedSubject', null);
 
 -- Test data for Auditoriums
 

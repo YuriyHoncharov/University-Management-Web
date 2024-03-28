@@ -30,7 +30,9 @@ FOREIGN KEY (year_id) REFERENCES Years(id) ON DELETE SET NULL
 CREATE TABLE IF NOT EXISTS Subjects (
 id SERIAL PRIMARY KEY,
 name TEXT NOT NULL,
-description TEXT NOT NULL
+description TEXT NOT NULL,
+professor_id INT,
+FOREIGN KEY (professor_id) REFERENCES Wizards (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Auditoriums (

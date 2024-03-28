@@ -16,5 +16,4 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 	
 	@Query("SELECT p FROM Professor p JOIN p.subjects s WHERE s IN :subjects")
 	Professor getBySubject(List<Subject>subjects);
-
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
@@ -49,21 +50,18 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public Lesson save(Lesson lesson) {
-		
-		if(properTeacher(lesson)) {
-			if (!hasConflict(lesson)) {
+
+		if (properTeacher(lesson)) {
+			if (!hasScheduleConflict(lesson)) {
 				return lessonRepository.save(lesson);
 			} else {
-				throw new ValidationException("Another Lesson is already assigned to this Auditorium for " + lesson.getDate()
-						+ " and time " + lesson.getTime());
+				throw new ValidationException("Another Lesson is already assigned to this Auditorium for "
+						+ lesson.getDate() + " and time " + lesson.getTime());
 			}
 		} else {
-			throw new ValidationException(lesson.getProfessor().getName() + " " +lesson.getProfessor().getLastName() + " don't teaching : " + lesson.getSubject().getName());
+			throw new ValidationException(lesson.getProfessor().getName() + " " + lesson.getProfessor().getLastName()
+					+ " don't teaching : " + lesson.getSubject().getName());
 		}
-		
-
-		
-
 	}
 
 	@Override
@@ -71,33 +69,24 @@ public class LessonServiceImpl implements LessonService {
 		lessonRepository.deleteById(id);
 	}
 
-	public boolean hasConflict(Lesson lesson) {
+	private boolean hasScheduleConflict(Lesson lesson) {
 
 		Auditorium auditorium = lesson.getAuditorium();
 		LocalDate date = lesson.getDate();
 		LocalTime startTime = lesson.getTime().minusMinutes(14);
 		LocalTime endTime = lesson.getTime().plusMinutes(59);
 		Long lessonId = lesson.getId();
-
-		List<Lesson> lessonsInCoflict = lessonRepository.findConflictingLessons(auditorium, date, startTime, endTime,
-				lessonId);
-		if (lessonsInCoflict.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
+		return !lessonRepository.findConflictingLessons(auditorium, date, startTime, endTime, lessonId).isEmpty();
 
 	}
 
-	public boolean properTeacher(Lesson lesson) {
-		Professor assignedProfessor = professorRepository.findById(lesson.getProfessor().getId()).get();
+	private boolean properTeacher(Lesson lesson) {
+
 		Subject subject = subjectRepository.findById(lesson.getSubject().getId()).get();
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
-		Professor professor = professorRepository.getBySubject(subjects);
-		if (assignedProfessor.equals(professor)) {
+		if ((professorRepository.findById(lesson.getProfessor().getId()).get()).equals(subject.getProfessor())) {
 			return true;
-
 		} else {
 			return false;
 		}
@@ -106,27 +95,21 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public Page<LessonDto> getByStudentIdAndDate(Long wizardId, LocalDate selectedDate, Pageable pageable) {
 
-		Optional<Student> student = studentRepository.findById(wizardId);
-		if (student.isPresent()) {
-			House house = student.get().getHouse();
-			Year year = student.get().getYear();
-			List<Subject> subjects = student.get().getSubjects();
-			return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate, pageable)
-					.map(LessonDto::new);
+		Student student = studentRepository.findById(wizardId)
+				.orElseThrow(() -> new UserNotFoundException("Any user was found with the followind ID : " + wizardId));
+		House house = student.getHouse();
+		Year year = student.getYear();
+		List<Subject> subjects = student.getSubjects();
+		return lessonRepository.getByStudentIdAndDate(house, year, subjects, selectedDate, pageable).map(LessonDto::new);
 
-		} else {
-			throw new UserNotFoundException("Any user was found with the followind ID : " + wizardId);
-		}
 	}
 
 	@Override
 	public Page<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable) {
 
-		if (professorRepository.findById(professorId).isPresent()) {
-			return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate, pageable).map(LessonDto::new);
-		} else {
-			throw new UserNotFoundException("Any user was found with the followind ID : " + professorId);
-		}
+		professorRepository.findById(professorId)
+				.orElseThrow(() -> new UserNotFoundException("Any user was found with the followind ID : " + professorId));
+		return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate, pageable).map(LessonDto::new);
 
 	}
 
@@ -172,16 +155,13 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public Page<LessonDto> getByStudentId(Long wizardId, Pageable pageable) {
-		Optional<Student> student = studentRepository.findById(wizardId);
-		if (student.isPresent()) {
-			House house = student.get().getHouse();
-			Year year = student.get().getYear();
-			List<Subject> subjects = student.get().getSubjects();
-			return lessonRepository.getByStudentId(house, year, subjects, pageable).map(LessonDto::new);
+		Student student = studentRepository.findById(wizardId)
+				.orElseThrow(() -> new UserNotFoundException("Any student was found with the followind ID : " + wizardId));
+		House house = student.getHouse();
+		Year year = student.getYear();
+		List<Subject> subjects = student.getSubjects();
+		return lessonRepository.getByStudentId(house, year, subjects, pageable).map(LessonDto::new);
 
-		} else {
-			throw new UserNotFoundException("Any student was found with the followind ID : " + wizardId);
-		}
 	}
 
 	@Override
@@ -201,5 +181,13 @@ public class LessonServiceImpl implements LessonService {
 			return getByProfessorId(wizardId, pageable);
 		}
 	}
+
+	@Override
+	public Page<LessonDto> getLessonsByFilters(String login, String selectedDate, Authentication authentication) {
+		
+		return null;
+	}
+	
+	
 
 }
