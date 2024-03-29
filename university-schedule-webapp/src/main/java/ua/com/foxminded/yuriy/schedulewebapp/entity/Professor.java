@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +23,7 @@ import lombok.NoArgsConstructor;
 public class Professor extends Wizard {
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private List<Subject> subjects;	
+	@JsonManagedReference
+	private List<Subject> subjects;
+		
 }

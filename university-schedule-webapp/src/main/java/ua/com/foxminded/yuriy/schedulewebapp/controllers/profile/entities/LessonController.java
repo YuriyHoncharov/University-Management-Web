@@ -1,12 +1,7 @@
 package ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities;
 
 import java.util.stream.IntStream;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import lombok.AllArgsConstructor;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.WizardRepository;
@@ -49,7 +40,6 @@ public class LessonController {
 	private HouseService houseService;
 	private ProfessorService professorService;
 	private YearService yearService;
-	private WizardRepository wizardRepository;
 
 	@GetMapping
 	public ModelAndView pagination(Authentication authentication,
@@ -57,46 +47,10 @@ public class LessonController {
 			@RequestParam(value = "selectedDate", required = false) String selectedDate) {
 
 		ModelAndView mav = new ModelAndView();
-		Page<LessonDto> pageLessons = Page.empty();
-
 		String login = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-		
-		
-		// role , date , authentiction
-		
-		
-		
-		
-		
-		
-		
-		
-		boolean isAdmin = (login).equals("ROLE_HEADMASTER");
-		boolean isStudent = (login).equals("ROLE_STUDENT");
-		boolean isProfessor = (login).equals("ROLE_PROFESSOR");
+		Page<LessonDto> pageLessons = lessonService.getLessonsByFilters(login, selectedDate, authentication, page);
 
-		// ADMIN
-		if (isAdmin) {
-			if (selectedDate != null) {
-				pageLessons = lessonService.getAllByDate(selectedDate, PageRequest.of(page, 7));
-				mav.addObject("selectedDate", selectedDate);
-			} else {
-				pageLessons = lessonService.getAllByPage(PageRequest.of(page, 7));
-			}
-		}
-
-		// STUDENT OR PROFESSOR
-		else if (isStudent || isProfessor) {
-			String name = authentication.getName();
-			Long wizardId = wizardRepository.findByLogin(name).get().getId();
-			if (selectedDate != null) {
-				pageLessons = lessonService.getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
-				mav.addObject("selectedDate", selectedDate);
-			} else {
-				pageLessons = lessonService.getByWizardId(wizardId, PageRequest.of(page, 7));
-			}
-		}
-		
+		mav.addObject("selectedDate", selectedDate);
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(1, pageLessons.getTotalPages()).toArray());
 		mav.setViewName("profile/entities/lessons");
@@ -135,26 +89,7 @@ public class LessonController {
 	@PutMapping("update/{id}")
 	public ResponseEntity<Object> update(@RequestBody Lesson lesson, @PathVariable Long id) {
 		try {
-			Lesson existingLesson = lessonService.getById(id).get();
-			if (existingLesson != null) {
-
-				Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
-				Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
-				Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
-				House house = houseService.getById(lesson.getHouse().getId()).get();
-				Year year = yearService.getById(lesson.getYear().getId()).get();
-
-				existingLesson.setSubject(subject);
-				existingLesson.setProfessor(professor);
-				existingLesson.setDate(lesson.getDate());
-				existingLesson.setTime(lesson.getTime());
-				existingLesson.setEndTime(lesson.getEndTime());
-				existingLesson.setAuditorium(auditorium);
-				existingLesson.setHouse(house);
-				existingLesson.setYear(year);
-
-			}
-			Lesson updatedLesson = lessonService.save(existingLesson);
+			Lesson updatedLesson = lessonService.save(lessonService.lessonBuilder(lesson, id));
 			return ResponseEntity.ok(updatedLesson);
 
 		} catch (ValidationException e) {
@@ -164,7 +99,6 @@ public class LessonController {
 
 	@GetMapping("/create")
 	public ModelAndView showCreateView() {
-
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("subjects", subjectService.getAll());
 		mav.addObject("professors", professorService.getAll());
@@ -179,11 +113,7 @@ public class LessonController {
 	public ResponseEntity<Object> create(@RequestBody Lesson lesson) {
 
 		try {
-			Lesson createdLesson = new Lesson();
-			Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
-			createdLesson.setProfessor(professor);
-
-			createdLesson = lessonService.save(lesson);
+			Lesson createdLesson = lessonService.save(lessonService.lessonBuilder(lesson, lesson.getId()));
 			return ResponseEntity.ok(createdLesson);
 
 		} catch (ValidationException e) {

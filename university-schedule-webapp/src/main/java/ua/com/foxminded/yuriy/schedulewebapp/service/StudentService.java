@@ -20,4 +20,8 @@ public interface StudentService {
 	Long delete(Long id);
 
 	Page<StudentDto> findAll(Pageable pageable);
+	
+	Student studentBuilder(Student student, Long id);
+	
+	Student editStudentSubjects(Long studentId, Long subjectId);
 }

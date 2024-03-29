@@ -128,9 +128,7 @@ public class StudentControllerTest {
 		student.setYear(year);
 		student.setHouse(house);
 		String studentJson = objectMapper.writeValueAsString(student);
-		when(studentService.getById(studentId)).thenReturn(Optional.of(student));
-		when(yearService.getById(1L)).thenReturn(Optional.of(year));
-		when(houseService.getById(1L)).thenReturn(Optional.of(house));
+		when(studentService.studentBuilder(student, studentId)).thenReturn(student);
 		mockMvc.perform(put("/profile/dashboard/students/update/{id}", studentId).contentType(MediaType.APPLICATION_JSON)
 				.content(studentJson)).andExpect(status().isOk());
 		verify(studentService, times(1)).save(student);
@@ -167,20 +165,23 @@ public class StudentControllerTest {
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subjectToDelete);
 		student.setSubjects(subjects);
-
-		when(studentService.getById(studentId)).thenReturn(Optional.of(student));
+		Student modifiedStudent = student;
+		List<Subject> modifiedSubjectsList = new ArrayList<>();
+		modifiedStudent.setSubjects(modifiedSubjectsList);
+		when(studentService.editStudentSubjects(studentId, subjectIdToDelete)).thenReturn(modifiedStudent);
 
 		mockMvc
 				.perform(post("/profile/dashboard/students/edit/{studentId}/subjects/{subjectId}", studentId,
 						subjectIdToDelete))
-				.andExpect(status().isOk()).andExpect(content().string("Subject deleted successfully."));
+				.andExpect(status().isOk()).andExpect(content().string("Subjects modified successfully"));
 
-		assertEquals(0, student.getSubjects().size());
+		assertEquals(0, modifiedStudent.getSubjects().size());
+		verify(studentService, times(1)).editStudentSubjects(studentId, subjectIdToDelete);
 		verify(studentService, times(1)).save(student);
 	}
 
 	@Test
-	void should__not_edit_student_subject_when_subject_to_delete_is_not_present() throws Exception {
+	void should_add_new_subject_when_subject_to_delete_is_not_present() throws Exception {
 
 		Long studentId = 1L;
 		Long subjectIdToDelete = 100L;
@@ -193,16 +194,20 @@ public class StudentControllerTest {
 		student.setSubjects(subjects);
 		Subject subjectToAdd = new Subject();
 		subjectToAdd.setId(subjectIdToAdd);
+		Student modifiedStudent = student;
+		List<Subject>newSubjects = new ArrayList<>();
+		newSubjects.add(subjectToAdd);
+		newSubjects.add(subjectToDelete);
+		modifiedStudent.setSubjects(newSubjects);
 
-		when(studentService.getById(studentId)).thenReturn(Optional.of(student));
-		when(subjectService.getById(subjectIdToAdd)).thenReturn(Optional.of(subjectToAdd));
+		when(studentService.editStudentSubjects(studentId, subjectIdToAdd)).thenReturn(modifiedStudent);
 
 		mockMvc
 				.perform(
 						post("/profile/dashboard/students/edit/{studentId}/subjects/{subjectId}", studentId, subjectIdToAdd))
-				.andExpect(status().isOk()).andExpect(content().string("Subject added successfully"));
+				.andExpect(status().isOk()).andExpect(content().string("Subjects modified successfully"));
 
-		assertEquals(2, student.getSubjects().size());
+		assertEquals(2, modifiedStudent.getSubjects().size());
 		verify(studentService, times(1)).save(student);
 	}
 
@@ -212,26 +217,25 @@ public class StudentControllerTest {
 		List<House> houses = new ArrayList<>();
 		when(yearService.getAll()).thenReturn(years);
 		when(houseService.getAll()).thenReturn(houses);
-		mockMvc.perform(get("/profile/dashboard/students/create"))
-		.andExpect(status().isOk())
+		mockMvc.perform(get("/profile/dashboard/students/create")).andExpect(status().isOk())
 				.andExpect(view().name("profile/entities/create/studentCreate"))
 				.andExpect(model().attribute("years", years)).andExpect(model().attribute("houses", houses));
 		verify(yearService, times(1)).getAll();
 		verify(houseService, times(1)).getAll();
 	}
-	
+
 	@Test
 	void should_create_new_student() throws Exception {
+		Long studenId= 1L;
 		Student student = new Student();
-		Role role = new Role();
-		role.setId(2L);
-		role.setName("STUDENT");
+		student.setId(studenId);
 		Student savedStudent = new Student();
 		String studentJson = objectMapper.writeValueAsString(student);
-		when(roleService.getById(2L)).thenReturn(Optional.of(role));
+		when(studentService.studentBuilder(student, studenId)).thenReturn(student);
 		when(studentService.save(student)).thenReturn(student);
-		mockMvc.perform(post("/profile/dashboard/students/create").contentType(MediaType.APPLICATION_JSON).content(studentJson)).andExpect(status().isOk());
-		verify(roleService, times(1)).getById(2L);
+		mockMvc.perform(
+				post("/profile/dashboard/students/create").contentType(MediaType.APPLICATION_JSON).content(studentJson))
+				.andExpect(status().isOk());
 		verify(studentService, times(1)).save(student);
 	}
 

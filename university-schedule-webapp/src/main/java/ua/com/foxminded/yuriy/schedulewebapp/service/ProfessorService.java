@@ -21,5 +21,7 @@ public interface ProfessorService {
 	Long delete(Long id);
 	
 	List<ProfessorDto> getAll();
+	
+	Professor professorBuilder(Professor professor, Long id);
 
 }

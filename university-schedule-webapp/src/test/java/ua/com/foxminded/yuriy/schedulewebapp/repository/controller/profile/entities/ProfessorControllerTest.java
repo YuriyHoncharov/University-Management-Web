@@ -115,20 +115,16 @@ public class ProfessorControllerTest {
 		Long professorId = 1L;
 		Professor existingProfessor = new Professor();
 		existingProfessor.setId(professorId);
-		Subject subject = new Subject();
-		subject.setId(1L);
-		List<Subject> subjects = new ArrayList<>();
-		subjects.add(subject);
-		existingProfessor.setSubjects(subjects);
 		existingProfessor.setName("Name");
 		existingProfessor.setLastName("LastName");
-		when(subjectService.getById(existingProfessor.getSubjects().get(0).getId())).thenReturn(Optional.of(subject));
-		when(professorService.getById(professorId)).thenReturn(Optional.of(existingProfessor));
-		String professorJSON = objectMapper.writeValueAsString(existingProfessor);
+		String professorJSON = objectMapper.writeValueAsString(existingProfessor);	
+		
+		when(professorService.professorBuilder(existingProfessor, professorId)).thenReturn(existingProfessor);	
+		when(professorService.save(existingProfessor)).thenReturn(existingProfessor);
 		mockMvc.perform(put("/profile/dashboard/professors/update/{id}", professorId)
 				.contentType(MediaType.APPLICATION_JSON).content(professorJSON)).andExpect(status().isOk());
 		verify(professorService, times(1)).save(existingProfessor);
-		verify(subjectService, times(1)).getById(any());
+		
 	}
 
 	@Test
@@ -148,7 +144,6 @@ public class ProfessorControllerTest {
 		Role role = new Role();
 		role.setId(3L);
 		role.setName("PROFESSOR");
-		when(roleService.getById(3L)).thenReturn(Optional.of(role));
 		mockMvc.perform(
 				post("/profile/dashboard/professors/create").contentType(MediaType.APPLICATION_JSON).content(professorJson))
 				.andExpect(status().isOk());

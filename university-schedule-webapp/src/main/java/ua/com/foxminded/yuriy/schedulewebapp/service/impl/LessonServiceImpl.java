@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,13 @@ import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.SubjectRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.WizardRepository;
+import ua.com.foxminded.yuriy.schedulewebapp.service.AuditoriumService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.LessonService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +44,12 @@ public class LessonServiceImpl implements LessonService {
 	private final StudentRepository studentRepository;
 	private final ProfessorRepository professorRepository;
 	private final SubjectRepository subjectRepository;
+	private final WizardRepository wizardRepository;
+	private final SubjectService subjectService;
+	private final ProfessorService professorService;
+	private final AuditoriumService auditoriumService;
+	private final YearService yearService;
+	private final HouseService houseService;
 
 	@Override
 	public List<Lesson> getAll() {
@@ -85,7 +98,8 @@ public class LessonServiceImpl implements LessonService {
 		Subject subject = subjectRepository.findById(lesson.getSubject().getId()).get();
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
-		if ((professorRepository.findById(lesson.getProfessor().getId()).get()).equals(subject.getProfessor())) {
+		Professor prof = professorRepository.findById(lesson.getProfessor().getId()).get();
+		if (prof.equals(subject.getProfessor())) {
 			return true;
 		} else {
 			return false;
@@ -183,11 +197,60 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public Page<LessonDto> getLessonsByFilters(String login, String selectedDate, Authentication authentication) {
-		
-		return null;
+	public Page<LessonDto> getLessonsByFilters(String login, String selectedDate, Authentication authentication,
+			Integer page) {
+
+		Page<LessonDto> pageLessons = Page.empty();
+		boolean isAdmin = (login).equals("[ROLE_HEADMASTER]");
+		boolean isStudent = (login).equals("[ROLE_STUDENT]");
+		boolean isProfessor = (login).equals("[ROLE_PROFESSOR]");
+
+		// ADMIN
+		if (isAdmin) {
+			if (selectedDate != null) {
+				pageLessons = getAllByDate(selectedDate, PageRequest.of(page, 7));
+
+			} else {
+				pageLessons = getAllByPage(PageRequest.of(page, 7));
+			}
+		}
+
+		else if (isStudent || isProfessor) {
+			String name = authentication.getName();
+			Long wizardId = wizardRepository.findByLogin(name).get().getId();
+			if (selectedDate != null) {
+				pageLessons = getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
+
+			} else {
+				pageLessons = getByWizardId(wizardId, PageRequest.of(page, 7));
+			}
+		}
+
+		return pageLessons;
 	}
-	
-	
+
+	@Override
+	public Lesson lessonBuilder(Lesson lesson, Long id) {
+		Lesson existingLesson = new Lesson();
+		if (id != null) {
+			existingLesson = getById(id).get();
+		}
+			Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
+			Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
+			Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
+			House house = houseService.getById(lesson.getHouse().getId()).get();
+			Year year = yearService.getById(lesson.getYear().getId()).get();
+
+			existingLesson.setSubject(subject);
+			existingLesson.setProfessor(professor);
+			existingLesson.setDate(lesson.getDate());
+			existingLesson.setTime(lesson.getTime());
+			existingLesson.setEndTime(lesson.getEndTime());
+			existingLesson.setAuditorium(auditorium);
+			existingLesson.setHouse(house);
+			existingLesson.setYear(year);
+		
+		return existingLesson;
+	}
 
 }

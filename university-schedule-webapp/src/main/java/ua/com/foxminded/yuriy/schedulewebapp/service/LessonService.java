@@ -38,6 +38,8 @@ public interface LessonService {
 	
 	Page<LessonDto> getByWizardId(Long wizardId, Pageable pageable);
 	
-	Page<LessonDto>getLessonsByFilters(String login, String selectedDate, Authentication authentication);
+	Page<LessonDto>getLessonsByFilters(String login, String selectedDate, Authentication authentication, Integer page);
+	
+	Lesson lessonBuilder(Lesson lesson, Long id);
 
 }

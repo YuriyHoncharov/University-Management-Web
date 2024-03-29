@@ -57,8 +57,7 @@ public class ProfessorController {
 			professorService.delete(id);
 			return new ResponseEntity<>("Professor deleted successfully", HttpStatus.OK);
 		} catch (UserNotFoundException e) {
-			return new ResponseEntity<>("Failed to delete professor " + e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Failed to delete professor " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -81,20 +80,7 @@ public class ProfessorController {
 	@PutMapping("update/{id}")
 	public ResponseEntity<Object> update(@RequestBody Professor professor, @PathVariable Long id) {
 		try {
-			Professor existingProfessor = professorService.getById(id).get();
-			if (existingProfessor != null) {
-				List<Subject> subject = new ArrayList<>();
-				Subject assignedSubject = subjectService.getById(professor.getSubjects().get(0).getId()).get();
-				if (assignedSubject != null) {
-					subject.add(assignedSubject);
-				}
-				existingProfessor.setName(professor.getName());
-				existingProfessor.setLastName(professor.getLastName());
-				existingProfessor.setSubjects(subject);
-			}
-			Professor updatedProfessor = professorService.save(existingProfessor);
-			return ResponseEntity.ok(updatedProfessor);
-
+			return ResponseEntity.ok(professorService.save(professorService.professorBuilder(professor, id)));
 		} catch (ValidationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -113,13 +99,11 @@ public class ProfessorController {
 
 	@PostMapping("/create")
 	public ResponseEntity<Object> create(@RequestBody Professor professor) {
-		
-		try {
-			professor.setRole(roleService.getById(3L).get());
-			Professor updatedProfessor = professorService.save(professor);
-			return ResponseEntity.ok(updatedProfessor);
 
-		} catch (ValidationException e) {
+		try {
+			return ResponseEntity.ok(professorService.save(professorService.professorBuilder(professor, professor.getId())));
+
+		} catch (RuntimeException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
