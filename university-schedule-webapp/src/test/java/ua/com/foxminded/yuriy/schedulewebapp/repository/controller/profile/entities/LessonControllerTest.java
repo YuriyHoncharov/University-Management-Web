@@ -67,7 +67,6 @@ public class LessonControllerTest {
 	private WizardRepository wizardRepository;
 	@Mock
 	private HttpServletRequest request;
-
 	@Mock
 	private Authentication authentication;
 	@InjectMocks
@@ -84,54 +83,28 @@ public class LessonControllerTest {
 	}
 
 	@Test
-	@WithMockUser(roles = "HEADMASTER")
 	void should_ReturnView_With_AllLessons_To_AdminUser() throws Exception {
 
 		Page<LessonDto> lessonPage = Mockito.mock(Page.class);
-		String login = "login";
-		Wizard wizard = mock(Wizard.class);
-		Role role = new Role();
-		role.setName("HEADMASTER");
-		Authentication authentication = Mockito.mock(Authentication.class);
-		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-		SecurityContextHolder.setContext(securityContext);
-		when(lessonPage.getTotalPages()).thenReturn(1);
-		when(authentication.getName()).thenReturn(login);
-		when(wizard.getRole()).thenReturn(role);
-		when(wizardRepository.findByLogin(login)).thenReturn(Optional.of(wizard));
-		when(lessonService.getAllByPage(any())).thenReturn(lessonPage);
-
-		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication))
+		when(lessonService.getLessonsByFilters(null, 1)).thenReturn(lessonPage);
+		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication).param("page", "1"))
 				.andExpect(model().attribute("pageLessons", lessonPage))
 				.andExpect(model().attribute("numbers", IntStream.range(1, lessonPage.getTotalPages()).toArray()))
 				.andExpect(view().name("profile/entities/lessons"));
-		verify(lessonService, times(1)).getAllByPage(any());
+		verify(lessonService, times(1)).getLessonsByFilters(null, 1);
 	}
 
 	@Test
-	@WithMockUser(roles = "HEADMASTER")
 	void should_return_view_With_AllLessons_To_StudentUser_ByDate() throws Exception {
 
-		Page<LessonDto> lessonPage = Mockito.mock(Page.class);
-		String login = "login";
-		Wizard wizard = mock(Wizard.class);
-		Role role = new Role();
-		role.setName("STUDENT");
-		Authentication authentication = Mockito.mock(Authentication.class);
-		SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-		Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-		SecurityContextHolder.setContext(securityContext);
-		when(lessonPage.getTotalPages()).thenReturn(1);
-		when(authentication.getName()).thenReturn(login);
-		when(wizard.getRole()).thenReturn(role);
-
-		when(lessonService.getLessonsByFilters(login, "2024-03-30", authentication, 0)).thenReturn(lessonPage);
+		Page<LessonDto> lessonPage = Mockito.mock(Page.class);		
+		when(lessonService.getLessonsByFilters("2024-03-30", 0)).thenReturn(lessonPage);
+		
 		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication).param("selectedDate", "2024-03-30"))
 				.andExpect(model().attribute("pageLessons", lessonPage))
 				.andExpect(model().attribute("numbers", IntStream.range(1, lessonPage.getTotalPages()).toArray()))
 				.andExpect(view().name("profile/entities/lessons"));
-		verify(lessonService, times(1)).getLessonsByFilters(login, "2024-03-30", authentication, 0);
+		verify(lessonService, times(1)).getLessonsByFilters("2024-03-30", 0);
 	}
 
 	@Test
@@ -226,7 +199,7 @@ public class LessonControllerTest {
 		professor.setId(1L);
 		newLesson.setProfessor(professor);
 		when(lessonService.lessonBuilder(newLesson, lessonId)).thenReturn(newLesson);
-				String lessonJSON = objectMapper.writeValueAsString(newLesson);
+		String lessonJSON = objectMapper.writeValueAsString(newLesson);
 		mockMvc
 				.perform(
 						post("/profile/dashboard/lessons/create").contentType(MediaType.APPLICATION_JSON).content(lessonJSON))
@@ -235,7 +208,7 @@ public class LessonControllerTest {
 
 	@Test
 	void should_not_create_newLesson() throws Exception {
-		Long lessonId= 1L;
+		Long lessonId = 1L;
 		Lesson newLesson = new Lesson();
 		newLesson.setId(lessonId);
 		Professor professor = new Professor();

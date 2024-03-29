@@ -47,9 +47,8 @@ public class LessonController {
 			@RequestParam(value = "selectedDate", required = false) String selectedDate) {
 
 		ModelAndView mav = new ModelAndView();
-		String login = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-		Page<LessonDto> pageLessons = lessonService.getLessonsByFilters(login, selectedDate, authentication, page);
-
+		Page<LessonDto> pageLessons = lessonService.getLessonsByFilters(selectedDate, page);
+		
 		mav.addObject("selectedDate", selectedDate);
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(1, pageLessons.getTotalPages()).toArray());

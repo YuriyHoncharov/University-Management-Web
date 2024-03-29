@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
@@ -197,9 +198,8 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public Page<LessonDto> getLessonsByFilters(String login, String selectedDate, Authentication authentication,
-			Integer page) {
-
+	public Page<LessonDto> getLessonsByFilters(String selectedDate, Integer page) {
+		String login = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 		Page<LessonDto> pageLessons = Page.empty();
 		boolean isAdmin = (login).equals("[ROLE_HEADMASTER]");
 		boolean isStudent = (login).equals("[ROLE_STUDENT]");
@@ -216,7 +216,7 @@ public class LessonServiceImpl implements LessonService {
 		}
 
 		else if (isStudent || isProfessor) {
-			String name = authentication.getName();
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
 			Long wizardId = wizardRepository.findByLogin(name).get().getId();
 			if (selectedDate != null) {
 				pageLessons = getByWizardIdAndDate(wizardId, selectedDate, PageRequest.of(page, 7));
@@ -235,21 +235,21 @@ public class LessonServiceImpl implements LessonService {
 		if (id != null) {
 			existingLesson = getById(id).get();
 		}
-			Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
-			Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
-			Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
-			House house = houseService.getById(lesson.getHouse().getId()).get();
-			Year year = yearService.getById(lesson.getYear().getId()).get();
+		Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
+		Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
+		Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
+		House house = houseService.getById(lesson.getHouse().getId()).get();
+		Year year = yearService.getById(lesson.getYear().getId()).get();
 
-			existingLesson.setSubject(subject);
-			existingLesson.setProfessor(professor);
-			existingLesson.setDate(lesson.getDate());
-			existingLesson.setTime(lesson.getTime());
-			existingLesson.setEndTime(lesson.getEndTime());
-			existingLesson.setAuditorium(auditorium);
-			existingLesson.setHouse(house);
-			existingLesson.setYear(year);
-		
+		existingLesson.setSubject(subject);
+		existingLesson.setProfessor(professor);
+		existingLesson.setDate(lesson.getDate());
+		existingLesson.setTime(lesson.getTime());
+		existingLesson.setEndTime(lesson.getEndTime());
+		existingLesson.setAuditorium(auditorium);
+		existingLesson.setHouse(house);
+		existingLesson.setYear(year);
+
 		return existingLesson;
 	}
 

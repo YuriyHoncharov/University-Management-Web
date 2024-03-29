@@ -7,16 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 
 @Entity
 @Table(name = "Subjects")
@@ -34,10 +34,11 @@ public class Subject {
 
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@OneToOne(cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "professor_id")
 	@JsonBackReference
 	@ToString.Exclude
 	private Professor professor;
+
 }

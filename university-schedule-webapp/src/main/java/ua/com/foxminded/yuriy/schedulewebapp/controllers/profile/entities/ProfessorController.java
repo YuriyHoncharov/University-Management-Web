@@ -66,7 +66,7 @@ public class ProfessorController {
 		ModelAndView mav = new ModelAndView();
 		List<Subject> availableSubjects = subjectService.findAllUnassignedSubjects();
 		return professorService.getById(id).map(professor -> {
-			mav.addObject("actualSubject", professor.getSubjects().get(0));
+			mav.addObject("actualSubject", professor.getSubject());
 			mav.addObject("availableSubjects", availableSubjects);
 			mav.addObject("professor", professor);
 			mav.setViewName("profile/entities/edit/professorEdit");

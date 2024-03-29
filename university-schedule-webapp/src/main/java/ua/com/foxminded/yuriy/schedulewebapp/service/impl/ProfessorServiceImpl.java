@@ -38,8 +38,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public Professor save(Professor teacher) {
-		return teacherRepository.save(teacher);
+	public Professor save(Professor professor) {
+		Subject subject = professor.getSubject();
+		subject.setProfessor(professor);
+		subjectService.save(subject);
+		return teacherRepository.save(professor);
 	}
 
 	@Override
@@ -63,14 +66,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 			existingProfessor.setLogin(professor.getLogin());
 			existingProfessor.setPassword(professor.getPassword());
 		}
-		List<Subject> subject = new ArrayList<>();
-		Subject assignedSubject = subjectService.getById(professor.getSubjects().get(0).getId())
+		Subject assignedSubject = subjectService.getById(professor.getSubject().getId())
 				.orElseThrow(() -> new SubjectNotFoundException("Selected subject was not found"));
-		subject.add(assignedSubject);
-		
+
 		existingProfessor.setName(professor.getName());
 		existingProfessor.setLastName(professor.getLastName());
-		existingProfessor.setSubjects(subject);
+		existingProfessor.setSubject(assignedSubject);
 		existingProfessor.setRole(roleService.getById(3L).get());
 		return existingProfessor;
 	}

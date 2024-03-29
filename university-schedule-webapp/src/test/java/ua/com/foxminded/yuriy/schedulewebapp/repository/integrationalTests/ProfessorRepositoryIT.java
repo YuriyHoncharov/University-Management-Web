@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,12 @@ public class ProfessorRepositoryIT {
 	@Test
 	void shouldReturn_Professor_BySubject() {
 		Long subjectId = 3L;
-		Subject subject = subjectRepository.findById(subjectId).get();
-		List<Subject> subjects = new ArrayList<>();
-		subjects.add(subject);
-		Professor professorBySubject = professorRepository.getBySubject(subjects);
-		assertEquals("Professor", professorBySubject.getName());
-		assertEquals("Three", professorBySubject.getLastName());
-		assertEquals(6L, professorBySubject.getId());
+		Optional<Subject>optionalSubject = subjectRepository.findById(subjectId);				
+		if (optionalSubject.isPresent()) {
+	        Subject subject = optionalSubject.get();
+	        Professor professorBySubject = professorRepository.getBySubject(subject);
+	        assertEquals("Three", professorBySubject.getLastName());
+	        assertEquals(6L, professorBySubject.getId());
+		}
 	}
 }

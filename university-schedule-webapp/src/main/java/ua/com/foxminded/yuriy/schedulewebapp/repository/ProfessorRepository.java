@@ -14,6 +14,6 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 	
 	Page<Professor>findAll (Pageable pageable);
 	
-	@Query("SELECT p FROM Professor p JOIN p.subjects s WHERE s IN :subjects")
-	Professor getBySubject(List<Subject>subjects);
+	@Query("SELECT p FROM Professor p WHERE p.subject = :subject")
+	Professor getBySubject(Subject subject);
 }

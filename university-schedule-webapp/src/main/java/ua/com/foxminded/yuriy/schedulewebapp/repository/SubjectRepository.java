@@ -10,7 +10,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 public interface SubjectRepository extends JpaRepository<Subject, Long>{
 
 
-	@Query("SELECT s FROM Subject s WHERE NOT EXISTS (SELECT p FROM Professor p JOIN p.subjects subj WHERE subj = s)")
+	@Query("SELECT s FROM Subject s WHERE NOT EXISTS (SELECT p FROM Professor p WHERE p.subject = s)")
 	List<Subject>findAllUnassignedSubjects();
 
 }

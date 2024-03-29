@@ -98,12 +98,12 @@ public class ProfessorControllerTest {
 		Subject subject = new Subject();
 		subjects.add(subject);
 		Professor professor = new Professor();
-		professor.setSubjects(subjects);
+		professor.setSubject(subject);
 		Long professorId = 1L;
 		when(professorService.getById(professorId)).thenReturn(Optional.of(professor));
 		mockMvc.perform(get("/profile/dashboard/professors/edit/{id}", professorId)).andExpect(status().isOk())
 				.andExpect(view().name("profile/entities/edit/professorEdit"))
-				.andExpect(model().attribute("actualSubject", professor.getSubjects().get(0)))
+				.andExpect(model().attribute("actualSubject", professor.getSubject()))
 				.andExpect(model().attribute("availableSubjects", availableSubjects))
 				.andExpect(model().attribute("professor", professor));
 		verify(subjectService, times(1)).findAllUnassignedSubjects();

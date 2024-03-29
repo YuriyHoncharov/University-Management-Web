@@ -63,7 +63,7 @@ public class LessonServiceTest {
 		subjects.add(subject);
 
 		// SUBJECTS ASSIGNEMENT
-		professor.setSubjects(subjects);
+		professor.setSubject(subject);
 
 		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
@@ -122,7 +122,7 @@ public class LessonServiceTest {
 		// SUBJECT ASSIGNEMENT
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
-		professor.setSubjects(subjects);
+		professor.setSubject(subject);
 
 		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
@@ -186,9 +186,8 @@ public class LessonServiceTest {
 		anotherSubject.add(subject2);
 
 		// SUBJECT ASSIGNEMENT
-		professor.setSubjects(anotherSubject);
-		anotherProfessor.setSubjects(subjects);
-
+		professor.setSubject(subject2);
+		anotherProfessor.setSubject(subject);
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
 		LocalTime endTime = LocalTime.parse("10:45:00");
