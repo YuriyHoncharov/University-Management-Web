@@ -19,18 +19,20 @@ login TEXT NOT NULL,
 password TEXT NOT NULL,
 name TEXT NOT NULL,
 lastName TEXT NOT NULL,
-roleId INT,
-houseId INT,
-year INT,
-FOREIGN KEY (houseId) REFERENCES Houses (id) ON DELETE CASCADE,
-FOREIGN KEY (roleId) REFERENCES Roles(id) ON DELETE CASCADE,
-FOREIGN KEY (year) REFERENCES Years(id) ON DELETE CASCADE
+role_id INT,
+house_id INT,
+year_id INT,
+FOREIGN KEY (house_id) REFERENCES Houses (id) ON DELETE SET NULL,
+FOREIGN KEY (role_id) REFERENCES Roles(id) ON DELETE SET NULL,
+FOREIGN KEY (year_id) REFERENCES Years(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Subjects (
 id SERIAL PRIMARY KEY,
 name TEXT NOT NULL,
-description TEXT NOT NULL
+description TEXT NOT NULL,
+professor_id INT,
+FOREIGN KEY (professor_id) REFERENCES Wizards (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Auditoriums (
@@ -39,23 +41,40 @@ name VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Enrollments (
-wizardId INT,
-FOREIGN KEY (wizardId) REFERENCES Wizards (id) ON DELETE CASCADE,
-subjectId INT,
-FOREIGN KEY(subjectId) REFERENCES Subjects (id) ON DELETE CASCADE
+wizard_id INT,
+FOREIGN KEY (wizard_id) REFERENCES Wizards (id) ON DELETE SET NULL,
+subject_id INT,
+FOREIGN KEY(subject_id) REFERENCES Subjects (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Lessons (
 id SERIAL PRIMARY KEY,
-subjectId INT NOT NULL,
-FOREIGN KEY (subjectId) REFERENCES Subjects (id),
-teacherId INT NOT NULL,
-FOREIGN KEY (teacherId) REFERENCES Wizards (id),
-time TIMESTAMP NOT NULL,
-auditoriumId INT NOT NULL,
-FOREIGN KEY (auditoriumId) REFERENCES Auditoriums (id),
-houseId INT NOT NULL,
-FOREIGN KEY (houseId) REFERENCES Houses (id) ON DELETE CASCADE,
-yearId INT,
-FOREIGN KEY (yearId) REFERENCES Years(id) ON DELETE CASCADE
+subject_id INT,
+FOREIGN KEY (subject_id) REFERENCES Subjects (id) ON DELETE SET NULL,
+teacher_id INT,
+FOREIGN KEY (teacher_id) REFERENCES Wizards (id) ON DELETE SET NULL,
+lesson_date DATE NOT NULL,
+lesson_time TIME NOT NULL,
+lesson_end_time TIME,
+auditorium_id INT NOT NULL,
+FOREIGN KEY (auditorium_id) REFERENCES Auditoriums (id),
+house_id INT,
+FOREIGN KEY (house_id) REFERENCES Houses (id) ON DELETE SET NULL,
+year_id INT,
+FOREIGN KEY (year_id) REFERENCES Years(id) ON DELETE SET NULL
 );
+
+CREATE OR REPLACE FUNCTION update_end_time()
+RETURNS TRIGGER AS $$
+BEGIN
+	NEW.lesson_end_time = NEW.lesson_time + interval '45 minutes';
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_update_end_time
+BEFORE INSERT OR UPDATE ON Lessons
+FOR EACH ROW
+EXECUTE FUNCTION update_end_time();
+
+

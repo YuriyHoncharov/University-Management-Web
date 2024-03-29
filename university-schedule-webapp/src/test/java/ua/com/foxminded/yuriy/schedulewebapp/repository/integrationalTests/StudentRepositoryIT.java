@@ -1,4 +1,4 @@
-package ua.com.foxminded.yuriy.schedulewebapp.repository;
+package ua.com.foxminded.yuriy.schedulewebapp.repository.integrationalTests;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.StudentRepository;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
 		StudentRepository.class }))

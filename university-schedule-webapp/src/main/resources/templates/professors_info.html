@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Professors</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <style>
+h1 {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	color: black;
+	text-align: center;
+	margin-top: 700px;
+	font-size: 16px;
+	margin-left: 500px;
+	margin-right: 500px;
+	margin-left: 500px;
+	font-weight: bold;
+	background-color: rgba(169, 169, 169, 0.5);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .page-title {
 	text-align: center;
 	color: #007bff;
@@ -57,7 +78,7 @@ ul {
 }
 
 li {
-	margin-bottom: 20px;
+	color: black;
 }
 
 .professor-name {
@@ -96,27 +117,41 @@ li {
 				<li class="nav-item active"><a class="nav-link"
 					href="/professors">Professors<span class="sr-only">(current)</span></a></li>
 				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
-				<li class="nav-item"><a class="nav-link" href="/lessons">Lessons</a></li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+					class="nav-link" href="/login">Sign In</a></li>
+				<li class="nav-item" sec:authorize="isAuthenticated()"><a
+					class="nav-link" href="/profile/dashboard">Profile</a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<div class="container mt-5">
-		<h1 class="page-title">All Professors</h1>
-		<ul>
-			<li th:each="professor : ${professors}">
-				<div>
-					<span class="professor-name" th:text="${professor.name}"></span> <span
-						class="professor-lastname" th:text="${professor.lastName}"></span>
-					<ul>
-						<li th:each="subject : ${professor.subjects}"><span
-							class="subject-name" th:text="${subject.name}"></span> - <span
-							class="description" th:text="${subject.description}"></span></li>
-					</ul>
-				</div>
-			</li>
+	<h1>
+		In this school, you can encounter professors like: :
+
+		<ul style="display: inline;">
+			<li th:each="professor, iterStat : ${professors}"
+				style="display: inline-block;"><span
+				th:text="${professor.name} + ' ' + ${professor.lastName}"></span> <span
+				th:if="${!iterStat.last}">,</span> <span
+				th:unless="${!iterStat.last}">.</span></li>
 		</ul>
-	</div>
+		They each bring their own expertise and passion to their respective
+		subjects, enriching the Hogwarts experience for students across all
+		houses. From mastering the intricacies of potion-making with Snape to
+		exploring the depths of magical flora with Sprout, students are
+		immersed in a curriculum that challenges and inspires them. Moreover,
+		beyond their academic roles, these professors often serve as mentors
+		and guides, offering advice, support, and sometimes even protection in
+		the face of the dangers lurking within the wizarding world. Whether
+		it's McGonagall's unwavering commitment to her students' well-being or
+		Hagrid's boundless enthusiasm for magical creatures, each professor
+		leaves an indelible mark on the lives of those they teach. Through
+		their guidance and tutelage, students not only learn the fundamentals
+		of magic but also develop important life skills such as bravery,
+		resilience, and compassion. Together, these professors embody the
+		spirit of Hogwarts, fostering a community where knowledge is revered,
+		friendships are forged, and magic is always afoot.
+	</h1>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

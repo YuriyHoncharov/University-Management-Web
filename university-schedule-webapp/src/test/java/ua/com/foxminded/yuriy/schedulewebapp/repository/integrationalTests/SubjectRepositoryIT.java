@@ -1,7 +1,9 @@
-package ua.com.foxminded.yuriy.schedulewebapp.repository;
+package ua.com.foxminded.yuriy.schedulewebapp.repository.integrationalTests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,29 +11,25 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Headmaster;
+
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.SubjectRepository;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-		HeadmasterRepository.class }))
+		SubjectRepository.class }))
 @TestPropertySource(locations = "classpath:application-test.properties")
 @Sql(scripts = { "/schema.sql", "/test-data.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = { "/clear-data.sql" }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-
-public class HeadmasterRepositoryIT {
-
+public class SubjectRepositoryIT {
+	
 	@Autowired
-	private HeadmasterRepository headmasterRepository;
-
+	private SubjectRepository subjectRepository;
+	
 	@Test
-	void should_Get_All_Headmasters() {
-		List<Headmaster> headmasters = headmasterRepository.findAll();
-		assertEquals(1, headmasters.size());
+	void shouldReturn_UnassignedSubject() {
+		List<Subject>unassignedSubjects = subjectRepository.findAllUnassignedSubjects();
+		assertEquals(4L, unassignedSubjects.get(0).getId());
+		assertEquals("UnassignedSubject", unassignedSubjects.get(0).getName());
 	}
-
-	@Test
-	void should_Get_Admin_By_Id() {
-		Long headmasterId = 1L;
-		Headmaster headmaster = headmasterRepository.findById(headmasterId).orElse(null);
-		assertEquals("Admin", headmaster.getName());
-	}
+	
 }

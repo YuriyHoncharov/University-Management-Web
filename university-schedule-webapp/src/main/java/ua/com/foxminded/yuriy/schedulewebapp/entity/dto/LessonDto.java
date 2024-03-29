@@ -4,7 +4,19 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
+import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class LessonDto {
 
@@ -12,91 +24,42 @@ public class LessonDto {
 	private String subject;
 	private String professorName;
 	private String professorLastName;
-	private String formattedTime;
 	private String auditorium;
 	private String house;
+	private String date;
+	private String time;
+	private String endTime;
+	private String year;
 
 	public LessonDto(Lesson lesson) {
 		this.id = lesson.getId();
 		this.subject = lesson.getSubject().getName();
 		this.professorName = lesson.getProfessor().getName();
 		this.professorLastName = lesson.getProfessor().getLastName();
-		this.formattedTime = formatTime(lesson.getTime());
 		this.auditorium = lesson.getAuditorium().getName();
-		this.house = lesson.getHouse().getHouse();
+		if(lesson.getHouse() != null) {
+			this.house = lesson.getHouse().getHouse();
+		} else {
+			this.house = "Waiting for Assignement";
+		}
+		if(lesson.getYear() != null) {
+			this.year =String.valueOf(lesson.getYear().getYearValue());
+		} else {
+			this.year = "Waiting for Assignement";
+		}
+		this.date = lesson.getDate().toString();
+		this.time = lesson.getTime().toString();
+		this.endTime = lesson.getEndTime().toString();
+
+	}
+
+	private String formatDate(Timestamp timestamp) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(timestamp);
 	}
 
 	private String formatTime(Timestamp timestamp) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		String startTime = dateFormat.format(timestamp);
-
-		Timestamp endTime = new Timestamp(timestamp.getTime() + TimeUnit.HOURS.toMillis(1));
-		String endTimeStr = dateFormat.format(endTime);
-
-		return startTime + " - " + endTimeStr;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		return dateFormat.format(timestamp);
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public String getProfessorName() {
-		return professorName;
-	}
-
-	public void setProfessorName(String professorName) {
-		this.professorName = professorName;
-	}
-
-	public String getProfessorLastName() {
-		return professorLastName;
-	}
-
-	public void setProfessorLastName(String professorLastName) {
-		this.professorLastName = professorLastName;
-	}
-
-	public String getFormattedTime() {
-		return formattedTime;
-	}
-
-	public void setFormattedTime(String formattedTime) {
-		this.formattedTime = formattedTime;
-	}
-
-	public String getAuditorium() {
-		return auditorium;
-	}
-
-	public void setAuditorium(String auditorium) {
-		this.auditorium = auditorium;
-	}
-
-	public String getHouse() {
-		return house;
-	}
-
-	public void setHouse(String house) {
-		this.house = house;
-	}
-
-	@Override
-	public String toString() {
-		return "LessonDto [id=" + id + ", subject=" + subject + ", professorName=" + professorName
-				+ ", professorLastName=" + professorLastName + ", formattedTime=" + formattedTime + ", auditorium="
-				+ auditorium + ", house=" + house + "]";
-	}
-
 }

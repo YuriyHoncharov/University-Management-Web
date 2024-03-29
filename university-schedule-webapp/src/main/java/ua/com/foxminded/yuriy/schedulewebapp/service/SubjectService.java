@@ -13,4 +13,6 @@ public interface SubjectService {
 	Subject save(Subject subject);
 
 	void delete(Long id);
+	
+	List<Subject>findAllUnassignedSubjects();
 }

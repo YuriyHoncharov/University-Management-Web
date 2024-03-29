@@ -4,20 +4,13 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Houses</title>
+<title>Login</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
 <style>
-.page-title {
-	text-align: center;
-	color: #007bff;
-	margin-top: 20px;
-	margin-bottom: 30px;
-}
-
 body {
 	font-family: 'HarryPotterFont', Arial, sans-serif;
 	background-image: url('/images/hogwarts2.jpg');
@@ -63,14 +56,46 @@ li {
 	margin-bottom: 20px;
 }
 
-.house-name {
-	font-weight: bold;
-	color: #0066cc;
+.cute-form {
+	background-color: rgba(248, 249, 250, 0.9);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 300px;
 }
 
-.house-image {
-	max-width: 100px;
-	max-height: 100px;
+.form-outline {
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+input {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+}
+
+button {
+	background-color: #007bff;
+	color: #fff;
+	padding: 12px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
 }
 </style>
 </head>
@@ -88,20 +113,39 @@ li {
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
 				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
-				<li class="nav-item active"><a class="nav-link" href="/houses">Houses<span
+				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
+				<li class="nav-item active"><a class="nav-link" href="/lessons">Lessons<span
 						class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link" href="/lessons">Lessons</a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<div class="container mt-5">
-		<h1 class="page-title">All Houses</h1>
-		<ul>
-			<li th:each="house : ${houses}"><span class="house-name"
-				th:text="${house.house}"></span></li>
-		</ul>
+	<div class="container-fluid mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<form th:action="@{/login}" method="post" class="cute-form">
+					<fieldset>
+						<h1 class="text-center mb-4">🌟 Please sign in 🌟</h1>
+
+						<div class="form-outline mb-4">
+							<label for="username">🧙‍♂️ Login</label> <input type="text"
+								id="username" name="username"
+								placeholder="Enter your magical username">
+						</div>
+						<div class="form-outline mb-4">
+							<label for="password">🔒 Password</label> <input type="password"
+								id="password" name="password"
+								placeholder="Enter your secret password">
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Cast
+							the Login Spell ✨</button>
+					</fieldset>
+				</form>
+			</div>
+		</div>
 	</div>
+
+
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

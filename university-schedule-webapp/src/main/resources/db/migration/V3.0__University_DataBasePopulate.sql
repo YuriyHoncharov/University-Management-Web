@@ -1,9 +1,9 @@
 -- Insert sample Roles
 
 INSERT INTO Roles (roleName) VALUES
-('Headmaster'),
-('Student'),
-('Professor');
+('HEADMASTER'),
+('STUDENT'),
+('PROFESSOR');
 
 -- Insert sample Houses
 
@@ -22,19 +22,19 @@ INSERT INTO Years (yearValue) VALUES
 (4);
 
 -- Insert sample Professors
-INSERT INTO Wizards (login, password, name, lastName, roleId) VALUES
+INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
 ('mcgonagall', 'mcgonagall', 'Minerva', 'McGonagall', 3),  -- Transfiguration
-('snape', 'snape', 'Severus', 'Snape', 3),  -- Potions
+('snape', '$2a$12$PK5.Fq62gjipWGW5fPjb4OhlLC22uyoJGxPeWl1mVT5SZShNoXlEm', 'Severus', 'Snape', 3),  -- Potions
 ('flitwick', 'flitwick', 'Filius', 'Flitwick', 3),  -- Charms
 ('sprout', 'sprout', 'Pomona', 'Sprout', 3);  -- Herbology
 
 -- Insert sample Students (Harry Potter-themed)
 
-INSERT INTO Wizards (login, password, name, lastName, roleId, houseId, year) VALUES
+INSERT INTO Wizards (login, password, name, lastName, role_id, house_id, year_id) VALUES
 
 -- Gryffindor
 
-('harry', 'harry', 'Harry', 'Potter', 2, 1, 1),
+('harry', '$2a$12$tI5MAdTqct0W1yr8eVUWee.FWLfDjkBykC4sr.UNiOL18E95Ha.QW', 'Harry', 'Potter', 2, 1, 1),
 ('hermione', 'hermione', 'Hermione', 'Granger', 2, 1, 1),
 ('ron', 'ron', 'Ron', 'Weasley', 2, 1, 1),
 ('ginny', 'ginny', 'Ginny', 'Weasley', 2, 1, 1),
@@ -89,11 +89,12 @@ INSERT INTO Wizards (login, password, name, lastName, roleId, houseId, year) VAL
 
 -- Insert sample Subjects
 
-INSERT INTO Subjects (name, description) VALUES
-('Transfiguration', 'Changing the form or appearance of an object'),
-('Potions', 'Magical mixtures and elixirs'),
-('Charms', 'Spells and incantations'),
-('Herbology', 'Study of magical plants and fungi');
+INSERT INTO Subjects (name, description, professor_id) VALUES
+('Transfiguration', 'Changing the form or appearance of an object', 1),
+('Potions', 'Magical mixtures and elixirs', 2),
+('Charms', 'Spells and incantations', 3),
+('Herbology', 'Study of magical plants and fungi', 4),
+('test', 'test', null);
 
 
 -- Insert sample Auditoriums
@@ -105,13 +106,13 @@ INSERT INTO Auditoriums (id, name) VALUES
 (4, 'Forbidden Forest');
 
 -- Insert Headmaster Dumbledore
-INSERT INTO Wizards (login, password, name, lastName, roleId) VALUES
-('dumbledore', 'dumbledore', 'Albus', 'Dumbledore', 1);
+INSERT INTO Wizards (login, password, name, lastName, role_id) VALUES
+('dumbledore', '$2a$12$s.4vLeV2gdXa5HttrTwmoO82GXqiUFxB0lwV58kOjr1pmmnoWjDdu', 'Albus', 'Dumbledore', 1);
 
 -- Insert sample Enrollments for Students
 -- Gryffindor
 
-INSERT INTO Enrollments (wizardId, subjectId) VALUES
+INSERT INTO Enrollments (wizard_id, subject_id) VALUES
 
 (5, 2), (5, 3),
 (6, 3), (6, 4),
@@ -161,7 +162,7 @@ INSERT INTO Enrollments (wizardId, subjectId) VALUES
 
 
 -- Insert sample Enrollments for Teachers
-INSERT INTO Enrollments (wizardId, subjectId) VALUES
+INSERT INTO Enrollments (wizard_id, subject_id) VALUES
 -- Professor McGonagall (Transfiguration)
 (1, 1),
 -- Professor Snape (Potions)
@@ -172,144 +173,148 @@ INSERT INTO Enrollments (wizardId, subjectId) VALUES
 (4, 4);
 
 -- Insert sample Lessons
-INSERT INTO Lessons (subjectId, teacherId, time, auditoriumId, houseId, yearId) VALUES
+INSERT INTO Lessons (subject_id, teacher_id, lesson_date ,lesson_time, auditorium_id, house_id, year_id) VALUES
 -- Lesson 1
-(1, 1, '2024-01-20 10:00:00', 1, 1, 1),
+(1, 1, '2024-04-20', '10:00:00', 1, 1, 1),
 -- Lesson 2
-(2, 2, '2024-01-21 11:00:00', 2, 2, 2),
+(2, 2, '2024-04-21', '11:00:00', 2, 2, 2),
 -- Lesson 3
-(3, 3, '2024-01-22 12:00:00', 3, 3, 3),
+(3, 3, '2024-04-22', '12:00:00', 3, 3, 3),
 -- Lesson 4
-(4, 4, '2024-01-23 13:00:00', 4, 1, 4),
+(4, 4, '2024-04-23', '13:00:00', 4, 1, 4),
 -- Lesson 5
-(1, 1, '2024-01-24 14:00:00', 1, 2, 1),
+(1, 1, '2024-04-24', '14:00:00', 1, 2, 1),
 -- Lesson 6
-(2, 2, '2024-01-25 15:00:00', 2, 3, 2),
+(2, 2, '2024-04-25', '15:00:00', 2, 3, 2),
 -- Lesson 7
-(3, 3, '2024-01-26 16:00:00', 3, 1, 3),
+(3, 3, '2024-04-26', '16:00:00', 3, 1, 3),
 -- Lesson 8
-(4, 4, '2024-01-27 17:00:00', 4, 2, 4),
+(4, 4, '2024-04-27', '17:00:00', 4, 2, 4),
 -- Lesson 9
-(1, 1, '2024-01-28 18:00:00', 1, 3, 1),
+(1, 1, '2024-04-28', '18:00:00', 1, 3, 1),
 -- Lesson 10
-(2, 2, '2024-01-29 19:00:00', 2, 1, 2),
+(2, 2, '2024-04-29', '19:00:00', 2, 1, 2),
 -- Lesson 11
-(3, 3, '2024-01-30 20:00:00', 3, 2, 3),
+(3, 3, '2024-04-30', '20:00:00', 3, 2, 3),
 -- Lesson 12
-(4, 4, '2024-02-01 21:00:00', 4, 3, 4),
+(4, 4, '2024-05-01', '21:00:00', 4, 3, 4),
 -- Lesson 13
-(1, 1, '2024-02-02 22:00:00', 1, 4, 1),
+(1, 1, '2024-05-02', '22:00:00', 1, 4, 1),
 -- Lesson 14
-(2, 2, '2024-02-03 23:00:00', 2, 1, 2),
+(2, 2, '2024-05-03', '23:00:00', 2, 1, 2),
 -- Lesson 15
-(3, 3, '2024-02-04 00:00:00', 3, 2, 3),
+(3, 3, '2024-05-04', '00:00:00', 3, 2, 3),
 -- Lesson 16
-(4, 4, '2024-02-05 01:00:00', 4, 3, 4),
+(4, 4, '2024-05-05', '01:00:00', 4, 3, 4),
 -- Lesson 17
-(1, 1, '2024-02-06 02:00:00', 1, 4, 1),
+(1, 1, '2024-05-06', '02:00:00', 1, 4, 1),
 -- Lesson 18
-(2, 2, '2024-02-07 03:00:00', 2, 1, 2),
+(2, 2, '2024-05-07', '03:00:00', 2, 1, 2),
 -- Lesson 19
-(3, 3, '2024-02-08 04:00:00', 3, 2, 3),
+(3, 3, '2024-05-08', '04:00:00', 3, 2, 3),
 -- Lesson 20
-(4, 4, '2024-02-09 05:00:00', 4, 3, 4),
+(4, 4, '2024-05-09', '05:00:00', 4, 3, 4),
 -- Lesson 21
-(1, 1, '2024-02-10 06:00:00', 1, 4, 1),
+(1, 1, '2024-05-10', '06:00:00', 1, 4, 1),
 -- Lesson 22
-(2, 2, '2024-02-11 07:00:00', 2, 1, 2),
+(2, 2, '2024-05-11', '07:00:00', 2, 1, 2),
 -- Lesson 23
-(3, 3, '2024-02-12 08:00:00', 3, 2, 3),
+(3, 3, '2024-05-12', '08:00:00', 3, 2, 3),
 -- Lesson 24
-(4, 4, '2024-02-13 09:00:00', 4, 3, 4),
+(4, 4, '2024-05-13', '09:00:00', 4, 3, 4),
 -- Lesson 25
-(1, 1, '2024-02-14 10:00:00', 1, 4, 1),
+(1, 1, '2024-05-14', '10:00:00', 1, 4, 1),
 -- Lesson 26
-(2, 2, '2024-02-15 11:00:00', 2, 2, 2),
+(2, 2, '2024-05-15', '11:00:00', 2, 2, 2),
 -- Lesson 27
-(3, 3, '2024-02-16 12:00:00', 3, 3, 3),
+(3, 3, '2024-05-16', '12:00:00', 3, 3, 3),
 -- Lesson 28
-(4, 4, '2024-02-17 13:00:00', 4, 1, 4),
+(4, 4, '2024-05-17', '13:00:00', 4, 1, 4),
 -- Lesson 29
-(1, 1, '2024-02-18 14:00:00', 1, 2, 1),
+(1, 1, '2024-05-18', '14:00:00', 1, 2, 1),
 -- Lesson 30
-(2, 2, '2024-02-19 15:00:00', 2, 3, 2),
+(2, 2, '2024-05-19', '15:00:00', 2, 3, 2),
 -- Lesson 31
-(3, 3, '2024-02-20 16:00:00', 3, 1, 3),
+(3, 3, '2024-05-20', '16:00:00', 3, 1, 3),
 -- Lesson 32
-(4, 4, '2024-02-21 17:00:00', 4, 2, 4),
+(4, 4, '2024-05-21', '17:00:00', 4, 2, 4),
 -- Lesson 33
-(1, 1, '2024-02-22 18:00:00', 1, 3, 1),
+(1, 1, '2024-05-22', '18:00:00', 1, 3, 1),
 -- Lesson 34
-(2, 2, '2024-02-23 19:00:00', 2, 1, 2),
+(2, 2, '2024-05-23', '19:00:00', 2, 1, 2),
 -- Lesson 35
-(3, 3, '2024-02-24 20:00:00', 3, 2, 3),
+(3, 3, '2024-05-24', '20:00:00', 3, 2, 3),
 -- Lesson 36
-(4, 4, '2024-02-25 21:00:00', 4, 3, 4),
+(4, 4, '2024-05-25', '21:00:00', 4, 3, 4),
 -- Lesson 37
-(1, 1, '2024-02-26 22:00:00', 1, 4, 1),
+(1, 1, '2024-05-26', '22:00:00', 1, 4, 1),
 -- Lesson 38
-(2, 2, '2024-02-27 23:00:00', 2, 1, 2),
+(2, 2, '2024-05-27', '23:00:00', 2, 1, 2),
 -- Lesson 39
-(3, 3, '2024-02-28 00:00:00', 3, 2, 3),
+(3, 3, '2024-05-28', '00:00:00', 3, 2, 3),
 -- Lesson 40
-(4, 4, '2024-02-29 01:00:00', 4, 3, 4),
+(4, 4, '2024-05-29', '01:00:00', 4, 3, 4),
 -- Lesson 41
-(1, 1, '2024-03-01 02:00:00', 1, 4, 1),
+(1, 1, '2024-06-01', '02:00:00', 1, 4, 1),
 -- Lesson 42
-(2, 2, '2024-03-02 03:00:00', 2, 1, 2),
+(2, 2, '2024-06-02', '03:00:00', 2, 1, 2),
 -- Lesson 43
-(3, 3, '2024-03-03 04:00:00', 3, 2, 3),
+(3, 3, '2024-06-03', '04:00:00', 3, 2, 3),
 -- Lesson 44
-(4, 4, '2024-03-04 05:00:00', 4, 3, 4),
+(4, 4, '2024-06-04', '05:00:00', 4, 3, 4),
 -- Lesson 45
-(1, 1, '2024-03-05 06:00:00', 1, 1, 1),
+(1, 1, '2024-06-05', '06:00:00', 1, 1, 1),
 -- Lesson 46
-(2, 2, '2024-03-06 07:00:00', 2, 2, 2),
+(2, 2, '2024-06-06', '07:00:00', 2, 2, 2),
 -- Lesson 47
-(3, 3, '2024-03-07 08:00:00', 3, 3, 3),
+(3, 3, '2024-06-07', '08:00:00', 3, 3, 3),
 -- Lesson 48
-(4, 4, '2024-03-08 09:00:00', 4, 1, 4),
+(4, 4, '2024-06-08', '09:00:00', 4, 1, 4),
 -- Lesson 49
-(1, 1, '2024-03-09 10:00:00', 1, 2, 1),
+(1, 1, '2024-06-09', '10:00:00', 1, 2, 1),
 -- Lesson 50
-(2, 2, '2024-03-10 11:00:00', 2, 3, 2),
+(2, 2, '2024-06-10', '11:00:00', 2, 3, 2),
 -- Lesson 51
-(3, 3, '2024-03-11 12:00:00', 3, 1, 3),
+(3, 3, '2024-06-11', '12:00:00', 3, 1, 3),
 -- Lesson 52
-(4, 4, '2024-03-12 13:00:00', 4, 2, 4),
+(4, 4, '2024-06-12', '13:00:00', 4, 2, 4),
 -- Lesson 53
-(1, 1, '2024-03-13 14:00:00', 1, 3, 1),
+(1, 1, '2024-06-13', '14:00:00', 1, 3, 1),
 -- Lesson 54
-(2, 2, '2024-03-14 15:00:00', 2, 1, 2),
+(2, 2, '2024-06-14', '15:00:00', 2, 1, 2),
 -- Lesson 55
-(3, 3, '2024-03-15 16:00:00', 3, 2, 3),
+(3, 3, '2024-06-15', '16:00:00', 3, 2, 3),
 -- Lesson 56
-(4, 4, '2024-03-16 17:00:00', 4, 3, 4),
+(4, 4, '2024-06-16', '17:00:00', 4, 3, 4),
 -- Lesson 57
-(1, 1, '2024-03-17 18:00:00', 1, 4, 1),
+(1, 1, '2024-06-17', '18:00:00', 1, 4, 1),
 -- Lesson 58
-(2, 2, '2024-03-18 19:00:00', 2, 1, 2),
+(2, 2, '2024-06-18', '19:00:00', 2, 1, 2),
 -- Lesson 59
-(3, 3, '2024-03-19 20:00:00', 3, 2, 3),
+(3, 3, '2024-06-19', '20:00:00', 3, 2, 3),
 -- Lesson 60
-(4, 4, '2024-03-20 21:00:00', 4, 3, 4),
+(4, 4, '2024-06-20', '21:00:00', 4, 3, 4),
 -- Lesson 61
-(1, 1, '2024-03-21 22:00:00', 1, 4, 1),
+(1, 1, '2024-06-21', '22:00:00', 1, 4, 1),
 -- Lesson 62
-(2, 2, '2024-03-22 23:00:00', 2, 1, 2),
+(2, 2, '2024-06-22', '23:00:00', 2, 1, 2),
 -- Lesson 63
-(3, 3, '2024-03-23 00:00:00', 3, 2, 3),
+(3, 3, '2024-06-23', '00:00:00', 3, 2, 3),
 -- Lesson 64
-(4, 4, '2024-03-24 01:00:00', 4, 3, 4),
+(4, 4, '2024-06-24', '01:00:00', 4, 3, 4),
 -- Lesson 65
-(1, 1, '2024-03-25 02:00:00', 1, 1, 1),
+(1, 1, '2024-06-25', '02:00:00', 1, 1, 1),
 -- Lesson 66
-(2, 2, '2024-03-26 03:00:00', 2, 2, 2),
+(2, 2, '2024-06-26', '03:00:00', 2, 2, 2),
 -- Lesson 67
-(3, 3, '2024-03-27 04:00:00', 3, 3, 3),
+(3, 3, '2024-06-27', '04:00:00', 3, 3, 3),
 -- Lesson 68
-(4, 4, '2024-03-28 05:00:00', 4, 1, 4),
+(4, 4, '2024-06-28', '05:00:00', 4, 1, 4),
 -- Lesson 69
-(1, 1, '2024-03-29 06:00:00', 1, 2, 1),
+(1, 1, '2024-06-29', '06:00:00', 1, 2, 1),
 -- Lesson 70
-(2, 2, '2024-03-30 07:00:00', 2, 3, 2);
+(2, 2, '2024-06-30', '07:00:00', 2, 3, 2),
+-- Lesson 71
+(2, 2, '2024-06-30', '10:00:00', 1, 1, 1),
+-- Lesson 72
+(3, 3, '2024-06-30', '12:00:00', 1, 1, 1);

@@ -1,27 +1,22 @@
-package ua.com.foxminded.yuriy.schedulewebapp.controllers;
+package ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import lombok.AllArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Controller
 @RequestMapping("/subjects")
+@AllArgsConstructor
 public class SubjectsController {
 
 	private SubjectService subjectService;
 
-	@Autowired
-	public SubjectsController(SubjectService subjectService) {
-		this.subjectService = subjectService;
-	}
-
 	@GetMapping
 	public String getAllSubjects(Model model) {
 		model.addAttribute("subjects", subjectService.getAll());
-		return "subjects";
+		return "subjects_info";
 	}
 }

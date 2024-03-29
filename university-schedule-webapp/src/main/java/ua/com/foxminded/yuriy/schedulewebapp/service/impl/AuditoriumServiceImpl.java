@@ -6,19 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.AuditoriumService;
 
 @Service
+@RequiredArgsConstructor
+
 public class AuditoriumServiceImpl implements AuditoriumService {
 
 	private final AuditoriumRepository auditoriumRepository;
-
-	@Autowired
-	public AuditoriumServiceImpl(AuditoriumRepository auditoriumRepository) {
-		this.auditoriumRepository = auditoriumRepository;
-	}
 
 	@Override
 	public List<Auditorium> getAll() {

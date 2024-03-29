@@ -9,14 +9,23 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @DiscriminatorValue("2")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Student extends Wizard {
 	@ManyToOne
-	@JoinColumn(name = "houseId")
+	@JoinColumn(name = "house_id")
 	private House house;
-	
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizardId"), inverseJoinColumns = @JoinColumn(name = "subjectId"))
+
+	@ManyToMany(cascade = { CascadeType.MERGE})
+	@JoinTable(name = "Enrollments", joinColumns = @JoinColumn(name = "wizard_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;
+
 }
