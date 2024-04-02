@@ -1,7 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository.controller.profile.entities;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,9 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +28,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Auditorium;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Lesson;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Wizard;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
@@ -97,9 +90,9 @@ public class LessonControllerTest {
 	@Test
 	void should_return_view_With_AllLessons_To_StudentUser_ByDate() throws Exception {
 
-		Page<LessonDto> lessonPage = Mockito.mock(Page.class);		
+		Page<LessonDto> lessonPage = Mockito.mock(Page.class);
 		when(lessonService.getLessonsByFilters("2024-03-30", 0)).thenReturn(lessonPage);
-		
+
 		mockMvc.perform(get("/profile/dashboard/lessons").principal(authentication).param("selectedDate", "2024-03-30"))
 				.andExpect(model().attribute("pageLessons", lessonPage))
 				.andExpect(model().attribute("numbers", IntStream.range(1, lessonPage.getTotalPages()).toArray()))
