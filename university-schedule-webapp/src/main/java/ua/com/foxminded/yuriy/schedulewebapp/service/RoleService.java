@@ -7,10 +7,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 public interface RoleService {
 
 	List<Role> getAll();
-
 	Optional<Role> getById(Long id);
-
 	Role save(Role role);
-
 	void delete(Long id);
 }

@@ -1,7 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.entity.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

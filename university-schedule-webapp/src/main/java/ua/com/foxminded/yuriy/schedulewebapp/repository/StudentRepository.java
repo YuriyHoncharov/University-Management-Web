@@ -7,6 +7,5 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long>{
 
-	Page<Student> findAll (Pageable pageable);
-	
+	Page<Student> findAll (Pageable pageable);	
 }

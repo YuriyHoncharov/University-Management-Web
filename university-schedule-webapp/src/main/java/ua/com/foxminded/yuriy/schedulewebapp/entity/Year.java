@@ -27,5 +27,4 @@ public class Year {
 	@JsonProperty("yearValue")
 	@Column(name = "yearValue", nullable = false)
 	private int yearValue;
-
 }

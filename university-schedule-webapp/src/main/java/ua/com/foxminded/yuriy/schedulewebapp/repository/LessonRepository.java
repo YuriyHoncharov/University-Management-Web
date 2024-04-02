@@ -16,6 +16,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	// ADMIN USAGE
+	
 	@Query("SELECT DISTINCT l FROM Lesson l WHERE l.date = :selectedDate")
 	Page<Lesson> getByDate(LocalDate selectedDate, Pageable pageable);
 

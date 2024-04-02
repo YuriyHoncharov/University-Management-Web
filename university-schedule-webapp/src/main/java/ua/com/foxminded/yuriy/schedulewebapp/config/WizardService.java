@@ -18,8 +18,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.repository.WizardRepository;
 public class WizardService implements UserDetailsService {
 
 	private final WizardRepository wizardRepository;
-	
-	
+		
 	public Optional<Wizard> findByLogin(String login) {
 		return wizardRepository.findByLogin(login);
 	}
@@ -32,6 +31,5 @@ public class WizardService implements UserDetailsService {
 		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + wizard.getRole().getName().toUpperCase());
 		return new org.springframework.security.core.userdetails.User(wizard.getLogin(), wizard.getPassword(),
 				Collections.singleton(grantedAuthority));
-	}
-	
+	}	
 }

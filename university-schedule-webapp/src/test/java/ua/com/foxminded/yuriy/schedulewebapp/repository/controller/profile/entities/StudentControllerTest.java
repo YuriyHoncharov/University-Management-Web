@@ -2,30 +2,23 @@ package ua.com.foxminded.yuriy.schedulewebapp.repository.controller.profile.enti
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ua.com.foxminded.yuriy.schedulewebapp.controllers.profile.entities.StudentController;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.House;
-import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
@@ -38,8 +31,6 @@ import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -195,7 +186,7 @@ public class StudentControllerTest {
 		Subject subjectToAdd = new Subject();
 		subjectToAdd.setId(subjectIdToAdd);
 		Student modifiedStudent = student;
-		List<Subject>newSubjects = new ArrayList<>();
+		List<Subject> newSubjects = new ArrayList<>();
 		newSubjects.add(subjectToAdd);
 		newSubjects.add(subjectToDelete);
 		modifiedStudent.setSubjects(newSubjects);
@@ -226,10 +217,9 @@ public class StudentControllerTest {
 
 	@Test
 	void should_create_new_student() throws Exception {
-		Long studenId= 1L;
+		Long studenId = 1L;
 		Student student = new Student();
 		student.setId(studenId);
-		Student savedStudent = new Student();
 		String studentJson = objectMapper.writeValueAsString(student);
 		when(studentService.studentBuilder(student, studenId)).thenReturn(student);
 		when(studentService.save(student)).thenReturn(student);

@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import ua.com.foxminded.yuriy.schedulewebapp.controllers.guestcontrollers.ProfessorsController;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
