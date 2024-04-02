@@ -1,7 +1,6 @@
 package ua.com.foxminded.yuriy.schedulewebapp.repository;
 
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Wizard;
 
