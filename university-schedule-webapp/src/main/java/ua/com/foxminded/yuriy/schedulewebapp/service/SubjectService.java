@@ -7,10 +7,8 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 public interface SubjectService {
 	
 	List<Subject> getAll();
-
 	Optional<Subject> getById(Long id);
-
 	Subject save(Subject subject);
-
 	void delete(Long id);
+	List<Subject>findAllUnassignedSubjects();
 }

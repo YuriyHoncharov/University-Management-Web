@@ -4,19 +4,19 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
+import ua.com.foxminded.yuriy.schedulewebapp.repository.AuditoriumRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.SubjectRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
 
 @Service
+@RequiredArgsConstructor
+
 public class SubjectServiceImpl implements SubjectService {
 
 	private final SubjectRepository subjectRepository;
-
-	@Autowired
-	public SubjectServiceImpl(SubjectRepository subjectRepository) {
-		this.subjectRepository = subjectRepository;
-	}
 
 	@Override
 	public List<Subject> getAll() {
@@ -36,5 +36,10 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public void delete(Long id) {
 		subjectRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Subject> findAllUnassignedSubjects() {
+		return subjectRepository.findAllUnassignedSubjects();
 	}
 }

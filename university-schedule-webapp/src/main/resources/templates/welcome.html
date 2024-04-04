@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
+<title>Hogwarts School</title>
+<style>
+h1 {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	color: black;
+	text-align: center;
+	margin-top: 700px;
+	font-size: 16px;
+	margin-left: 500px;
+	margin-right: 500px;
+	margin-left: 500px;
+	font-weight: bold;
+	background-color: rgba(169, 169, 169, 0.5);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+	background-image: url('/images/navback.jpg');
+	background-size: cover;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-bottom: 2px solid #ddd;
+	font-size: 26px;
+}
+
+body {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	background-image: url('/images/hogwarts2.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-top: 70px;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 26px;
+}
+
+.nav-item {
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.navbar-nav {
+	margin-left: auto;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	margin-bottom: 20px;
+}
+
+.center-image {
+	text-align: center;
+	margin-top: 50px;
+}
+</style>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-light bg-light fixed-top">
+		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
+			Wizardry</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
+				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
+				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Sign
+						In</a></li>
+				<li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link"
+					href="/profile/dashboard">Profile</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<h1>Welcome to Hogwarts School of Witchcraft and Wizardry, the
+		renowned magical institution nestled in the enchanting Scottish
+		Highlands. Hogwarts is not just a school; it's a place of wonder,
+		learning, and magical discovery. Founded over a thousand years ago by
+		the four greatest witches and wizards of their time – Godric
+		Gryffindor, Helga Hufflepuff, Rowena Ravenclaw, and Salazar Slytherin
+		– Hogwarts stands as a beacon of magical education. The castle itself
+		is a majestic sight, with towering spires, hidden passages, and
+		magical staircases that shift at their own whims. Its enchanted
+		grounds are home to mythical creatures, secret gardens, and the famous
+		Black Lake. The school is divided into four houses, each bearing the
+		name of its founder. Gryffindor, Hufflepuff, Ravenclaw, and Slytherin,
+		each house has its unique qualities and values, fostering a sense of
+		camaraderie among its members. Hogwarts offers a diverse curriculum,
+		covering subjects like Potions, Defense Against the Dark Arts,
+		Transfiguration, and more. The professors, many of whom are
+		accomplished witches and wizards in their own right, guide students in
+		honing their magical abilities. The school is not just about academic
+		excellence but also about personal growth, friendship, and the
+		discovery of one's true potential. As you step into the magical world
+		of Hogwarts, be prepared for a journey filled with spells, potions,
+		magical creatures, and lifelong friendships. Your adventure at
+		Hogwarts awaits, where the pages of magical history come alive, and
+		every corridor holds the promise of extraordinary discoveries. Welcome
+		to a place where the ordinary becomes extraordinary – welcome to
+		Hogwarts School of Witchcraft and Wizardry!</h1>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

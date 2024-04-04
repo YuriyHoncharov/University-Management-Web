@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/harry_potter_font.css}" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'
+	crossorigin='anonymous'></script>
+<style>
+body {
+	font-family: 'HarryPotterFont', Arial, sans-serif;
+	background-image: url('/images/hogwarts2.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-top: 70px;
+}
+
+nav {
+	background-image: url('/images/navback.jpg');
+	background-size: cover;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-bottom: 2px solid #ddd;
+	font-size: 26px;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 26px;
+}
+
+.nav-item {
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.navbar-nav {
+	margin-left: auto;
+}
+
+h1 {
+	color: #333;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	margin-bottom: 20px;
+}
+
+.cute-form {
+	background-color: rgba(248, 249, 250, 0.9);
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 300px;
+}
+
+.form-outline {
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+input {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+}
+
+button {
+	background-color: #007bff;
+	color: #fff;
+	padding: 12px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.data-table {
+	padding-top: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.8);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th, .data-table td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+	background-color: #f2f2f2;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+}
+
+.pagination li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	color: #007bff;
+}
+
+.pagination li.active a {
+	background-color: #007bff;
+	color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-light bg-light fixed-top">
+		<a class="navbar-brand" href="/">Hogwarts School of Witchcraft and
+			Wizardry</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
+				<li class="nav-item"><a class="nav-link" href="/professors">Professors</a></li>
+				<li class="nav-item"><a class="nav-link" href="/houses">Houses</a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container text-center" style="padding-top: 200px;">
+		<form class="d-inline-block" action="/profile/dashboard" method="get">
+			<button type="submit" class="btn btn-dark">Back</button>
+		</form>
+		<form class="d-inline-block" action="/profile/dashboard/houses/create"
+			method="get">
+			<button sec:authorize="hasRole('HEADMASTER')" type="submit" class="btn btn-dark">ADD NEW</button>
+		</form>
+	</div>
+
+	<div>
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th>House ID:</th>
+					<th>Name:</th>
+
+					<th sec:authorize="hasRole('HEADMASTER')">Edit</th>
+					<th sec:authorize="hasRole('HEADMASTER')">Remove</th>
+
+				</tr>
+			</thead>
+			</tbody>
+			<tr th:each="house : ${houses.content}">
+				<td th:text="${house.id}">House ID:</td>
+				<td th:text="${house.house}">Name:</td>
+
+
+				<td sec:authorize="hasRole('HEADMASTER')"><a
+					th:href="@{'/profile/dashboard/houses/edit/' + ${house.id}}"> <img
+						src="/icons/edit.svg" alt="Remove" width="20" height="20" />
+				</a></td>
+				<td sec:authorize="hasRole('HEADMASTER')">
+					<button th:value="${house.getId()}"
+						class="deleteHouse btn btn-link p-0" type="button">
+						<img alt="Delete" src="/icons/delete.svg" width="20" height="20">
+					</button>
+				</td>
+
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div style="text-align: center">
+		<ul class="pagination" th:if="${houses.totalPages > 0}">
+			<li
+				th:each="pageNumber : ${#numbers.sequence(0, houses.totalPages - 1)}"
+				th:class="${pageNumber == houses.number} ? active : ''"><a
+				th:href="@{'/profile/dashboard/houses?page=' + ${pageNumber}}"
+				th:text="${pageNumber + 1}"> </a></li>
+
+		</ul>
+
+	</div>
+
+	<script src="/js/houses.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</body>
+
+</html>
