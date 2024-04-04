@@ -27,7 +27,13 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
+import ua.com.foxminded.yuriy.schedulewebapp.service.AuditoriumService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
+import ua.com.foxminded.yuriy.schedulewebapp.service.YearService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.impl.LessonServiceImpl;
+import ua.com.foxminded.yuriy.schedulewebapp.service.impl.SubjectServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class LessonServiceTest {
@@ -40,7 +46,22 @@ public class LessonServiceTest {
 
 	@Mock
 	private SubjectRepository subjectRepository;
-
+	
+	@Mock
+	private SubjectService subjectService;
+	
+	@Mock
+	private ProfessorService professorService;
+	
+	@Mock
+	private AuditoriumService auditoriumService;
+	
+	@Mock
+	private HouseService houseService;
+	
+	@Mock
+	private YearService yearService;
+	
 	@InjectMocks
 	private LessonServiceImpl lessonServiceImpl;
 
@@ -55,47 +76,43 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
-
 		// SUBJECTS
 		Subject subject = new Subject(1L, "test", "test", professor);
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
-
 		// SUBJECTS ASSIGNEMENT
 		professor.setSubject(subject);
-
 		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
 		LocalTime endTime = LocalTime.parse("10:45:00");
-
 		// AUDITORIUM
 		Auditorium auditorium = new Auditorium(1L, "test");
-
 		// HOUSE
 		House house = new House();
 		house.setHouse("test");
 		house.setId(1L);
-
 		// YEAR
 		Year year = new Year();
 		year.setId(1L);
 		year.setYearValue(1);
-
 		// LESSONS
 		Lesson lesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
 		Lesson savedLesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
-
 		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(professor));
 		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject));
-
 		when(lessonRepository.findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59), id))
 				.thenReturn(Collections.emptyList());
+		when(lessonRepository.findById(id)).thenReturn(Optional.of(lesson));
 		when(lessonRepository.save(lesson)).thenReturn(savedLesson);
+		when(subjectService.getById(subject.getId())).thenReturn(Optional.of(subject));
+		when(professorService.getById(professor.getId())).thenReturn(Optional.of(professor));
+		when(auditoriumService.getById(auditorium.getId())).thenReturn(Optional.of(auditorium));
+		when(houseService.getById(house.getId())).thenReturn(Optional.of(house));
+		when(yearService.getById(year.getId())).thenReturn(Optional.of(year));
 		Lesson result = lessonServiceImpl.save(lesson);
 		verify(professorRepository).findById(lesson.getProfessor().getId());
 		verify(subjectRepository).findById(lesson.getSubject().getId());
-
 		verify(lessonRepository).findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59),
 				id);
 		verify(lessonRepository).save(lesson);
@@ -114,44 +131,41 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
-
 		// SUBJECT
 		Subject subject = new Subject(1L, "test", "test", professor);
-
 		// SUBJECT ASSIGNEMENT
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
 		professor.setSubject(subject);
-
 		// DATA AND TIME
 		LocalDate date = LocalDate.parse("2024-03-21");
 		LocalTime time = LocalTime.parse("10:00:00");
 		LocalTime endTime = LocalTime.parse("10:45:00");
 		Auditorium auditorium = new Auditorium(1L, "test");
-
 		// HOUSE
 		House house = new House();
 		house.setHouse("test");
 		house.setId(1L);
-
 		// YEAR
 		Year year = new Year();
 		year.setId(1L);
 		year.setYearValue(1);
-
 		// LESSON
 		Lesson lesson = new Lesson(id, subject, professor, date, time, endTime, auditorium, house, year);
 		List<Lesson> conflictingLesson = new ArrayList<>();
 		conflictingLesson.add(lesson);
 
 		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(professor));
-		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject));
-
 		when(lessonRepository.findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59), id))
 				.thenReturn(conflictingLesson);
-
+		when(lessonRepository.findById(id)).thenReturn(Optional.of(lesson));
+		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject));
+		when(subjectService.getById(subject.getId())).thenReturn(Optional.of(subject));
+		when(professorService.getById(professor.getId())).thenReturn(Optional.of(professor));
+		when(auditoriumService.getById(auditorium.getId())).thenReturn(Optional.of(auditorium));
+		when(houseService.getById(house.getId())).thenReturn(Optional.of(house));
+		when(yearService.getById(year.getId())).thenReturn(Optional.of(year));
 		assertThrows(ValidationException.class, () -> lessonServiceImpl.save(lesson));
-
 		verify(professorRepository).findById(lesson.getProfessor().getId());
 		verify(subjectRepository).findById(lesson.getSubject().getId());
 		verify(lessonRepository).findConflictingLessons(auditorium, date, time.minusMinutes(14), time.plusMinutes(59),
@@ -169,21 +183,16 @@ public class LessonServiceTest {
 		professor.setName("test");
 		professor.setPassword("test");
 		professor.setRole(new Role(1L, "test"));
-
 		// PROFESSOR NUMBER 2 (IMPRORPER)
 		Professor anotherProfessor = new Professor();
-
 		// LESSON CREATION
 		Subject subject = new Subject(1L, "test", "test", anotherProfessor);
 		Subject subject2 = new Subject(2L, "test1", "test1", professor);
-
 		// SUBJECT
 		List<Subject> subjects = new ArrayList<>();
 		subjects.add(subject);
-
 		List<Subject> anotherSubject = new ArrayList<>();
 		anotherSubject.add(subject2);
-
 		// SUBJECT ASSIGNEMENT
 		professor.setSubject(subject2);
 		anotherProfessor.setSubject(subject);
@@ -198,15 +207,16 @@ public class LessonServiceTest {
 		year.setId(1L);
 		year.setYearValue(1);
 		Lesson lesson = new Lesson(id, subject2, professor, date, time, endTime, auditorium, house, year);
-		
 		when(subjectRepository.findById(lesson.getSubject().getId())).thenReturn(Optional.of(subject2));
 		when(professorRepository.findById(lesson.getProfessor().getId())).thenReturn(Optional.of(anotherProfessor));
-		
-
+		when(lessonRepository.findById(id)).thenReturn(Optional.of(lesson));
+		when(subjectService.getById(subject2.getId())).thenReturn(Optional.of(subject2));
+		when(professorService.getById(professor.getId())).thenReturn(Optional.of(professor));
+		when(auditoriumService.getById(auditorium.getId())).thenReturn(Optional.of(auditorium));
+		when(houseService.getById(house.getId())).thenReturn(Optional.of(house));
+		when(yearService.getById(year.getId())).thenReturn(Optional.of(year));
 		assertThrows(ValidationException.class, () -> lessonServiceImpl.save(lesson));
-
 		verify(professorRepository, times(1)).findById(lesson.getProfessor().getId());
 		verify(subjectRepository, times(1)).findById(lesson.getSubject().getId());
-
 	}
 }

@@ -70,7 +70,7 @@ public class HouseController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> update(@RequestBody House house, @PathVariable Long id) {
+	public ResponseEntity<Object> update(@RequestBody House house) {
 
 		try {
 			House updatedHouse = houseService.save(house);

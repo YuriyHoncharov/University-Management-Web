@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.EntityNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
@@ -49,7 +49,7 @@ public class ProfessorController {
 		try {
 			professorService.delete(id);
 			return new ResponseEntity<>("Professor deleted successfully", HttpStatus.OK);
-		} catch (UserNotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			return new ResponseEntity<>("Failed to delete professor " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -45,7 +45,7 @@ public class LessonController {
 
 		ModelAndView mav = new ModelAndView();
 		Page<LessonDto> pageLessons = lessonService.getLessonsByFilters(selectedDate, page);
-		
+
 		mav.addObject("selectedDate", selectedDate);
 		mav.addObject("pageLessons", pageLessons);
 		mav.addObject("numbers", IntStream.range(1, pageLessons.getTotalPages()).toArray());
@@ -84,8 +84,9 @@ public class LessonController {
 
 	@PutMapping("update/{id}")
 	public ResponseEntity<Object> update(@RequestBody Lesson lesson, @PathVariable Long id) {
+		lesson.setId(id);
 		try {
-			Lesson updatedLesson = lessonService.save(lessonService.lessonBuilder(lesson, id));
+			Lesson updatedLesson = lessonService.save(lesson);
 			return ResponseEntity.ok(updatedLesson);
 
 		} catch (ValidationException e) {
@@ -109,7 +110,7 @@ public class LessonController {
 	public ResponseEntity<Object> create(@RequestBody Lesson lesson) {
 
 		try {
-			Lesson createdLesson = lessonService.save(lessonService.lessonBuilder(lesson, lesson.getId()));
+			Lesson createdLesson = lessonService.save(lesson);
 			return ResponseEntity.ok(createdLesson);
 
 		} catch (ValidationException e) {

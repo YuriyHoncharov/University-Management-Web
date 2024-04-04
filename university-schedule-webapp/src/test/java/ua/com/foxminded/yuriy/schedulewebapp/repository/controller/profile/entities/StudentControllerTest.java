@@ -23,7 +23,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.StudentDto;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.EntityNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.HouseService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.RoleService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.StudentService;
@@ -84,7 +84,7 @@ public class StudentControllerTest {
 	void should_not_delete_student() throws Exception {
 		Long studentId = 1L;
 		String errorMessage = String.format("Student with following ID : %d is not present in DataBase", studentId);
-		when(studentService.delete(studentId)).thenThrow(new UserNotFoundException(errorMessage));
+		when(studentService.delete(studentId)).thenThrow(new EntityNotFoundException(errorMessage));
 		mockMvc.perform(delete("/profile/dashboard/students/delete/{id}", studentId))
 				.andExpect(status().isInternalServerError())
 				.andExpect(content().string("Error deleting student : " + errorMessage));

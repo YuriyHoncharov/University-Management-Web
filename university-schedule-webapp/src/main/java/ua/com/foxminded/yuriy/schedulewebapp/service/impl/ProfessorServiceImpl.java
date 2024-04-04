@@ -1,6 +1,5 @@
 package ua.com.foxminded.yuriy.schedulewebapp.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,8 +10,7 @@ import lombok.RequiredArgsConstructor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.SubjectNotFoundException;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.EntityNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.RoleService;
@@ -47,7 +45,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 	@Override
 	public Long delete(Long id) {
-		teacherRepository.findById(id).orElseThrow(() -> new UserNotFoundException("with following Id : " + id));
+		teacherRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("with following Id : " + id));
 		teacherRepository.deleteById(id);
 		return id;
 	}
@@ -67,7 +65,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 			existingProfessor.setPassword(professor.getPassword());
 		}
 		Subject assignedSubject = subjectService.getById(professor.getSubject().getId())
-				.orElseThrow(() -> new SubjectNotFoundException("Selected subject was not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Selected subject was not found"));
 
 		existingProfessor.setName(professor.getName());
 		existingProfessor.setLastName(professor.getLastName());

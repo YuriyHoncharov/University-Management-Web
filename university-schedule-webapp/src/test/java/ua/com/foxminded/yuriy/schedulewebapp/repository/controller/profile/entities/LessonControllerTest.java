@@ -153,9 +153,6 @@ public class LessonControllerTest {
 		lesson.setYear(year);
 		lesson.setSubject(subject);
 		lesson.setId(1L);
-
-		when(lessonService.lessonBuilder(lesson, lessonId)).thenReturn(lesson);
-
 		String updatedLessonJson = objectMapper.writeValueAsString(lesson); // Convert to JSON
 
 		mockMvc.perform(put("/profile/dashboard/lessons/update/{id}", lessonId).contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +188,6 @@ public class LessonControllerTest {
 		Professor professor = new Professor();
 		professor.setId(1L);
 		newLesson.setProfessor(professor);
-		when(lessonService.lessonBuilder(newLesson, lessonId)).thenReturn(newLesson);
 		String lessonJSON = objectMapper.writeValueAsString(newLesson);
 		mockMvc
 				.perform(
@@ -207,7 +203,6 @@ public class LessonControllerTest {
 		Professor professor = new Professor();
 		professor.setId(1L);
 		newLesson.setProfessor(professor);
-		when(lessonService.lessonBuilder(newLesson, lessonId)).thenReturn(newLesson);
 		when(lessonService.save(newLesson))
 				.thenThrow(new ValidationException("Another Lesson is already assigned to this Auditorium for "));
 		String lessonJSON = objectMapper.writeValueAsString(newLesson);

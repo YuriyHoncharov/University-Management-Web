@@ -22,7 +22,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Student;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Year;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.LessonDto;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.EntityNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.exception.ValidationException;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.LessonRepository;
 import ua.com.foxminded.yuriy.schedulewebapp.repository.ProfessorRepository;
@@ -65,16 +65,19 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public Lesson save(Lesson lesson) {
 
-		if (properTeacher(lesson)) {
-			if (!hasScheduleConflict(lesson)) {
-				return lessonRepository.save(lesson);
+		Lesson lessonToSave = lessonBuilder(lesson, lesson.getId());
+
+		if (properTeacher(lessonToSave)) {
+			if (!hasScheduleConflict(lessonToSave)) {
+				return lessonRepository.save(lessonToSave);
 			} else {
 				throw new ValidationException("Another Lesson is already assigned to this Auditorium for "
-						+ lesson.getDate() + " and time " + lesson.getTime());
+						+ lessonToSave.getDate() + " and time " + lessonToSave.getTime());
 			}
 		} else {
-			throw new ValidationException(lesson.getProfessor().getName() + " " + lesson.getProfessor().getLastName()
-					+ " don't teaching : " + lesson.getSubject().getName());
+			throw new ValidationException(
+					lessonToSave.getProfessor().getName() + " " + lessonToSave.getProfessor().getLastName()
+							+ " don't teaching : " + lessonToSave.getSubject().getName());
 		}
 	}
 
@@ -111,7 +114,7 @@ public class LessonServiceImpl implements LessonService {
 	public Page<LessonDto> getByStudentIdAndDate(Long wizardId, LocalDate selectedDate, Pageable pageable) {
 
 		Student student = studentRepository.findById(wizardId)
-				.orElseThrow(() -> new UserNotFoundException("Any user was found with the followind ID : " + wizardId));
+				.orElseThrow(() -> new EntityNotFoundException("Any user was found with the followind ID : " + wizardId));
 		House house = student.getHouse();
 		Year year = student.getYear();
 		List<Subject> subjects = student.getSubjects();
@@ -123,7 +126,7 @@ public class LessonServiceImpl implements LessonService {
 	public Page<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable) {
 
 		professorRepository.findById(professorId)
-				.orElseThrow(() -> new UserNotFoundException("Any user was found with the followind ID : " + professorId));
+				.orElseThrow(() -> new EntityNotFoundException("Any user was found with the followind ID : " + professorId));
 		return lessonRepository.getByProfessorIdAndDate(professorId, selectedDate, pageable).map(LessonDto::new);
 
 	}
@@ -151,11 +154,6 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<LessonDto> getAllLessonsDto() {
-		return lessonRepository.findAll().stream().map(LessonDto::new).collect(Collectors.toList());
-	}
-
-	@Override
 	public Page<LessonDto> getAllByPage(Pageable pageable) {
 		Page<Lesson> pageLesson = lessonRepository.findAll(pageable);
 		return pageLesson.map(LessonDto::new);
@@ -171,7 +169,7 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public Page<LessonDto> getByStudentId(Long wizardId, Pageable pageable) {
 		Student student = studentRepository.findById(wizardId)
-				.orElseThrow(() -> new UserNotFoundException("Any student was found with the followind ID : " + wizardId));
+				.orElseThrow(() -> new EntityNotFoundException("Any student was found with the followind ID : " + wizardId));
 		House house = student.getHouse();
 		Year year = student.getYear();
 		List<Subject> subjects = student.getSubjects();
@@ -184,7 +182,7 @@ public class LessonServiceImpl implements LessonService {
 		if (professorRepository.findById(wizardId).isPresent()) {
 			return lessonRepository.getByProfessorId(wizardId, pageable).map(LessonDto::new);
 		} else {
-			throw new UserNotFoundException("Any Professor was found with the followind ID : " + wizardId);
+			throw new EntityNotFoundException("Any Professor was found with the followind ID : " + wizardId);
 		}
 	}
 
@@ -229,17 +227,24 @@ public class LessonServiceImpl implements LessonService {
 		return pageLessons;
 	}
 
-	@Override
-	public Lesson lessonBuilder(Lesson lesson, Long id) {
+	private Lesson lessonBuilder(Lesson lesson, Long id) {
 		Lesson existingLesson = new Lesson();
 		if (id != null) {
 			existingLesson = getById(id).get();
 		}
-		Subject subject = subjectService.getById(lesson.getSubject().getId()).get();
-		Professor professor = professorService.getById(lesson.getProfessor().getId()).get();
-		Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId()).get();
-		House house = houseService.getById(lesson.getHouse().getId()).get();
-		Year year = yearService.getById(lesson.getYear().getId()).get();
+		Subject subject = subjectService.getById(lesson.getSubject().getId())
+				.orElseThrow(() -> new EntityNotFoundException(
+						"Subject with following ID was not found : " + lesson.getSubject().getId()));
+		Professor professor = professorService.getById(lesson.getProfessor().getId())
+				.orElseThrow(() -> new EntityNotFoundException(
+						"Professor with following ID was not found : " + lesson.getProfessor().getId()));
+		Auditorium auditorium = auditoriumService.getById(lesson.getAuditorium().getId())
+				.orElseThrow(() -> new EntityNotFoundException(
+						"Auditorium with following ID was not found : " + lesson.getAuditorium().getId()));
+		House house = houseService.getById(lesson.getHouse().getId()).orElseThrow(
+				() -> new EntityNotFoundException("House with following ID was not found : " + lesson.getHouse().getId()));
+		Year year = yearService.getById(lesson.getYear().getId()).orElseThrow(
+				() -> new EntityNotFoundException("Year with following ID was not found : " + lesson.getYear().getId()));
 
 		existingLesson.setSubject(subject);
 		existingLesson.setProfessor(professor);

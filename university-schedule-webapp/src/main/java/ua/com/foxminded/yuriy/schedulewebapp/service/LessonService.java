@@ -14,7 +14,6 @@ public interface LessonService {
 	Optional<Lesson> getById(Long id);
 	Lesson save(Lesson lesson);
 	void delete(Long id);
-	List<LessonDto> getAllLessonsDto();
 	Page<LessonDto> getByStudentIdAndDate(Long studentId, LocalDate selectedDate, Pageable pageable);
 	Page<LessonDto> getByProfessorIdAndDate(Long professorId, LocalDate selectedDate, Pageable pageable);
 	Page<LessonDto> getByWizardIdAndDate(Long wizardId, String selectedDate, Pageable pageable);
@@ -24,6 +23,5 @@ public interface LessonService {
 	Page<LessonDto> getByProfessorId(Long wizardId, Pageable pageable);	
 	Page<LessonDto> getByWizardId(Long wizardId, Pageable pageable);	
 	Page<LessonDto>getLessonsByFilters(String selectedDate, Integer page);
-	Lesson lessonBuilder(Lesson lesson, Long id);
-
+	
 }

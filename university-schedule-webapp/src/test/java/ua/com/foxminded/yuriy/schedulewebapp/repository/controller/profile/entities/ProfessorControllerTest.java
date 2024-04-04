@@ -21,7 +21,7 @@ import ua.com.foxminded.yuriy.schedulewebapp.entity.Professor;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Role;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.Subject;
 import ua.com.foxminded.yuriy.schedulewebapp.entity.dto.ProfessorDto;
-import ua.com.foxminded.yuriy.schedulewebapp.exception.UserNotFoundException;
+import ua.com.foxminded.yuriy.schedulewebapp.exception.EntityNotFoundException;
 import ua.com.foxminded.yuriy.schedulewebapp.service.ProfessorService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.RoleService;
 import ua.com.foxminded.yuriy.schedulewebapp.service.SubjectService;
@@ -77,7 +77,7 @@ public class ProfessorControllerTest {
 	void should_not_delete_professor_if_not_exist() throws Exception {
 		Long professorId = 1L;
 		when(professorService.delete(professorId))
-				.thenThrow(new UserNotFoundException("with following Id : " + professorId));
+				.thenThrow(new EntityNotFoundException("with following Id : " + professorId));
 		mockMvc.perform(delete("/profile/dashboard/professors/delete/{id}", professorId))
 				.andExpect(status().isInternalServerError())
 				.andExpect(content().string("Failed to delete professor with following Id : 1"));
